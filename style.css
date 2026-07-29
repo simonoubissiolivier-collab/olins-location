@@ -836,3 +836,16 @@ select.search-input optgroup {
   background: white !important;
   color: #1A1A2E !important;
 
+/* ========================================
+   AJOUTÉ POUR SAFARI - FORM GROUP
+   ======================================== */
+
+.form-group {
+  width: 100%;
+}
+
+.form-group select,
+.form-group input,
+.form-group button {
+  width: 100%;
+}
