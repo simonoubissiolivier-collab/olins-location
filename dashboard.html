@@ -114,7 +114,7 @@
         <span class="logo-sub">Administration</span>
       </a>
       <div class="nav-links">
-        <span class="badge-admin">🔐 Admin</span>
+        <span class="badge-admin">Admin</span>
         <button id="logoutBtn" class="btn-logout">Déconnexion</button>
       </div>
     </nav>
@@ -122,7 +122,7 @@
 
   <main class="admin-container">
     <div id="accessDenied" style="display:none; text-align:center; padding:3rem;">
-      <h2>⛔ Accès refusé</h2>
+      <h2>Accès refusé</h2>
       <p>Vous n'avez pas les droits d'administration.</p>
       <a href="/">Retour à l'accueil</a>
     </div>
@@ -149,21 +149,21 @@
       </div>
 
       <div class="admin-card">
-        <h2>🟢 Vérifications d'identité en attente</h2>
+        <h2>Vérifications d'identité en attente</h2>
         <div id="pendingVerifications">
           <div class="loading">Chargement...</div>
         </div>
       </div>
 
       <div class="admin-card">
-        <h2>💳 Paiements en attente de confirmation</h2>
+        <h2>Paiements en attente de confirmation</h2>
         <div id="pendingPayments">
           <div class="loading">Chargement...</div>
         </div>
       </div>
 
       <div class="admin-card">
-        <h2>📋 Dernières annonces</h2>
+        <h2>Dernières annonces</h2>
         <div id="recentListings">
           <div class="loading">Chargement...</div>
         </div>
@@ -190,7 +190,7 @@
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        alert('🔐 Veuillez vous connecter d\'abord.');
+        alert('Veuillez vous connecter d\'abord.');
         window.location.href = '/';
         return;
       }
@@ -233,8 +233,8 @@
           <div class="verification-item">
             <div>
               <strong>${v.fullName || 'N/A'}</strong>
-              <p>📞 ${v.phone || 'N/A'}</p>
-              <p>📅 Soumis le: ${v.submittedAt ? new Date(v.submittedAt.seconds * 1000).toLocaleDateString('fr-FR') : 'N/A'}</p>
+              <p>${v.phone || 'N/A'}</p>
+              <p>Soumis le: ${v.submittedAt ? new Date(v.submittedAt.seconds * 1000).toLocaleDateString('fr-FR') : 'N/A'}</p>
               <div class="verification-photos">
                 ${v.cniFrontUrl ? `<img src="${v.cniFrontUrl}" alt="CNI Recto" onclick="window.open('${v.cniFrontUrl}')">` : ''}
                 ${v.cniBackUrl ? `<img src="${v.cniBackUrl}" alt="CNI Verso" onclick="window.open('${v.cniBackUrl}')">` : ''}
@@ -271,9 +271,9 @@
           <div class="verification-item">
             <div>
               <strong>${p.serviceName}</strong>
-              <p>💰 ${p.amount?.toLocaleString()} FCFA</p>
-              <p>👤 User ID: ${p.userId?.substring(0, 10)}...</p>
-              <p>📅 ${p.createdAt ? new Date(p.createdAt.seconds * 1000).toLocaleString('fr-FR') : 'N/A'}</p>
+              <p>${p.amount?.toLocaleString()} FCFA</p>
+              <p>User ID: ${p.userId?.substring(0, 10)}...</p>
+              <p>${p.createdAt ? new Date(p.createdAt.seconds * 1000).toLocaleString('fr-FR') : 'N/A'}</p>
             </div>
             <div>
               <input type="text" id="ref_${p.id}" placeholder="N° transaction" style="padding:0.5rem; margin-right:0.5rem; border-radius:8px; border:1px solid #ccc;">
@@ -339,5 +339,17 @@
       window.location.href = '/';
     });
   </script>
+  <!-- Correction du bouton Accueil -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Corriger tous les liens "Accueil"
+    document.querySelectorAll('a[href="/"]').forEach(function(link) {
+      link.setAttribute('href', 'index.html');
+    });
+    document.querySelectorAll('a[href="/index.html"]').forEach(function(link) {
+      link.setAttribute('href', 'index.html');
+    });
+  });
+</script>
 </body>
 </html>
