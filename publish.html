@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publier une annonce – OLINS LOCATION CAMEROUN</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background: #f0f2f5; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .publish-container { max-width: 700px; margin: 2rem auto; padding: 1rem; }
+    .publish-card { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+    h2 { color: #0A4D3C; margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1.2rem; }
+    label { font-weight: 600; display: block; margin-bottom: 0.3rem; color: #2d3436; }
+    input, select, textarea { width: 100%; padding: 0.8rem 1rem; border: 2px solid #dfe6e9; border-radius: 10px; font-size: 1rem; }
+    textarea { height: 120px; resize: vertical; }
+    .photo-upload-area {
+      border: 2px dashed #0A4D3C;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      background: #f9fbfd;
+      transition: 0.2s;
+    }
+    .photo-upload-area:hover { background: #eef5f1; }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .preview-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 1;
+    }
+    .preview-item img { width: 100%; height: 100%; object-fit: cover; }
+    .remove-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .btn-submit {
+      background: #0A4D3C;
+      color: white;
+      padding: 0.9rem 2rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      width: 100%;
+      cursor: pointer;
+    }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .status-message { margin-top: 1rem; font-weight: 600; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="publish-container">
+    <div class="publish-card">
+      <h2>📢 Publier une annonce</h2>
+      <form id="publishForm">
+        <div class="form-group">
+          <label>Titre de l'annonce *</label>
+          <input type="text" id="title" placeholder="Ex: Bel appartement à Douala Bonamoussadi" required>
+        </div>
+        <div class="form-group">
+          <label>Description *</label>
+          <textarea id="description" placeholder="Décrivez le bien, les équipements, l'environnement..." required></textarea>
+        </div>
+        <div class="form-group" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div>
+            <label>Région *</label>
+            <select id="region" required>
+              <option value="">Sélectionnez</option>
+              <option>Centre</option><option>Littoral</option><option>Ouest</option>
+              <option>Sud-Ouest</option><option>Nord-Ouest</option><option>Adamaoua</option>
+              <option>Est</option><option>Extrême-Nord</option><option>Nord</option><option>Sud</option>
+            </select>
+          </div>
+          <div>
+            <label>Ville *</label>
+            <input type="text" id="city" placeholder="Ex: Yaoundé" required>
+          </div>
+        </div>
+        <div class="form-group" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div>
+            <label>Type de bien *</label>
+            <select id="type" required>
+              <option value="">Choisir</option>
+              <option>Maison</option><option>Appartement</option><option>Chambre</option>
+              <option>Studio</option><option>Mini-cité</option>
+            </select>
+          </div>
+          <div>
+            <label>Loyer mensuel (FCFA) *</label>
+            <input type="number" id="price" placeholder="Ex: 50000" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Équipements (séparés par des virgules)</label>
+          <input type="text" id="amenities" placeholder="Ex: Eau, Électricité, Parking, Climatisation">
+        </div>
+        <div class="form-group">
+          <label>Photos (max 10) – Cliquez pour ajouter</label>
+          <div class="photo-upload-area" id="uploadArea">
+            📷 Appuyez ici pour sélectionner des photos<br>
+            <small style="color:#636e72;">Les images > 2 Mo seront automatiquement compressées</small>
+          </div>
+          <input type="file" id="photoInput" accept="image/*" multiple style="display:none;">
+          <div class="preview-grid" id="previewGrid"></div>
+        </div>
+        <button type="submit" class="btn-submit" id="submitBtn">Publier l'annonce</button>
+      </form>
+      <div class="status-message" id="statusMsg"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db, storage } from './js/firebase-config.js';
+    import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { doc, getDoc, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+
+    // Vérifier l'authentification
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { window.location.href = '/'; return; }
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      if (!userDoc.exists() || userDoc.data().verificationStatus !== 'approved') {
+        alert('Vous devez être vérifié pour publier une annonce.');
+        window.location.href = '/verification.html';
+      }
+    });
+
+    // Gestion des photos
+    const uploadArea = document.getElementById('uploadArea');
+    const photoInput = document.getElementById('photoInput');
+    const previewGrid = document.getElementById('previewGrid');
+    let selectedFiles = [];
+
+    uploadArea.addEventListener('click', () => photoInput.click());
+    photoInput.addEventListener('change', handleFiles);
+
+    // Drag & drop
+    uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.style.background = '#e0f0e8'; });
+    uploadArea.addEventListener('dragleave', () => uploadArea.style.background = '#f9fbfd');
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.style.background = '#f9fbfd';
+      handleFilesFromDrop(e.dataTransfer.files);
+    });
+
+    function handleFiles(e) {
+      const files = Array.from(e.target.files);
+      addFiles(files);
+      photoInput.value = '';
+    }
+
+    function handleFilesFromDrop(files) {
+      addFiles(Array.from(files));
+    }
+
+    function addFiles(files) {
+      if (selectedFiles.length + files.length > 10) {
+        alert('Maximum 10 photos autorisées.');
+        return;
+      }
+      selectedFiles = [...selectedFiles, ...files];
+      renderPreviews();
+    }
+
+    function renderPreviews() {
+      previewGrid.innerHTML = '';
+      selectedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const div = document.createElement('div');
+          div.className = 'preview-item';
+          div.innerHTML = `<img src="${e.target.result}"><button class="remove-btn" data-index="${index}">×</button>`;
+          previewGrid.appendChild(div);
+          // Bouton suppression
+          div.querySelector('.remove-btn').addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            selectedFiles.splice(index, 1);
+            renderPreviews();
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Compression intelligente
+    async function compressImage(file) {
+      // Si déjà < 2 Mo, on ne touche pas
+      if (file.size <= 2 * 1024 * 1024) return file;
+
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            // Redimensionner si > 1920px
+            let width = img.width;
+            let height = img.height;
+            const MAX = 1920;
+            if (width > MAX || height > MAX) {
+              if (width > height) {
+                height = Math.round((height * MAX) / width);
+                width = MAX;
+              } else {
+                width = Math.round((width * MAX) / height);
+                height = MAX;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            // Ajuster la qualité pour viser moins de 2 Mo
+            let quality = 0.85;
+            const tryCompress = () => {
+              canvas.toBlob((blob) => {
+                if (blob.size <= 2 * 1024 * 1024 || quality <= 0.3) {
+                  const compressedFile = new File([blob], file.name, { type: 'image/jpeg' });
+                  resolve(compressedFile);
+                } else {
+                  quality -= 0.1;
+                  tryCompress();
+                }
+              }, 'image/jpeg', quality);
+            };
+            tryCompress();
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Soumission du formulaire
+    document.getElementById('publishForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (selectedFiles.length === 0) {
+        alert('Ajoutez au moins une photo.');
+        return;
+      }
+
+      const user = auth.currentUser;
+      if (!user) { alert('Connectez-vous.'); return; }
+
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('statusMsg').textContent = '⏳ Compression et téléversement des photos...';
+
+      try {
+        // Compresser toutes les images si nécessaire
+        const processedFiles = await Promise.all(selectedFiles.map(f => compressImage(f)));
+
+        // Upload vers Firebase Storage
+        const imageUrls = [];
+        for (let i = 0; i < processedFiles.length; i++) {
+          const file = processedFiles[i];
+          const storageRef = ref(storage, `listings/${user.uid}/${Date.now()}_${i}.jpg`);
+          await uploadBytes(storageRef, file);
+          const url = await getDownloadURL(storageRef);
+          imageUrls.push(url);
+          document.getElementById('statusMsg').textContent = `📤 Photo ${i+1}/${processedFiles.length} uploadée...`;
+        }
+
+        // Créer l'annonce dans Firestore
+        const listingData = {
+          title: document.getElementById('title').value,
+          description: document.getElementById('description').value,
+          region: document.getElementById('region').value,
+          city: document.getElementById('city').value,
+          type: document.getElementById('type').value,
+          price: parseInt(document.getElementById('price').value),
+          amenities: document.getElementById('amenities').value,
+          images: imageUrls,
+          userId: user.uid,
+          ownerVerified: true, // déjà vérifié
+          featured: false,
+          propertyVerified: false,
+          status: 'active',
+          createdAt: serverTimestamp(),
+          views: 0,
+          reports: 0
+        };
+
+        await addDoc(collection(db, 'listings'), listingData);
+        document.getElementById('statusMsg').innerHTML = '✅ Annonce publiée avec succès ! <a href="/dashboard.html">Voir mes annonces</a>';
+        document.getElementById('publishForm').reset();
+        selectedFiles = [];
+        renderPreviews();
+      } catch (error) {
+        console.error(error);
+        document.getElementById('statusMsg').textContent = '❌ Erreur : ' + error.message;
+      } finally {
+        document.getElementById('submitBtn').disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
