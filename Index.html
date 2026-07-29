@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OLINS Locations Cameroun - Logements vérifiés</title>
+  <meta name="description" content="Plateforme nationale de location de maisons, appartements et chambres au Cameroun. Annonces vérifiées, confiance garantie.">
+  <meta name="theme-color" content="#0A4D3C">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <div id="recaptcha-container"></div>
+  
+  <header class="header">
+    <nav class="nav">
+      <a href="/" class="logo">
+        <span class="logo-main">OLINS</span>
+          <!-- reduire la taille de la police du logo-sub en pourcentage 30%--> 
+          <span class="logo-sub"
+            style="front-size:70%;">Locations Cameroun</span>
+      </a>
+      
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      
+      <div class="nav-links" id="navLinks">
+        <a href="/">Accueil</a>
+        <a href="pages/comment-ca-marche.html">Comment ça marche</a>
+        <a href="pages/aide-contact.html">Aide & Contact</a>
+        <a href="#" id="loginBtn" class="btn-outline">Connexion</a>
+        <a href="#" id="registerBtn" class="btn-primary">S'inscrire</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Trouvez votre logement en toute <span>confiance</span></h1>
+        <p class="hero-subtitle">Des milliers de maisons, appartements et chambres vérifiés partout au Cameroun</p>
+        
+        <div class="search-card">
+          <form id="searchForm" class="search-form">
+            <div class="search-row">
+              <select id="searchRegion" class="search-input" required>
+                <option value="">📍 Région</option>
+                <option value="Adamaoua">Adamaoua</option>
+                <option value="Centre">Centre</option>
+                <option value="Est">Est</option>
+                <option value="Extrême-Nord">Extrême-Nord</option>
+                <option value="Littoral">Littoral</option>
+                <option value="Nord">Nord</option>
+                <option value="Nord-Ouest">Nord-Ouest</option>
+                <option value="Ouest">Ouest</option>
+                <option value="Sud">Sud</option>
+                <option value="Sud-Ouest">Sud-Ouest</option>
+              </select>
+              
+              <input type="text" id="searchCity" class="search-input" placeholder="🏙️ Ville (ex: Douala, Yaoundé...)" required>
+              
+              <select id="searchType" class="search-input">
+                <option value="">🏠 Type de bien</option>
+                <option value="Maison">Maison</option>
+                <option value="Appartement">Appartement</option>
+                <option value="Chambre">Chambre</option>
+                <option value="Studio">Studio</option>
+                <option value="Mini-cité">Mini-cité</option>
+              </select>
+              
+              <select id="searchMaxPrice" class="search-input">
+                <option value="">💰 Budget max (FCFA)</option>
+                <option value="25000">25 000 FCFA</option>
+                <option value="50000">50 000 FCFA</option>
+                <option value="100000">100 000 FCFA</option>
+                <option value="200000">200 000 FCFA</option>
+                <option value="500000">500 000 FCFA</option>
+                <option value="1000000">+ 1 000 000 FCFA</option>
+              </select>
+              
+              <button type="submit" class="btn-search">🔍 Rechercher</button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="hero-stats">
+          <div class="stat"><strong>2 500+</strong> Annonces</div>
+          <div class="stat"><strong>10</strong> Régions</div>
+          <div class="stat"><strong>100%</strong> Vérifiées</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-section">
+      <div class="container">
+        <h2>Pourquoi choisir OLINS ?</h2>
+        <div class="trust-grid">
+          <div class="trust-card">
+            <div class="trust-icon">🟢</div>
+            <h3>Identités Vérifiées</h3>
+            <p>Chaque propriétaire vérifie son identité avec pièce d'identité officielle et selfie.</p>
+          </div>
+          <div class="trust-card">
+            <div class="trust-icon">✅</div>
+            <h3>Biens Contrôlés</h3>
+            <p>Possibilité de faire vérifier le bien par notre équipe.</p>
+          </div>
+          <div class="trust-card">
+            <div class="trust-icon">🔒</div>
+            <h3>Paiements Sécurisés</h3>
+            <p>Mobile Money uniquement. On ne vous demandera <strong>JAMAIS</strong> votre code secret.</p>
+          </div>
+          <div class="trust-card">
+            <div class="trust-icon">📱</div>
+            <h3>100% Mobile</h3>
+            <p>Site ultra-rapide optimisé pour tous les téléphones, même en connexion 3G.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="listings-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Annonces récentes</h2>
+          <a href="#" class="view-all">Voir tout →</a>
+        </div>
+        <div class="listings-grid" id="listingsContainer">
+          <div class="loading-spinner">Chargement des annonces...</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <div class="container">
+        <h2>Louer en 3 étapes</h2>
+        <div class="steps">
+          <div class="step"><div class="step-number">1</div><h3>Recherchez</h3><p>Filtrez par région, prix et type de bien</p></div>
+          <div class="step"><div class="step-number">2</div><h3>Contactez</h3><p>Échangez avec un propriétaire vérifié</p></div>
+          <div class="step"><div class="step-number">3</div><h3>Visitez</h3><p>Validez sur place et emménagez</p></div>
+        </div>
+        <a href="pages/comment-ca-marche.html" class="btn-outline">En savoir plus</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo-footer">OLINS <span>Locations Cameroun</span></div>
+          <p>La confiance avant tout.</p>
+          <p class="footer-warning">⚠️ Ne partagez jamais votre code secret Mobile Money</p>
+        </div>
+        <div class="footer-links">
+          <h4>Navigation</h4>
+          <a href="/">Accueil</a>
+          <a href="pages/comment-ca-marche.html">Comment ça marche</a>
+          <a href="pages/aide-contact.html">Aide & Contact</a>
+        </div>
+        <div class="footer-links">
+          <h4>Légal</h4>
+          <a href="pages/mentions-legales.html">Mentions légales</a>
+          <a href="pages/confidentialite.html">Confidentialité</a>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p>📞 +237 699 215 639</p>
+          <p>📧 contact@olins.cm</p>
+          <p>📍 Douala / Yaoundé, Cameroun</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 OLINS Locations Cameroun</p>
+	     	  <p>Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

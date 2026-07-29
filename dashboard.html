@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration - OLINS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .admin-container { 
+      max-width: 1000px; 
+      margin: 2rem auto; 
+      padding: 1rem; 
+    }
+    .admin-card { 
+      background: white; 
+      padding: 1.5rem; 
+      border-radius: 12px; 
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .btn-approve { 
+      background: #2E7D32; 
+      color: white; 
+      border: none; 
+      padding: 0.5rem 1rem; 
+      border-radius: 8px; 
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .btn-reject { 
+      background: #C62828; 
+      color: white; 
+      border: none; 
+      padding: 0.5rem 1rem; 
+      border-radius: 8px; 
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .btn-logout {
+      background: #636E72;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .verification-item, .payment-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    .verification-photos {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0.5rem 0;
+    }
+    .verification-photos img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #636E72;
+    }
+    .badge-admin {
+      background: #D4AF37;
+      color: #1A1A2E;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #0A4D3C;
+    }
+    .stat-label {
+      color: #636E72;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <nav class="nav">
+      <a href="/" class="logo">
+        <span class="logo-main">OLINS</span>
+        <span class="logo-sub">Administration</span>
+      </a>
+      <div class="nav-links">
+        <span class="badge-admin">🔐 Admin</span>
+        <button id="logoutBtn" class="btn-logout">Déconnexion</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="admin-container">
+    <!-- Vérification d'accès -->
+    <div id="accessDenied" style="display:none; text-align:center; padding:3rem;">
+      <h2>⛔ Accès refusé</h2>
+      <p>Vous n'avez pas les droits d'administration.</p>
+      <a href="/">Retour à l'accueil</a>
+    </div>
+
+    <!-- Dashboard admin -->
+    <div id="adminContent" style="display:none;">
+      <div class="admin-header">
+        <h1 style="color: #0A4D3C;">Tableau de bord</h1>
+        <span id="adminName"></span>
+      </div>
+
+      <!-- Statistiques -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" id="statPendingVerif">0</div>
+          <div class="stat-label">Vérifications en attente</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="statPendingPayments">0</div>
+          <div class="stat-label">Paiements à confirmer</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="statActiveListings">0</div>
+          <div class="stat-label">Annonces actives</div>
+        </div>
+      </div>
+
+      <!-- Vérifications en attente -->
+      <div class="admin-card">
+        <h2>🟢 Vérifications d'identité en attente</h2>
+        <div id="pendingVerifications">
+          <div class="loading">Chargement...</div>
+        </div>
+      </div>
+
+      <!-- Paiements à confirmer -->
+      <div class="admin-card">
+        <h2>💳 Paiements en attente de confirmation</h2>
+        <div id="pendingPayments">
+          <div class="loading">Chargement...</div>
+        </div>
+      </div>
+
+      <!-- Annonces récentes -->
+      <div class="admin-card">
+        <h2>📋 Dernières annonces</h2>
+        <div id="recentListings">
+          <div class="loading">Chargement...</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { auth, db } from '../js/firebase-config.js';
+    import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { 
+      doc, 
+      getDoc, 
+      getDocs, 
+      collection, 
+      query, 
+      where, 
+      orderBy, 
+      limit, 
+      updateDoc,
+      serverTimestamp 
+    } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { approveVerification, rejectVerification, loadPendingVerifications, loadPendingPayments, confirmPayment } from '../js/modules/admin.js';
+
+    // ============================================
+    // VÉRIFICATION ACCÈS ADMIN
+    // ============================================
+    
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        // Non connecté → redirection connexion
+        alert('🔐 Veuillez vous connecter d\'abord.');
+        window.location.href = '/';
+        return;
+      }
+
+      // Vérifier si l'utilisateur est admin
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      
+      if (!userDoc.exists() || userDoc.data().role !== 'admin') {
+        // Pas admin → accès refusé
+        document.getElementById('accessDenied').style.display = 'block';
+        return;
+      }
+
+      // Admin confirmé → afficher le dashboard
+      document.getElementById('adminContent').style.display = 'block';
+      document.getElementById('adminName').textContent = `👤 ${user.phoneNumber}`;
+      
+      // Charger les données
+      loadDashboardData();
+    });
+
+    // ============================================
+    // CHARGER LES DONNÉES DU DASHBOARD
+    // ============================================
+
+    async function loadDashboardData() {
+      await Promise.all([
+        loadVerifications(),
+        loadPayments(),
+        loadStats()
+      ]);
+    }
+
+    async function loadVerifications() {
+      const container = document.getElementById('pendingVerifications');
+      
+      try {
+        const verifications = await loadPendingVerifications();
+        
+        document.getElementById('statPendingVerif').textContent = verifications.length;
+        
+        if (verifications.length === 0) {
+          container.innerHTML = '<p style="text-align:center; padding:2rem;">✅ Aucune vérification en attente</p>';
+          return;
+        }
+
+        container.innerHTML = verifications.map(v => `
+          <div class="verification-item">
+            <div>
+              <strong>${v.fullName || 'N/A'}</strong>
+              <p>📞 ${v.phone || 'N/A'}</p>
+              <p>📅 Soumis le: ${v.submittedAt ? new Date(v.submittedAt.seconds * 1000).toLocaleDateString('fr-FR') : 'N/A'}</p>
+              <div class="verification-photos">
+                ${v.cniFrontUrl ? `<img src="${v.cniFrontUrl}" alt="CNI Recto" onclick="window.open('${v.cniFrontUrl}')">` : ''}
+                ${v.cniBackUrl ? `<img src="${v.cniBackUrl}" alt="CNI Verso" onclick="window.open('${v.cniBackUrl}')">` : ''}
+                ${v.selfieUrl ? `<img src="${v.selfieUrl}" alt="Selfie" onclick="window.open('${v.selfieUrl}')">` : ''}
+              </div>
+            </div>
+            <div style="display:flex; gap:0.5rem;">
+              <button class="btn-approve" onclick="handleApprove('${v.id}')">✅ Approuver</button>
+              <button class="btn-reject" onclick="handleReject('${v.id}')">❌ Rejeter</button>
+            </div>
+          </div>
+        `).join('');
+
+      } catch (error) {
+        console.error('Erreur chargement vérifications:', error);
+        container.innerHTML = '<p style="color:red;">Erreur de chargement</p>';
+      }
+    }
+
+    async function loadPayments() {
+      const container = document.getElementById('pendingPayments');
+      
+      try {
+        const payments = await loadPendingPayments();
+        
+        document.getElementById('statPendingPayments').textContent = payments.length;
+        
+        if (payments.length === 0) {
+          container.innerHTML = '<p style="text-align:center; padding:2rem;">✅ Aucun paiement en attente</p>';
+          return;
+        }
+
+        container.innerHTML = payments.map(p => `
+          <div class="verification-item">
+            <div>
+              <strong>${p.serviceName}</strong>
+              <p>💰 ${p.amount?.toLocaleString()} FCFA</p>
+              <p>👤 User ID: ${p.userId?.substring(0, 10)}...</p>
+              <p>📅 ${p.createdAt ? new Date(p.createdAt.seconds * 1000).toLocaleString('fr-FR') : 'N/A'}</p>
+            </div>
+            <div>
+              <input type="text" id="ref_${p.id}" placeholder="N° transaction" style="padding:0.5rem; margin-right:0.5rem; border-radius:8px; border:1px solid #ccc;">
+              <button class="btn-approve" onclick="handleConfirmPayment('${p.id}')">✅ Confirmer</button>
+            </div>
+          </div>
+        `).join('');
+
+      } catch (error) {
+        console.error('Erreur chargement paiements:', error);
+        container.innerHTML = '<p style="color:red;">Erreur de chargement</p>';
+      }
+    }
+
+    async function loadStats() {
+      try {
+        // Compter les annonces actives
+        const listingsQuery = query(
+          collection(db, 'listings'),
+          where('status', '==', 'active')
+        );
+        const listingsSnapshot = await getDocs(listingsQuery);
+        document.getElementById('statActiveListings').textContent = listingsSnapshot.size;
+      } catch (error) {
+        console.error('Erreur stats:', error);
+      }
+    }
+
+    // ============================================
+    // ACTIONS ADMIN
+    // ============================================
+
+    window.handleApprove = async function(userId) {
+      if (!confirm('Confirmer l\'approbation de cette identité ?')) return;
+      
+      const result = await approveVerification(userId, auth.currentUser.uid);
+      alert(result.message);
+      loadVerifications();
+    };
+
+    window.handleReject = async function(userId) {
+      const reason = prompt('Raison du rejet :');
+      if (!reason) return;
+      
+      const result = await rejectVerification(userId, auth.currentUser.uid, reason);
+      alert(result.message);
+      loadVerifications();
+    };
+
+    window.handleConfirmPayment = async function(paymentId) {
+      const refInput = document.getElementById(`ref_${paymentId}`);
+      const transactionRef = refInput?.value?.trim();
+      
+      if (!transactionRef) {
+        alert('Veuillez entrer le numéro de transaction Mobile Money');
+        return;
+      }
+      
+      if (!confirm(`Confirmer le paiement avec la référence : ${transactionRef} ?`)) return;
+      
+      const result = await confirmPayment(paymentId, auth.currentUser.uid, transactionRef);
+      alert(result.message);
+      loadPayments();
+    };
+
+    // ============================================
+    // DÉCONNEXION
+    // ============================================
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await signOut(auth);
+      window.location.href = '/';
+    });
+  </script>
+</body>
+</html>
