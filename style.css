@@ -707,4 +707,132 @@ select.search-input option {
   .search-card {
     padding: 1rem;
   }
+}/* ========================================
+   FIX POUR SAFARI (iOS)
+   ======================================== */
+
+/* Forcer l'affichage des selects sur Safari */
+select.search-input,
+input.search-input {
+  -webkit-appearance: menulist !important;
+  appearance: menulist !important;
+  background: white !important;
+  color: #1A1A2E !important;
+  padding: 0.8rem 1rem !important;
+  border: 2px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  font-size: 0.95rem !important;
+  min-height: 48px !important;
+  width: 100% !important;
 }
+
+/* Forcer l'affichage des options */
+select.search-input option {
+  color: #1A1A2E !important;
+  background: white !important;
+  padding: 8px !important;
+  font-size: 0.95rem !important;
+}
+
+/* Fix pour le placeholder sur Safari */
+input.search-input::placeholder {
+  color: #999 !important;
+  opacity: 1 !important;
+}
+
+/* Fix pour le texte sélectionné */
+select.search-input:invalid,
+select.search-input option[value=""] {
+  color: #999 !important;
+}
+
+select.search-input:valid {
+  color: #1A1A2E !important;
+}
+
+/* Augmenter la taille des éléments tactiles sur mobile */
+@media (max-width: 768px) {
+  select.search-input,
+  input.search-input,
+  .btn-search {
+    min-height: 50px !important;
+    font-size: 16px !important; /* Empêche le zoom sur iOS */
+  }
+  
+  /* Fix spécial pour Safari sur iPhone */
+  .search-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .search-row select,
+  .search-row input,
+  .search-row button {
+    width: 100% !important;
+  }
+}
+
+/* Fix pour le bouton de recherche sur Safari */
+.btn-search {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: var(--accent) !important;
+  color: var(--text) !important;
+  border: none !important;
+  padding: 0.8rem 1.5rem !important;
+  border-radius: var(--radius) !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  font-size: 1rem !important;
+  min-height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+}
+
+.btn-search:hover {
+  transform: scale(1.02) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* Fix pour le formulaire sur Safari */
+#searchForm {
+  display: block !important;
+  width: 100% !important;
+}
+
+#searchForm * {
+  box-sizing: border-box !important;
+  -webkit-box-sizing: border-box !important;
+}
+
+/* Fix pour le container de recherche */
+.search-card {
+  background: var(--surface) !important;
+  padding: 1.5rem !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-lg) !important;
+  margin-bottom: 2rem !important;
+  position: relative !important;
+  z-index: 100 !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+/* Forcer le select à afficher ses options sur Safari */
+select.search-input {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231A1A2E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1rem center !important;
+  background-size: 1.2em !important;
+  padding-right: 2.5rem !important;
+}
+
+/* Fix pour le fond des options sur Safari */
+select.search-input option,
+select.search-input optgroup {
+  background: white !important;
+  color: #1A1A2E !important;
+
