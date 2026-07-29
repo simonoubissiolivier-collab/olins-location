@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Administration - OLINS</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="style.css">
   <style>
     .admin-container { 
       max-width: 1000px; 
@@ -121,21 +121,18 @@
   </header>
 
   <main class="admin-container">
-    <!-- Vérification d'accès -->
     <div id="accessDenied" style="display:none; text-align:center; padding:3rem;">
       <h2>⛔ Accès refusé</h2>
       <p>Vous n'avez pas les droits d'administration.</p>
       <a href="/">Retour à l'accueil</a>
     </div>
 
-    <!-- Dashboard admin -->
     <div id="adminContent" style="display:none;">
       <div class="admin-header">
         <h1 style="color: #0A4D3C;">Tableau de bord</h1>
         <span id="adminName"></span>
       </div>
 
-      <!-- Statistiques -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-number" id="statPendingVerif">0</div>
@@ -151,7 +148,6 @@
         </div>
       </div>
 
-      <!-- Vérifications en attente -->
       <div class="admin-card">
         <h2>🟢 Vérifications d'identité en attente</h2>
         <div id="pendingVerifications">
@@ -159,7 +155,6 @@
         </div>
       </div>
 
-      <!-- Paiements à confirmer -->
       <div class="admin-card">
         <h2>💳 Paiements en attente de confirmation</h2>
         <div id="pendingPayments">
@@ -167,7 +162,6 @@
         </div>
       </div>
 
-      <!-- Annonces récentes -->
       <div class="admin-card">
         <h2>📋 Dernières annonces</h2>
         <div id="recentListings">
@@ -178,7 +172,7 @@
   </main>
 
   <script type="module">
-    import { auth, db } from '../js/firebase-config.js';
+    import { auth, db } from './firebase-config.js';
     import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
     import { 
       doc, 
@@ -192,40 +186,27 @@
       updateDoc,
       serverTimestamp 
     } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-    import { approveVerification, rejectVerification, loadPendingVerifications, loadPendingPayments, confirmPayment } from '../js/modules/admin.js';
+    import { approveVerification, rejectVerification, loadPendingVerifications, loadPendingPayments, confirmPayment } from './admin.js';
 
-    // ============================================
-    // VÉRIFICATION ACCÈS ADMIN
-    // ============================================
-    
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        // Non connecté → redirection connexion
         alert('🔐 Veuillez vous connecter d\'abord.');
         window.location.href = '/';
         return;
       }
 
-      // Vérifier si l'utilisateur est admin
       const userDoc = await getDoc(doc(db, 'users', user.uid));
       
       if (!userDoc.exists() || userDoc.data().role !== 'admin') {
-        // Pas admin → accès refusé
         document.getElementById('accessDenied').style.display = 'block';
         return;
       }
 
-      // Admin confirmé → afficher le dashboard
       document.getElementById('adminContent').style.display = 'block';
       document.getElementById('adminName').textContent = `👤 ${user.phoneNumber}`;
       
-      // Charger les données
       loadDashboardData();
     });
-
-    // ============================================
-    // CHARGER LES DONNÉES DU DASHBOARD
-    // ============================================
 
     async function loadDashboardData() {
       await Promise.all([
@@ -309,7 +290,6 @@
 
     async function loadStats() {
       try {
-        // Compter les annonces actives
         const listingsQuery = query(
           collection(db, 'listings'),
           where('status', '==', 'active')
@@ -320,10 +300,6 @@
         console.error('Erreur stats:', error);
       }
     }
-
-    // ============================================
-    // ACTIONS ADMIN
-    // ============================================
 
     window.handleApprove = async function(userId) {
       if (!confirm('Confirmer l\'approbation de cette identité ?')) return;
@@ -357,10 +333,6 @@
       alert(result.message);
       loadPayments();
     };
-
-    // ============================================
-    // DÉCONNEXION
-    // ============================================
 
     document.getElementById('logoutBtn').addEventListener('click', async () => {
       await signOut(auth);
