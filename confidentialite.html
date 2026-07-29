@@ -3,8 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Confidentialité - OLINS Locations Cameroun</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <title>Politique de confidentialité - OLINS Locations Cameroun</title>
+  <meta name="description" content="Politique de confidentialité d'OLINS Locations Cameroun. Protection de vos données personnelles, CNI, et vie privée.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    .legal-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .legal-container h1 {
+      color: #0A4D3C;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 3px solid #D4AF37;
+      padding-bottom: 1rem;
+    }
+    .legal-container .last-update {
+      color: #636E72;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    .legal-container h2 {
+      color: #0A4D3C;
+      font-size: 1.4rem;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    .legal-container h3 {
+      color: #1A1A2E;
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .legal-container p {
+      color: #2D2D3A;
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+    .legal-container ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .legal-container ul li {
+      color: #2D2D3A;
+      line-height: 1.7;
+      margin-bottom: 0.4rem;
+    }
+    .legal-container .highlight-box {
+      background: #F5F7FA;
+      border-left: 4px solid #D4AF37;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+    .legal-container .highlight-box strong {
+      color: #0A4D3C;
+    }
+    .legal-container .badge-secure {
+      display: inline-block;
+      background: #E8F5E9;
+      color: #2E7D32;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .legal-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    .legal-table th {
+      background: #0A4D3C;
+      color: white;
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+    .legal-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #DFE6E9;
+    }
+    .legal-table tr:nth-child(even) {
+      background: #F8F9FA;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #0A4D3C;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+      .legal-container {
+        padding: 1.25rem;
+        margin: 1rem;
+      }
+      .legal-container h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="header">
@@ -13,28 +120,121 @@
         <span class="logo-main">OLINS</span>
         <span class="logo-sub">Locations Cameroun</span>
       </a>
+      <div class="nav-links">
+        <a href="/">Accueil</a>
+        <a href="comment-ca-marche.html">Comment ça marche</a>
+        <a href="aide-contact.html">Aide & Contact</a>
+      </div>
     </nav>
   </header>
 
-  <main style="padding: 3rem 1rem; max-width: 800px; margin: 0 auto;">
-    <h1 style="color: #0A4D3C;">Politique de confidentialité</h1>
-    <p style="margin: 1.5rem 0;">Dernière mise à jour : Janvier 2026</p>
-    
-    <h2>1. Données collectées</h2>
-    <p>Nous collectons : numéro de téléphone, photos de CNI, selfies de vérification, et informations sur les annonces publiées.</p>
-    
-    <h2>2. Utilisation des données</h2>
-    <p>Vos données servent uniquement à : vérifier votre identité, publier vos annonces, et vous contacter si nécessaire.</p>
-    
-    <h2>3. Protection</h2>
-    <p>Vos données sensibles (CNI) ne sont JAMAIS affichées publiquement. Elles sont stockées de manière sécurisée.</p>
-    
-    <h2>4. Contact</h2>
-    <p>Pour toute question : confidentialite@olins.cm</p>
+  <main class="legal-container">
+    <h1>🔒 Politique de confidentialité</h1>
+    <p class="last-update">Dernière mise à jour : 29 juillet 2026</p>
+
+    <div class="highlight-box">
+      <p><strong>📌 Notre engagement :</strong> Chez OLINS, nous croyons que votre vie privée est un droit fondamental. Nous nous engageons à protéger vos données personnelles conformément à la <strong>Loi n°2024/017 du 23 décembre 2024 relative à la protection des données à caractère personnel au Cameroun</strong>.</p>
+    </div>
+
+    <h2>1. Introduction</h2>
+    <p>OLINS Locations Cameroun (« OLINS », « nous », « notre ») est responsable du traitement des données. Cette politique s’applique à l’ensemble des services sur le site <strong>olins.cm</strong> et tous services associés.</p>
+
+    <h2>2. Données collectées et base légale</h2>
+    <p>Nous collectons uniquement ce qui est strictement nécessaire. Le traitement repose sur : votre <strong>consentement libre, éclairé et révocable à tout moment</strong> (cases jamais pré-cochées) ; l’exécution du contrat ; nos intérêts légitimes ; ou le respect d’obligations légales.</p>
+
+    <table class="legal-table">
+      <thead>
+        <tr>
+          <th>Catégorie</th>
+          <th>Données</th>
+          <th>Finalité</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge-secure">Identité</span></td>
+          <td>Nom, prénoms, téléphone</td>
+          <td>Création compte, authentification</td>
+        </tr>
+        <tr>
+          <td><span class="badge-secure">Vérification</span></td>
+          <td>CNI recto/verso, selfie avec CNI</td>
+          <td>Vérification identité, lutte contre fraude</td>
+        </tr>
+        <tr>
+          <td><span class="badge-secure">Annonces</span></td>
+          <td>Photos, description, prix, localisation</td>
+          <td>Publication et gestion annonces</td>
+        </tr>
+        <tr>
+          <td><span class="badge-secure">Paiements</span></td>
+          <td>Référence transaction Mobile Money</td>
+          <td>Confirmation et comptabilité</td>
+        </tr>
+        <tr>
+          <td><span class="badge-secure">Navigation</span></td>
+          <td>IP, type appareil, pages consultées</td>
+          <td>Sécurité et amélioration service</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box">
+      <p><strong>⚠️ IMPORTANT :</strong> Nous ne collectons JAMAIS votre code secret Mobile Money. Nous ne vous le demanderons jamais.</p>
+    </div>
+
+    <h2>3. Utilisation et sécurité</h2>
+    <p>Vos données servent exclusivement aux finalités annoncées. Les données sensibles (CNI…) font l’objet de mesures de sécurité renforcées et ne sont jamais diffusées publiquement.</p>
+
+    <h3>📁 Hébergement et transferts</h3>
+    <p>Les données sont hébergées sur des serveurs sécurisés. Tout transfert hors du Cameroun s’effectue avec des garanties appropriées et conformément aux règles de l’Autorité de Protection des Données.</p>
+
+    <h2>4. Partage des données</h2>
+    <p>Nous ne vendons pas vos données. Nous ne les partageons qu’avec des sous-traitants liés par contrat de confidentialité, ou si la loi camerounaise nous y oblige.</p>
+
+    <h2>5. Vos droits</h2>
+    <p>Conformément à la loi camerounaise, vous disposez des droits : accès, rectification, effacement, limitation, portabilité, opposition et retrait du consentement à tout moment.</p>
+    <p>Pour exercer vos droits : <strong>confidentialite@olins.cm</strong>. Délai de réponse maximal : 1 mois. Vous pouvez aussi introduire une réclamation auprès de l’<strong>Autorité de Protection des Données à Caractère Personnel du Cameroun</strong>.</p>
+
+    <h2>6. Durée de conservation</h2>
+    <table class="legal-table">
+      <thead>
+        <tr>
+          <th>Type de donnée</th>
+          <th>Durée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Compte utilisateur</td><td>Jusqu’à suppression + délai légal</td></tr>
+        <tr><td>CNI / vérification</td><td>30 jours après validation/refus</td></tr>
+        <tr><td>Annonces</td><td>Jusqu’à suppression par vous</td></tr>
+        <tr><td>Données comptables</td><td>10 ans (obligation légale)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>7. Autres dispositions</h2>
+    <p>Nous tenons un registre des traitements et nous conformerons à toute obligation de désignation d’un Délégué à la Protection des Données si la réglementation l’exige. La politique peut évoluer ; nous vous informerons des changements importants.</p>
+
+    <hr style="border: none; border-top: 2px solid #DFE6E9; margin: 2rem 0;">
+    <p style="text-align: center; color: #636E72; font-size: 0.9rem;">© 2026 OLINS Locations Cameroun</p>
+    </p>Tous droits réservés</p>
+    <p style="text-align: center;"><a href="/" class="back-link">← Retour à l'accueil</a></p>
   </main>
 
   <footer class="footer">
-    <div class="container"><p>&copy; 2026 OLINS Locations Cameroun</p></div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><div class="logo-footer">OLINS <span>Locations Cameroun</span></div><p>La confiance avant tout.</p></div>
+        <div class="footer-links"><h4>Navigation</h4>
+          <a href="/">Accueil</a><a href="comment-ca-marche.html">Comment ça marche</a>
+          <a href="aide-contact.html">Aide & Contact</a></div>
+        <div class="footer-links"><h4>Légal</h4>
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a></div>
+        <div class="footer-contact"><h4>Contact</h4><p>📞 +237 699 215 639</p><p>📧 contact@olins.cm</p><p>📍 Douala / Yaoundé, Cameroun</p></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 OLINS Locations Cameroun</p></div>
+    </div>
   </footer>
 </body>
 </html>
