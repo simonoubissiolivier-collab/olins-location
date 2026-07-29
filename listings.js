@@ -3,7 +3,7 @@
  * OLINS Locations Cameroun
  */
 
-import { db, storage } from '../firebase-config.js';
+import { db, storage } from './firebase-config.js';
 import { 
   collection, 
   query, 
@@ -18,10 +18,6 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 import { formatPrice, truncateText, formatDate } from './utils.js';
-
-// ============================================
-// CHARGER LES DERNIÈRES ANNONCES
-// ============================================
 
 export async function loadLatestListings() {
   const container = document.getElementById('listingsContainer');
@@ -65,10 +61,6 @@ export async function loadLatestListings() {
   }
 }
 
-// ============================================
-// CRÉER UNE CARTE D'ANNONCE
-// ============================================
-
 function createListingCard(listing) {
   const badges = [];
   
@@ -109,13 +101,8 @@ function createListingCard(listing) {
   `;
 }
 
-// ============================================
-// PUBLIER UNE ANNONCE
-// ============================================
-
 export async function publishListing(userId, listingData, images) {
   try {
-    // Upload des images
     const imageUrls = [];
     
     for (let i = 0; i < images.length; i++) {
@@ -125,13 +112,12 @@ export async function publishListing(userId, listingData, images) {
       imageUrls.push(url);
     }
     
-    // Créer l'annonce
     const listingData2 = {
       ...listingData,
       userId,
       images: imageUrls,
       status: 'active',
-      ownerVerified: false, // Sera mis à jour après vérification
+      ownerVerified: false,
       featured: false,
       propertyVerified: false,
       createdAt: serverTimestamp(),
@@ -149,10 +135,6 @@ export async function publishListing(userId, listingData, images) {
     throw new Error('Impossible de publier l\'annonce: ' + error.message);
   }
 }
-
-// ============================================
-// RECHERCHER DES ANNONCES
-// ============================================
 
 export async function searchListings(filters) {
   try {
@@ -178,7 +160,6 @@ export async function searchListings(filters) {
       listings.push({ id: doc.id, ...doc.data() });
     });
     
-    // Filtres côté client (car Firestore limites)
     if (filters.city) {
       listings = listings.filter(l => 
         l.city?.toLowerCase().includes(filters.city.toLowerCase())
