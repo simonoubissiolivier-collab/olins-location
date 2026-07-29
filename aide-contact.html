@@ -4,7 +4,251 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aide & Contact - OLINS Locations Cameroun</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <meta name="description" content="Besoin d'aide ? Contactez OLINS Locations Cameroun. Assistance 24h/24 et 7j/7 par WhatsApp, email ou téléphone.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    .help-page {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1.25rem;
+    }
+    .help-page h1 {
+      color: #0A4D3C;
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .help-page .subtitle {
+      text-align: center;
+      color: #636E72;
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+    .help-page .section-title {
+      color: #0A4D3C;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 3px solid #D4AF37;
+      padding-bottom: 0.75rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .contact-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border: 1px solid #DFE6E9;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .contact-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+    .contact-card .icon {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .contact-card h3 {
+      color: #1A1A2E;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    .contact-card p {
+      color: #636E72;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    .contact-card .highlight {
+      color: #0A4D3C;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .contact-card .btn-whatsapp {
+      display: inline-block;
+      margin-top: 0.75rem;
+      background: #25D366;
+      color: white;
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: background 0.2s ease;
+    }
+    .contact-card .btn-whatsapp:hover {
+      background: #1DA851;
+    }
+    .contact-card .btn-email {
+      display: inline-block;
+      margin-top: 0.75rem;
+      background: #0A4D3C;
+      color: white;
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: background 0.2s ease;
+    }
+    .contact-card .btn-email:hover {
+      background: #063A2C;
+    }
+
+    .faq-item {
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+      border: 1px solid #DFE6E9;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+    .faq-item:hover {
+      border-color: #0A4D3C;
+    }
+    .faq-question {
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: #1A1A2E;
+      user-select: none;
+      transition: background 0.2s ease;
+    }
+    .faq-question:hover {
+      background: #F5F7FA;
+    }
+    .faq-question .arrow {
+      transition: transform 0.3s ease;
+      font-size: 0.8rem;
+      color: #636E72;
+    }
+    .faq-question.open .arrow {
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 1.25rem;
+      color: #636E72;
+      line-height: 1.6;
+    }
+    .faq-answer.open {
+      max-height: 350px;
+      padding: 0 1.25rem 1.25rem 1.25rem;
+    }
+    .faq-answer ul, .faq-answer ol {
+      padding-left: 1.5rem;
+      margin: 0.5rem 0;
+    }
+    .faq-answer li {
+      margin-bottom: 0.3rem;
+    }
+
+    .support-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid #DFE6E9;
+      margin-top: 1.5rem;
+    }
+    .support-form .form-group {
+      margin-bottom: 1rem;
+    }
+    .support-form label {
+      display: block;
+      font-weight: 600;
+      color: #1A1A2E;
+      margin-bottom: 0.3rem;
+      font-size: 0.9rem;
+    }
+    .support-form input,
+    .support-form select,
+    .support-form textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 2px solid #DFE6E9;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: border-color 0.2s ease;
+      font-family: inherit;
+    }
+    .support-form input:focus,
+    .support-form select:focus,
+    .support-form textarea:focus {
+      outline: none;
+      border-color: #0A4D3C;
+      box-shadow: 0 0 0 3px rgba(10, 77, 60, 0.1);
+    }
+    .support-form textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .support-form .btn-submit {
+      background: #0A4D3C;
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+      font-size: 1rem;
+    }
+    .support-form .btn-submit:hover {
+      background: #063A2C;
+      transform: translateY(-2px);
+    }
+
+    .hours-box {
+      background: #F5F7FA;
+      padding: 1.25rem 1.5rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .hours-box .icon {
+      font-size: 2rem;
+    }
+    .hours-box .content h3 {
+      color: #1A1A2E;
+      font-size: 1rem;
+      margin: 0;
+    }
+    .hours-box .content p {
+      color: #636E72;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+    .hours-box .content .status {
+      color: #2E7D32;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .help-page h1 { font-size: 1.6rem; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .support-form { padding: 1.25rem; }
+      .hours-box { flex-direction: column; text-align: center; }
+    }
+  </style>
 </head>
 <body>
   <header class="header">
@@ -13,34 +257,259 @@
         <span class="logo-main">OLINS</span>
         <span class="logo-sub">Locations Cameroun</span>
       </a>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="navLinks">
+        <a href="/">Accueil</a>
+        <a href="comment-ca-marche.html">Comment ça marche</a>
+        <a href="aide-contact.html" class="active">Aide & Contact</a>
+        <a href="#" id="loginBtn" class="btn-outline">Connexion</a>
+        <a href="#" id="registerBtn" class="btn-primary">S'inscrire</a>
+      </div>
     </nav>
   </header>
 
-  <main style="padding: 3rem 1rem; max-width: 800px; margin: 0 auto;">
-    <h1 style="color: #0A4D3C;">Aide & Contact</h1>
-    
-    <section style="margin: 2rem 0;">
-      <h2>📞 Contact</h2>
-      <p>WhatsApp : +237 659 592 740</p>
-      <p>Email : aide@olins.cm</p>
-      <p>Disponibilité : 24h/7j</p>
-    </section>
+  <main class="help-page">
+    <h1>💬 Aide & Contact</h1>
+    <p class="subtitle">
+      Une question ? Un problème ? Nous sommes là pour vous aider.<br>
+      <strong>Réponse garantie sous 24 heures maximum</strong>
+    </p>
 
-    <section style="margin: 2rem 0;">
-      <h2>❓ Questions fréquentes</h2>
-      <h3>La vérification est-elle vraiment gratuite ?</h3>
-      <p>OUI. La vérification d'identité est 100% gratuite et obligatoire.</p>
-      
-      <h3>Comment payer ?</h3>
-      <p>Uniquement par Mobile Money (MTN, Orange, Camtel). On ne vous demandera JAMAIS votre code secret.</p>
-      
-      <h3>Que faire en cas d'arnaque ?</h3>
-      <p>Signalez immédiatement l'annonce du concerné et contactez-nous. Nous bloquons le compte concerné.</p>
-    </section>
+    <div class="hours-box">
+      <span class="icon"></span>
+      <div class="content">
+        <h3>Disponibilité</h3>
+        <p><span class="status">En ligne</span> — 24h/24, 7j/7</p>
+        <p style="font-size: 0.8rem; color: #B2BEC3;">Délai de réponse moyen : 15 à 30 minutes</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">📞 Nous contacter</h2>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <span class="icon"></span>
+        <h3>WhatsApp</h3>
+        <p class="highlight">+237 659 592 740</p>
+        <p style="font-size: 0.8rem;">Réponse rapide et directe</p>
+        <a href="https://wa.me/237659592740" target="_blank" rel="noopener" class="btn-whatsapp">💬 Écrire sur WhatsApp</a>
+      </div>
+      <div class="contact-card">
+        <span class="icon"></span>
+        <h3>Email</h3>
+        <p class="highlight">contact@olins.cm</p>
+        <p style="font-size: 0.8rem;">Réponse sous 24h</p>
+        <a href="mailto:contact@olins.cm" class="btn-email">Envoyer un email</a>
+      </div>
+      <div class="contact-card">
+        <span class="icon">📞</span>
+        <h3>Téléphone</h3>
+        <p class="highlight">+237 699 215 639</p>
+        <p style="font-size: 0.8rem;">Appels et SMS</p>
+        <p style="font-size: 0.8rem; color: #B2BEC3; margin-top: 0.5rem;">Disponible 24h/24</p>
+      </div>
+      <div class="contact-card">
+        <span class="icon"></span>
+        <h3>Siège</h3>
+        <p>Douala / Yaoundé</p>
+        <p style="font-size: 0.8rem;">Cameroun</p>
+        <p style="font-size: 0.8rem; color: #B2BEC3; margin-top: 0.5rem;">Sur rendez-vous uniquement</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">Envoyez-nous un message</h2>
+    <form class="support-form" id="contactForm">
+      <div class="form-group">
+        <label for="contactName">Votre nom complet *</label>
+        <input type="text" id="contactName" placeholder="Ex: Jean Dupont" required>
+      </div>
+      <div class="form-group">
+        <label for="contactPhone">Votre numéro de téléphone *</label>
+        <input type="tel" id="contactPhone" placeholder="+237 6XX XXX XXX" required>
+      </div>
+      <div class="form-group">
+        <label for="contactEmail">Votre email (optionnel)</label>
+        <input type="email" id="contactEmail" placeholder="exemple@email.com">
+      </div>
+      <div class="form-group">
+        <label for="contactSubject">Sujet de votre demande *</label>
+        <select id="contactSubject" required>
+          <option value="">Choisissez un sujet</option>
+          <option value="annonce">Problème avec une annonce</option>
+          <option value="verification">Vérification d'identité</option>
+          <option value="paiement">Paiement Mobile Money</option>
+          <option value="compte">Problème de compte</option>
+          <option value="arnaque">Signalement d'arnaque</option>
+          <option value="autre">Autre demande</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="contactMessage">Votre message *</label>
+        <textarea id="contactMessage" placeholder="Décrivez précisément votre demande ou votre problème..." required></textarea>
+      </div>
+      <button type="submit" class="btn-submit">📨 Envoyer le message</button>
+    </form>
+
+    <h2 class="section-title" style="margin-top: 2.5rem;">Questions fréquentes</h2>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>La vérification d'identité est-elle vraiment gratuite ?</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        <p><strong>OUI !</strong> La vérification d'identité est <strong>100% gratuite et obligatoire</strong> pour tous les propriétaires qui publient des annonces. Aucun frais caché.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Comment payer sur OLINS ?</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        <p>Les paiements s'effectuent exclusivement par <strong>Mobile Money</strong> :</p>
+        <ul>
+          <li>MTN Mobile Money — composez *126#</li>
+          <li>Orange Money — composez *150#</li>
+          <li>Camtel Mobile Money</li>
+        </ul>
+        <p style="margin-top: 0.5rem;"><strong>⚠️ RÈGLE D'OR :</strong> On ne vous demandera <strong>JAMAIS</strong> votre code secret Mobile Money. Ne le partagez JAMAIS à qui que ce soit !</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Que faire en cas d'arnaque ou de fraude ?</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        <p>Si vous soupçonnez une arnaque, agissez immédiatement :</p>
+        <ol>
+          <li>Signalez l'annonce ou l'utilisateur à contact@olins.cm</li>
+          <li>Contactez-nous par WhatsApp au +237 659 592 740</li>
+          <li>Ne payez plus et ne communiquez aucune information personnelle</li>
+        </ol>
+        <p>Nous enquêtons immédiatement et bloquons définitivement les comptes frauduleux.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Combien de temps dure la vérification d'identité ?</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        <p>Elle est traitée en <strong>24 à 48 heures</strong> après réception de vos documents (CNI recto/verso + selfie avec la CNI).</p>
+        <p>Vous recevrez une notification dès que c'est terminé.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Publier une annonce est-il vraiment gratuit ?</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        <p><strong>OUI !</strong> La publication des deux premières annonces sont totalement gratuites.</p>
+        <p>Seules les options de visibilité sont facultatives :</p>
+        <ul>
+          <li>Annonce mise en valeur — 3 000 FCFA / semaine</li>
+          <li>Bien vérifié — 5 000 FCFA</li>
+          <li>Boost régional — 1 500 FCFA</li>
+          <li>Abonnement Agent — 25 000 FCFA / mois</li>
+        </ul>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Comment contacter un propriétaire ?</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        <p>Chaque annonce affiche directement le numéro du propriétaire. Vous pouvez le joindre par :</p>
+        <ul>
+          <li>Appel téléphonique</li>
+          <li>WhatsApp (recommandé)</li>
+          <li>SMS</li>
+        </ul>
+        <p style="margin-top: 0.5rem;"><strong>Conseil :</strong> Privilégiez WhatsApp pour des échanges plus rapides et clairs.</p>
+      </div>
+    </div>
+
+    <p style="text-align: center; margin-top: 2.5rem;">
+      <a href="/" style="color: #0A4D3C; font-weight: 600; text-decoration: none;">← Retour à l'accueil</a>
+    </p>
   </main>
 
   <footer class="footer">
-    <div class="container"><p>&copy; 2026 OLINS Locations Cameroun</p></div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo-footer">OLINS <span>Locations Cameroun</span></div>
+          <p>La confiance avant tout.</p>
+          <p class="footer-warning">⚠️ Ne partagez jamais votre code secret Mobile Money</p>
+        </div>
+        <div class="footer-links">
+          <h4>Navigation</h4>
+          <a href="/">Accueil</a>
+          <a href="comment-ca-marche.html">Comment ça marche</a>
+          <a href="aide-contact.html">Aide & Contact</a>
+        </div>
+        <div class="footer-links">
+          <h4>Légal</h4>
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p>+237 699 215 639</p>
+          <p>contact@olins.cm</p>
+          <p>Douala / Yaoundé, Cameroun</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 OLINS Locations Cameroun — Tous droits réservés</p>
+      </div>
+    </div>
   </footer>
+
+  <script>
+    const btn = document.getElementById('mobileMenuBtn');
+    const nav = document.getElementById('navLinks');
+    if (btn && nav) {
+      btn.addEventListener('click', () => nav.classList.toggle('active'));
+    }
+
+    function toggleFaq(element) {
+      const answer = element.nextElementSibling;
+      const isOpen = answer.classList.contains('open');
+      document.querySelectorAll('.faq-answer, .faq-question').forEach(el => el.classList.remove('open'));
+      if (!isOpen) {
+        answer.classList.add('open');
+        element.classList.add('open');
+      }
+    }
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('contactName').value.trim();
+      const phone = document.getElementById('contactPhone').value.trim();
+      const subject = document.getElementById('contactSubject').value;
+      const message = document.getElementById('contactMessage').value.trim();
+      
+      if (!name || !phone || !subject || !message) {
+        alert('⚠️ Veuillez remplir tous les champs obligatoires.');
+        return;
+      }
+      
+      const text = encodeURIComponent(
+        `*Nouveau message OLINS*%0A%0A` +
+        `*Nom :* ${name}%0A` +
+        `*Téléphone :* ${phone}%0A` +
+        `*Sujet :* ${subject}%0A` +
+        `*Message :*%0A${message}`
+      );
+      window.open(`https://wa.me/237659592740?text=${text}`, '_blank');
+      this.reset();
+      alert('✅ Message bien transmis ! Nous vous répondrons dans les meilleurs délais.');
+    });
+  </script>
 </body>
 </html>
