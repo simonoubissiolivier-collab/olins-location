@@ -4,34 +4,26 @@
  */
 
 import { auth, db } from './firebase-config.js';
-import { loadLatestListings } from './modules/listings.js';
-import { setupAuth } from './modules/auth.js';
-import { setupSearch } from './modules/utils.js';
+import { loadLatestListings } from './listings.js';
+import { setupAuth } from './auth.js';
+import { setupSearch } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('OLINS Locations Cameroun');
   
-  // Menu mobile
   setupMobileMenu();
-  
-  // Recherche
   setupSearch();
-  
-  // Authentification
   setupAuth();
   
-  // Charger les annonces
   if (document.getElementById('listingsContainer')) {
     loadLatestListings();
   }
   
-  // Observer l'état d'authentification
   auth.onAuthStateChanged(user => {
     updateUI(user);
   });
 });
 
-// ✅ FONCTION MENU MOBILE CORRIGÉE
 function toggleMenu() {
   const nav = document.getElementById('navLinks');
   if (nav) {
@@ -45,7 +37,6 @@ function setupMobileMenu() {
     btn.addEventListener('click', toggleMenu);
   }
   
-  // Fermer le menu quand on clique sur un lien
   const links = document.querySelectorAll('.nav-links a');
   links.forEach(link => {
     link.addEventListener('click', () => {
