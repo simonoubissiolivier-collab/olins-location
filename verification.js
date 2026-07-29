@@ -3,7 +3,7 @@
  * OLINS Locations Cameroun
  */
 
-import { db, storage, PAYMENT_CONFIG } from '../firebase-config.js';
+import { db, storage, PAYMENT_CONFIG } from './firebase-config.js';
 import { 
   doc, 
   setDoc, 
@@ -17,13 +17,8 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 import { validateImageFile } from './utils.js';
 
-// ============================================
-// SOUMETTRE UNE VÉRIFICATION D'IDENTITÉ
-// ============================================
-
 export async function submitIdentityVerification(userId, formData) {
   try {
-    // Validation des fichiers
     const cniFrontValidation = validateImageFile(formData.cniFront, 5);
     if (!cniFrontValidation.valid) {
       throw new Error(`CNI Recto: ${cniFrontValidation.error}`);
@@ -39,22 +34,18 @@ export async function submitIdentityVerification(userId, formData) {
       throw new Error(`Selfie: ${selfieValidation.error}`);
     }
     
-    // Upload CNI Recto
     const cniFrontRef = ref(storage, `verifications/${userId}/cni_front_${Date.now()}.jpg`);
     await uploadBytes(cniFrontRef, formData.cniFront);
     const cniFrontUrl = await getDownloadURL(cniFrontRef);
     
-    // Upload CNI Verso
     const cniBackRef = ref(storage, `verifications/${userId}/cni_back_${Date.now()}.jpg`);
     await uploadBytes(cniBackRef, formData.cniBack);
     const cniBackUrl = await getDownloadURL(cniBackRef);
     
-    // Upload Selfie avec CNI
     const selfieRef = ref(storage, `verifications/${userId}/selfie_${Date.now()}.jpg`);
     await uploadBytes(selfieRef, formData.selfie);
     const selfieUrl = await getDownloadURL(selfieRef);
     
-    // Sauvegarder dans Firestore
     const verificationData = {
       fullName: formData.fullName,
       phone: formData.phone,
@@ -69,13 +60,11 @@ export async function submitIdentityVerification(userId, formData) {
     
     await setDoc(doc(db, 'verifications', userId), verificationData);
     
-    // Mettre à jour le statut utilisateur
     await setDoc(doc(db, 'users', userId), {
       verificationStatus: 'pending',
       verificationSubmittedAt: serverTimestamp()
     }, { merge: true });
     
-    // Notifier l'admin (sera traité par une Cloud Function)
     await notifyAdminNewVerification(userId, formData.fullName, formData.phone);
     
     return { 
@@ -89,17 +78,9 @@ export async function submitIdentityVerification(userId, formData) {
   }
 }
 
-// ============================================
-// NOTIFICATION ADMIN
-// ============================================
-
 async function notifyAdminNewVerification(userId, fullName, phone) {
-  // Dans un environnement de production, ceci serait une Cloud Function
-  // qui envoie un email ET un message WhatsApp
-  
   console.log('📧 Notification admin pour vérification:', { userId, fullName, phone });
   
-  // Stockage local de la notification
   try {
     const { addDoc, collection } = await import(
       'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
@@ -117,10 +98,6 @@ async function notifyAdminNewVerification(userId, fullName, phone) {
     console.warn('Notification admin non envoyée:', error);
   }
 }
-
-// ============================================
-// VÉRIFIER LE STATUT
-// ============================================
 
 export async function checkVerificationStatus(userId) {
   try {
