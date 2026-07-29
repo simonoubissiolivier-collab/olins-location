@@ -1,12 +1,9 @@
 /**
  * Module de paiement Mobile Money
  * OLINS Locations Cameroun
- * 
- * RÈGLE ABSOLUE : JAMAIS de solde virtuel, JAMAIS de jetons
- * Paiement → Confirmation manuelle → Activation immédiate
  */
 
-import { db, PAYMENT_CONFIG, PRICING } from '../firebase-config.js';
+import { db, PAYMENT_CONFIG, PRICING } from './firebase-config.js';
 import { 
   collection, 
   addDoc, 
