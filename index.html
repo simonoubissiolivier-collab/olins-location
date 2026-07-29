@@ -9,7 +9,27 @@
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
 </head>
-<body>
+<!-- Enregistrement du Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('sw.js')
+          .then(function(registration) {
+            console.log('Service Worker enregistre avec succes');
+          })
+          .catch(function(error) {
+            console.error('Erreur service worker:', error);
+          });
+      });
+    }
+  </script>
+
+  <!-- Correction pour iOS (Safari) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="OLINS">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+  <body>
   <div id="recaptcha-container"></div>
   
   <header class="header">
