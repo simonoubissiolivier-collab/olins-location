@@ -3,7 +3,7 @@
  * OLINS Locations Cameroun
  */
 
-import { auth, db } from '../firebase-config.js';
+import { auth, db } from './firebase-config.js';
 import { 
   signInWithPhoneNumber, 
   signOut,
