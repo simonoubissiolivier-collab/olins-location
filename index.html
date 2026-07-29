@@ -39,48 +39,63 @@
         <h1>Trouvez votre logement en toute <span>confiance</span></h1>
         <p class="hero-subtitle">Des milliers de maisons, appartements et chambres vérifiés partout au Cameroun</p>
         
-        <div class="search-card">
-          <form id="searchForm" class="search-form">
-            <div class="search-row">
-              <select id="searchRegion" class="search-input" required>
-                <option value="">📍 Région</option>
-                <option value="Adamaoua">Adamaoua</option>
-                <option value="Centre">Centre</option>
-                <option value="Est">Est</option>
-                <option value="Extrême-Nord">Extrême-Nord</option>
-                <option value="Littoral">Littoral</option>
-                <option value="Nord">Nord</option>
-                <option value="Nord-Ouest">Nord-Ouest</option>
-                <option value="Ouest">Ouest</option>
-                <option value="Sud">Sud</option>
-                <option value="Sud-Ouest">Sud-Ouest</option>
-              </select>
-              
-              <input type="text" id="searchCity" class="search-input" placeholder="🏙️ Ville (ex: Douala, Yaoundé...)" required>
-              
-              <select id="searchType" class="search-input">
-                <option value="">🏠 Type de bien</option>
-                <option value="Maison">Maison</option>
-                <option value="Appartement">Appartement</option>
-                <option value="Chambre">Chambre</option>
-                <option value="Studio">Studio</option>
-                <option value="Mini-cité">Mini-cité</option>
-              </select>
-              
-              <select id="searchMaxPrice" class="search-input">
-                <option value="">💰 Budget max (FCFA)</option>
-                <option value="25000">25 000 FCFA</option>
-                <option value="50000">50 000 FCFA</option>
-                <option value="100000">100 000 FCFA</option>
-                <option value="200000">200 000 FCFA</option>
-                <option value="500000">500 000 FCFA</option>
-                <option value="1000000">+ 1 000 000 FCFA</option>
-              </select>
-              
-              <button type="submit" class="btn-search">🔍 Rechercher</button>
-            </div>
-          </form>
-        </div>
+  <div class="search-card">
+  <form id="searchForm" class="search-form" autocomplete="off">
+    <div class="search-row">
+      <!-- Région -->
+      <div class="form-group">
+        <select id="searchRegion" class="search-input" required>
+          <option value="">📍 Région</option>
+          <option value="Adamaoua">Adamaoua</option>
+          <option value="Centre">Centre</option>
+          <option value="Est">Est</option>
+          <option value="Extrême-Nord">Extrême-Nord</option>
+          <option value="Littoral">Littoral</option>
+          <option value="Nord">Nord</option>
+          <option value="Nord-Ouest">Nord-Ouest</option>
+          <option value="Ouest">Ouest</option>
+          <option value="Sud">Sud</option>
+          <option value="Sud-Ouest">Sud-Ouest</option>
+        </select>
+      </div>
+      
+      <!-- Ville -->
+      <div class="form-group">
+        <input type="text" id="searchCity" class="search-input" placeholder="🏙️ Ville (ex: Douala, Yaoundé...)" required>
+      </div>
+      
+      <!-- Type de bien -->
+      <div class="form-group">
+        <select id="searchType" class="search-input">
+          <option value="">🏠 Type de bien</option>
+          <option value="Maison">🏠 Maison</option>
+          <option value="Appartement">🏢 Appartement</option>
+          <option value="Chambre">🛏️ Chambre</option>
+          <option value="Studio">🏠 Studio</option>
+          <option value="Mini-cité">🏘️ Mini-cité</option>
+        </select>
+      </div>
+      
+      <!-- Budget -->
+      <div class="form-group">
+        <select id="searchMaxPrice" class="search-input">
+          <option value="">💰 Budget max (FCFA)</option>
+          <option value="25000">25 000 FCFA</option>
+          <option value="50000">50 000 FCFA</option>
+          <option value="100000">100 000 FCFA</option>
+          <option value="200000">200 000 FCFA</option>
+          <option value="500000">500 000 FCFA</option>
+          <option value="1000000">+ 1 000 000 FCFA</option>
+        </select>
+      </div>
+      
+      <!-- Bouton Rechercher -->
+      <div class="form-group">
+        <button type="submit" class="btn-search">🔍 Rechercher</button>
+      </div>
+    </div>
+  </form>
+</div>
         
         <div class="hero-stats">
           <div class="stat"><strong>2 500+</strong> Annonces</div>
@@ -164,7 +179,7 @@
         </div>
         <div class="footer-contact">
           <h4>Contact</h4>
-          <p>📞 +237 699 215 639</p>
+          <p>📞 +237 659 592 740</p>
           <p>📧 contact@olins.cm</p>
           <p>📍 Douala / Yaoundé, Cameroun</p>
         </div>
@@ -177,5 +192,6 @@
   </footer>
 
   <script type="module" src="app.js"></script>
+  <script src="safari-fix.js" defer></script>
 </body>
 </html>
