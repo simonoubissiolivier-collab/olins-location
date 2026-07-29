@@ -4,7 +4,191 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Comment ça marche - OLINS Locations Cameroun</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <meta name="description" content="Découvrez comment louer ou publier un logement sur OLINS Locations Cameroun. Guide simple en 3 étapes pour locataires et propriétaires.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    .how-it-works-page {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1.25rem;
+    }
+    .how-it-works-page h1 {
+      color: #0A4D3C;
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .how-it-works-page .subtitle {
+      text-align: center;
+      color: #636E72;
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+    }
+    .how-it-works-page .section-title {
+      color: #0A4D3C;
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 3px solid #D4AF37;
+      padding-bottom: 0.75rem;
+    }
+    .step-card {
+      display: flex;
+      gap: 1.5rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border: 1px solid #DFE6E9;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      align-items: flex-start;
+    }
+    .step-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+    .step-number {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      background: #0A4D3C;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+    .step-content h3 {
+      color: #1A1A2E;
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+    .step-content p {
+      color: #636E72;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .step-content .badge-step {
+      display: inline-block;
+      background: #E8F5E9;
+      color: #2E7D32;
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-top: 0.3rem;
+    }
+    .trust-badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .trust-badge-card {
+      background: white;
+      padding: 1.25rem;
+      border-radius: 12px;
+      text-align: center;
+      border: 2px solid #E8F5E9;
+      transition: border-color 0.2s ease;
+    }
+    .trust-badge-card:hover {
+      border-color: #0A4D3C;
+    }
+    .trust-badge-card .icon {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .trust-badge-card h4 {
+      color: #0A4D3C;
+      margin-bottom: 0.3rem;
+      font-size: 1rem;
+    }
+    .trust-badge-card p {
+      color: #636E72;
+      font-size: 0.85rem;
+      margin: 0;
+      line-height: 1.4;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, #0A4D3C 0%, #0D6B4F 100%);
+      color: white;
+      padding: 2.5rem;
+      border-radius: 16px;
+      text-align: center;
+      margin-top: 2.5rem;
+    }
+    .cta-box h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+    .cta-box p {
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+    }
+    .cta-box .btn-cta {
+      display: inline-block;
+      background: #D4AF37;
+      color: #1A1A2E;
+      padding: 0.75rem 2.5rem;
+      border-radius: 8px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .cta-box .btn-cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+    }
+    .video-placeholder {
+      background: #F5F7FA;
+      border-radius: 12px;
+      padding: 3rem;
+      text-align: center;
+      border: 2px dashed #DFE6E9;
+      margin: 1.5rem 0;
+    }
+    .video-placeholder .play-icon {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .video-placeholder p {
+      color: #636E72;
+      font-size: 0.95rem;
+    }
+    @media (max-width: 768px) {
+      .how-it-works-page h1 {
+        font-size: 1.6rem;
+      }
+      .step-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.25rem;
+      }
+      .step-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+      .cta-box {
+        padding: 1.5rem;
+      }
+      .trust-badge-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="header">
@@ -13,48 +197,247 @@
         <span class="logo-main">OLINS</span>
         <span class="logo-sub">Locations Cameroun</span>
       </a>
-      <div class="nav-links">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="navLinks">
         <a href="/">Accueil</a>
-        <a href="aide-contact.html">Aide</a>
+        <a href="comment-ca-marche.html" class="active">Comment ça marche</a>
+        <a href="aide-contact.html">Aide & Contact</a>
+        <a href="#" id="loginBtn" class="btn-outline">Connexion</a>
+        <a href="#" id="registerBtn" class="btn-primary">S'inscrire</a>
       </div>
     </nav>
   </header>
 
-  <main style="padding: 3rem 1rem; max-width: 800px; margin: 0 auto;">
-    <h1 style="color: #0A4D3C; margin-bottom: 2rem;">Comment ça marche ?</h1>
-    
-    <section style="margin-bottom: 3rem;">
-      <h2>🔍 Pour les locataires</h2>
-      <ol style="font-size: 1.1rem; line-height: 2;">
-        <li><strong>Recherchez</strong> un logement par région, ville ou prix</li>
-        <li><strong>Consultez</strong> les annonces avec badges de confiance</li>
-        <li><strong>Contactez</strong> le propriétaire directement</li>
-        <li><strong>Visitez</strong> le bien avant de payer</li>
-      </ol>
-    </section>
+  <main class="how-it-works-page">
+    <h1>📖 Comment ça marche ?</h1>
+    <p class="subtitle">
+      Trouvez votre logement idéal ou publiez votre annonce en toute simplicité.<br>
+      OLINS rend la location immobilière au Cameroun <strong>simple, rapide et sécurisée</strong>.
+    </p>
 
-    <section style="margin-bottom: 3rem;">
-      <h2>🏠 Pour les propriétaires</h2>
-      <ol style="font-size: 1.1rem; line-height: 2;">
-        <li><strong>Inscrivez-vous</strong> avec votre numéro de téléphone</li>
-        <li><strong>Vérifiez votre identité</strong> (GRATUIT et OBLIGATOIRE)</li>
-        <li><strong>Publiez</strong> votre annonce gratuitement</li>
-        <li><strong>Boostez</strong> votre annonce avec les options payantes</li>
-      </ol>
-    </section>
+    <div class="video-placeholder">
+      <span class="play-icon">▶️</span>
+      <p><strong>🎬 Vidéo explicative (2 min)</strong></p>
+      <p style="font-size: 0.85rem;">Découvrez en 2 minutes comment utiliser OLINS Locations Cameroun</p>
+      <p style="font-size: 0.8rem; color: #B2BEC3;">Bientôt disponible</p>
+    </div>
 
-    <section style="background: #E8F5E9; padding: 2rem; border-radius: 12px;">
-      <h2>🛡️ Notre système de confiance</h2>
-      <p>🟢 <strong>Identité vérifiée</strong> : Le propriétaire a fourni sa CNI et un selfie</p>
-      <p>✅ <strong>Bien vérifié</strong> : Le logement a été contrôlé par notre équipe</p>
-      <p>⭐ <strong>Annonce en valeur</strong> : Le propriétaire a payé pour plus de visibilité</p>
-    </section>
+    <h2 class="section-title">Pour les locataires</h2>
+
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <h3>Recherchez un logement</h3>
+        <p>
+          Filtrez par région, ville, type de bien et budget. Parcourez les annonces 
+          avec photos et descriptions détaillées.
+        </p>
+        <span class="badge-step">Gratuit</span>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <h3>Vérifiez la fiabilité</h3>
+        <p>
+          Chaque annonce affiche des badges de confiance : 
+          <strong>Propriétaire vérifié</strong>, 
+          <strong>Bien vérifié</strong>, 
+          <strong>Annonce mise en valeur</strong>.
+        </p>
+        <span class="badge-step">Sécurisé</span>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <h3>Contactez et visitez</h3>
+        <p>
+          Contactez directement le propriétaire pour organiser une visite. 
+          <strong>Ne payez JAMAIS avant d'avoir visité le bien</strong>.
+        </p>
+        <span class="badge-step">Direct</span>
+      </div>
+    </div>
+
+    <h2 class="section-title" style="margin-top: 2.5rem;">🏠 Pour les propriétaires</h2>
+
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <h3>Inscrivez-vous</h3>
+        <p>
+          Créez votre compte avec votre numéro de téléphone. 
+          Connexion sécurisée par code SMS (OTP).
+        </p>
+        <span class="badge-step">Simple</span>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <h3>Vérifiez votre identité</h3>
+        <p>
+          <strong>GRATUIT et OBLIGATOIRE</strong>. Soumettez votre CNI (recto/verso) 
+          et un selfie avec votre CNI. Vérification en 24 à 48 heures.
+        </p>
+        <span class="badge-step">Confiance</span>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <h3>Publiez votre annonce</h3>
+        <p>
+          Ajoutez des photos, description, prix et localisation. 
+          Votre annonce est en ligne immédiatement ! 
+          <strong>Publication totalement gratuite</strong>.
+        </p>
+        <span class="badge-step">Gratuit</span>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">4</div>
+      <div class="step-content">
+        <h3>Boostez votre visibilité (optionnel)</h3>
+        <p>
+          Payant mais facultatif : mettez votre annonce en tête de liste, 
+          obtenez le badge « Bien vérifié » ou augmentez sa visibilité régionale.
+        </p>
+        <span class="badge-step">Options</span>
+      </div>
+    </div>
+
+    <h2 class="section-title" style="margin-top: 2.5rem;">Notre système de confiance</h2>
+
+    <div class="trust-badge-grid">
+      <div class="trust-badge-card">
+        <span class="icon"></span>
+        <h4>Identité vérifiée</h4>
+        <p>
+          Le propriétaire a fourni sa CNI et un selfie. 
+          Vérification manuelle par notre équipe.
+        </p>
+      </div>
+      <div class="trust-badge-card">
+        <span class="icon"></span>
+        <h4>Bien vérifié</h4>
+        <p>
+          Le logement a été contrôlé par notre équipe. 
+          Photos, localisation et équipements certifiés.
+        </p>
+      </div>
+      <div class="trust-badge-card">
+        <span class="icon"></span>
+        <h4>Annonce mise en valeur</h4>
+        <p>
+          Le propriétaire a choisi une option de visibilité. 
+          Annonce prioritaire dans les résultats.
+        </p>
+      </div>
+      <div class="trust-badge-card">
+        <span class="icon"></span>
+        <h4>Paiement sécurisé</h4>
+        <p>
+          Paiement par Mobile Money uniquement. 
+          <strong>Nous ne demandons JAMAIS votre code secret</strong>.
+        </p>
+      </div>
+    </div>
+
+    <h2 class="section-title" style="margin-top: 2.5rem;">❓ Questions fréquentes</h2>
+
+    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+      <div style="background: #F8F9FA; padding: 1rem 1.25rem; border-radius: 8px;">
+        <p style="font-weight: 600; color: #0A4D3C; margin: 0;">C'est vraiment gratuit de publier une annonce ?</p>
+        <p style="margin: 0.3rem 0 0 0; color: #636E72; font-size: 0.95rem;">
+          Oui ! La publication d'annonces est totalement gratuite. Seules les options de visibilité (boost, vérification du bien) sont payantes.
+        </p>
+      </div>
+      <div style="background: #F8F9FA; padding: 1rem 1.25rem; border-radius: 8px;">
+        <p style="font-weight: 600; color: #0A4D3C; margin: 0;">Combien de temps dure la vérification d'identité ?</p>
+        <p style="margin: 0.3rem 0 0 0; color: #636E72; font-size: 0.95rem;">
+          Elle est généralement traitée en <strong>24 à 48 heures</strong> maximum.
+        </p>
+      </div>
+      <div style="background: #F8F9FA; padding: 1rem 1.25rem; border-radius: 8px;">
+        <p style="font-weight: 600; color: #0A4D3C; margin: 0;">Comment puis-je contacter un propriétaire ?</p>
+        <p style="margin: 0.3rem 0 0 0; color: #636E72; font-size: 0.95rem;">
+          Chaque annonce affiche le numéro de téléphone du propriétaire. Vous pouvez l'appeler ou lui envoyer un message WhatsApp.
+        </p>
+      </div>
+      <div style="background: #F8F9FA; padding: 1rem 1.25rem; border-radius: 8px;">
+        <p style="font-weight: 600; color: #0A4D3C; margin: 0;">Que faire si une annonce est frauduleuse ?</p>
+        <p style="margin: 0.3rem 0 0 0; color: #636E72; font-size: 0.95rem;">
+          Signalez-nous l'annonce par mail à <strong>contact@olins.cm</strong> ou au <strong>+237 659 592 740</strong>. Nous enquêtons immédiatement.
+        </p>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <h2>Prêt à commencer ?</h2>
+      <p>
+        Rejoignez des milliers d'utilisateurs qui ont déjà trouvé leur logement<br>
+        ou publié leur annonce sur OLINS.
+      </p>
+      <a href="/" class="btn-cta">🔍 Commencer maintenant</a>
+    </div>
+
+    <p style="text-align: center; margin-top: 2rem;">
+      <a href="/" style="color: #0A4D3C; font-weight: 600; text-decoration: none;">
+        ← Retour à l'accueil
+      </a>
+    </p>
   </main>
 
   <footer class="footer">
     <div class="container">
-      <p>&copyright; 2026 OLINS Locations Cameroun</p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo-footer">OLINS <span>Locations Cameroun</span></div>
+          <p>La confiance avant tout.</p>
+          <p class="footer-warning">⚠️ Ne partagez jamais votre code secret Mobile Money</p>
+        </div>
+        <div class="footer-links">
+          <h4>Navigation</h4>
+          <a href="/">Accueil</a>
+          <a href="comment-ca-marche.html">Comment ça marche</a>
+          <a href="aide-contact.html">Aide & Contact</a>
+        </div>
+        <div class="footer-links">
+          <h4>Légal</h4>
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p>📞 +237 659 592 740</p>
+          <p>📧 contact@olins.cm</p>
+          <p>📍 Douala / Yaoundé, Cameroun</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 OLINS Locations Cameroun</p>
+        <p>Tous droits réservés.</p>
+      </div>
     </div>
   </footer>
+
+  <script>
+    const btn = document.getElementById('mobileMenuBtn');
+    const nav = document.getElementById('navLinks');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        nav.classList.toggle('active');
+      });
+    }
+  </script>
 </body>
 </html>
