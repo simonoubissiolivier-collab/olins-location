@@ -4,7 +4,101 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mentions légales - OLINS Locations Cameroun</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <meta name="description" content="Mentions légales d'OLINS Locations Cameroun. Éditeur, hébergement, propriété intellectuelle et conditions d'utilisation conformes au droit camerounais.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    .legal-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .legal-container h1 {
+      color: #0A4D3C;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 3px solid #D4AF37;
+      padding-bottom: 1rem;
+    }
+    .legal-container .last-update {
+      color: #636E72;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    .legal-container h2 {
+      color: #0A4D3C;
+      font-size: 1.3rem;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    .legal-container h3 {
+      color: #1A1A2E;
+      font-size: 1.05rem;
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .legal-container p {
+      color: #2D2D3A;
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+    .legal-container ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .legal-container ul li {
+      color: #2D2D3A;
+      line-height: 1.7;
+      margin-bottom: 0.4rem;
+    }
+    .legal-container .highlight-box {
+      background: #F5F7FA;
+      border-left: 4px solid #D4AF37;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+    .legal-container .highlight-box strong {
+      color: #0A4D3C;
+    }
+    .legal-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    .legal-table th {
+      background: #0A4D3C;
+      color: white;
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+    .legal-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #DFE6E9;
+    }
+    .legal-table tr:nth-child(even) {
+      background: #F8F9FA;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #0A4D3C;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+      .legal-container { padding: 1.25rem; margin: 1rem; }
+      .legal-container h1 { font-size: 1.5rem; }
+      .legal-table { font-size: 0.85rem; }
+      .legal-table th, .legal-table td { padding: 0.5rem 0.75rem; }
+    }
+  </style>
 </head>
 <body>
   <header class="header">
@@ -13,26 +107,139 @@
         <span class="logo-main">OLINS</span>
         <span class="logo-sub">Locations Cameroun</span>
       </a>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="navLinks">
+        <a href="/">Accueil</a>
+        <a href="comment-ca-marche.html">Comment ça marche</a>
+        <a href="aide-contact.html">Aide & Contact</a>
+        <a href="#" id="loginBtn" class="btn-outline">Connexion</a>
+        <a href="#" id="registerBtn" class="btn-primary">S'inscrire</a>
+      </div>
     </nav>
   </header>
 
-  <main style="padding: 3rem 1rem; max-width: 800px; margin: 0 auto;">
-    <h1 style="color: #0A4D3C;">Mentions légales</h1>
-    
-    <h2>Éditeur</h2>
-    <p>OLINS Locations Cameroun</p>
-    <p>Douala / Yaoundé, Cameroun</p>
-    <p>Email : contact@olins.cm</p>
-    
-    <h2>Hébergement</h2>
-    <p>Firebase Hosting (Google)</p>
-    
-    <h2>Propriété intellectuelle</h2>
-    <p>Tous les contenus (textes, images, logo) sont la propriété d'OLINS.</p>
+  <main class="legal-container">
+    <h1>Mentions légales</h1>
+    <p class="last-update">Dernière mise à jour : 29 juillet 2026</p>
+
+    <div class="highlight-box">
+      <p><strong>Conformité :</strong> OLINS Locations Cameroun respecte strictement la <strong>Loi n°2024/017 du 23 décembre 2024</strong> relative à la protection des données à caractère personnel au Cameroun.</p>
+    </div>
+
+    <h2>1. Éditeur du site</h2>
+    <p>Le site <strong>olins.cm</strong> et l'ensemble des services OLINS sont édités par :</p>
+    <table class="legal-table">
+      <tbody>
+        <tr><td><strong>Dénomination</strong></td><td>OLINS Locations Cameroun</td></tr>
+        <tr><td><strong>Forme juridique</strong></td><td>Entreprise individuelle</td></tr>
+        <tr><td><strong>Siège social</strong></td><td>Douala / Yaoundé, Cameroun</td></tr>
+        <tr><td><strong>Téléphone</strong></td><td>+237 659 592 740</td></tr>
+        <tr><td><strong>Email</strong></td><td><a href="mailto:contact@olins.cm">contact@olins.cm</a></td></tr>
+        <tr><td><strong>Responsable de la publication</strong></td><td>Olivier Simbou</td></tr>
+        <tr><td><strong>Responsable des données</strong></td><td>confidentialite@olins.cm</td></tr>
+      </tbody>
+    </table>
+
+    <h2>2. Hébergement</h2>
+    <p>Le site et les données sont hébergés par :</p>
+    <table class="legal-table">
+      <tbody>
+        <tr><td><strong>Hébergeur</strong></td><td>Google Firebase Hosting</td></tr>
+        <tr><td><strong>Adresse</strong></td><td>Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, États-Unis</td></tr>
+        <tr><td><strong>Site web</strong></td><td><a href="https://firebase.google.com" target="_blank" rel="noopener">firebase.google.com</a></td></tr>
+      </tbody>
+    </table>
+    <p>Tout transfert de données hors du Cameroun s'effectue avec des garanties appropriées, conformément à la réglementation camerounaise.</p>
+
+    <h2>3. Services tiers utilisés</h2>
+    <table class="legal-table">
+      <thead>
+        <tr><th>Service</th><th>Fournisseur</th><th>Finalité</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Firebase Authentication</td><td>Google</td><td>Connexion sécurisée par SMS</td></tr>
+        <tr><td>Cloud Firestore</td><td>Google</td><td>Base de données</td></tr>
+        <tr><td>Cloud Storage</td><td>Google</td><td>Stockage sécurisé des documents et images</td></tr>
+        <tr><td>WhatsApp</td><td>Meta</td><td>Support et communication</td></tr>
+        <tr><td>Mobile Money</td><td>MTN / Orange / Camtel</td><td>Paiements des services optionnels</td></tr>
+      </tbody>
+    </table>
+
+    <h2>4. Propriété intellectuelle</h2>
+    <p>Tous les contenus du site sont protégés par le droit d'auteur et les lois sur la propriété intellectuelle applicables au Cameroun :</p>
+    <ul>
+      <li>Marques : « OLINS », « OLINS Locations Cameroun »</li>
+      <li>Textes, images, logos, chartes graphiques</li>
+      <li>Code source, architecture et fonctionnalités</li>
+    </ul>
+    <div class="highlight-box">
+      <p><strong>⚠️ Interdiction :</strong> Toute reproduction ou utilisation sans autorisation écrite préalable est passible de poursuites.</p>
+    </div>
+
+    <h2>5. Conditions d'utilisation</h2>
+    <h3>Accès au service</h3>
+    <p>L'utilisation du site implique l'acceptation pleine et entière des présentes règles. L'inscription est réservée aux personnes majeures capables juridiquement.</p>
+    <h3>Règles pour les annonces</h3>
+    <ul>
+      <li>Toute information doit être exacte, sincère et à jour</li>
+      <li>Prix systématiquement exprimés en FCFA</li>
+      <li>Interdiction formelle de diffuser des contenus trompeurs ou frauduleux</li>
+    </ul>
+    <h3>Limite de responsabilité</h3>
+    <p>OLINS est une plateforme de mise en relation. Nous ne sommes pas partie aux contrats conclus entre utilisateurs et ne pouvons être tenu responsable des litiges ou des dommages indirects. Nous mettons tout en œuvre pour garantir la confiance mais ne pouvons exclure tout risque de fraude.</p>
+
+    <h2>6. Protection des données personnelles</h2>
+    <p>Nous appliquons strictement la Loi n°2024/017. Pour exercer vos droits ou toute question, consultez notre <a href="confidentialite.html">Politique de confidentialité</a> ou écrivez à <strong>confidentialite@olins.cm</strong>.</p>
+
+    <h2>7. Droit applicable et juridiction</h2>
+    <p>Ces mentions sont régies par le <strong>droit camerounais</strong>. Tout litige sera porté devant les tribunaux compétents de Douala ou Yaoundé.</p>
+
+    <h2>8. Modifications</h2>
+    <p>Nous nous réservons le droit de mettre à jour ces mentions légales. La version en ligne fait foi à tout moment.</p>
+
+    <hr style="border: none; border-top: 2px solid #DFE6E9; margin: 2rem 0;">
+    <p style="text-align: center; color: #636E72; font-size: 0.9rem;">© 2026 OLINS Locations Cameroun — Tous droits réservés</p>
+    <p style="text-align: center;"><a href="/" class="back-link">← Retour à l'accueil</a></p>
   </main>
 
   <footer class="footer">
-    <div class="container"><p>&copy; 2026 OLINS Locations Cameroun</p></div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo-footer">OLINS <span>Locations Cameroun</span></div>
+          <p>La confiance avant tout.</p>
+          <p class="footer-warning">⚠️ Ne partagez jamais votre code secret Mobile Money</p>
+        </div>
+        <div class="footer-links">
+          <h4>Navigation</h4>
+          <a href="/">Accueil</a>
+          <a href="comment-ca-marche.html">Comment ça marche</a>
+          <a href="aide-contact.html">Aide & Contact</a>
+        </div>
+        <div class="footer-links">
+          <h4>Légal</h4>
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p>+237 659 592 740</p>
+          <p>contact@olins.cm</p>
+          <p>Douala / Yaoundé, Cameroun</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 OLINS Locations Cameroun</p>
+      </div>
+    </div>
   </footer>
+
+  <script>
+    const btn = document.getElementById('mobileMenuBtn');
+    const nav = document.getElementById('navLinks');
+    if (btn && nav) btn.addEventListener('click', () => nav.classList.toggle('active'));
+  </script>
 </body>
 </html>
