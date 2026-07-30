@@ -1,48 +1,43 @@
 /**
- * OLINS Locations Cameroun
- * Configuration Firebase
+ * ============================================================
+ * 🛠️ CONFIGURATION FIREBASE OFFICIELLE - OLINS Locations Cameroun
+ * ============================================================
  */
-<script type="module">
-import { getAuth, PhoneAuthProvider } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-import { getStorage } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
-import { getFunctions } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js';
 
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+// Import des modules avec la même version (10.7.1) pour éviter les erreurs
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, PhoneAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { getFunctions } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyD-qNMlNQ-vnbGxq-Gwnk73kNzmPiYxBFA",
-    authDomain: "olins-locations-cameroun.firebaseapp.com",
-    projectId: "olins-locations-cameroun",
-    storageBucket: "olins-locations-cameroun.firebasestorage.app",
-    messagingSenderId: "488709011710",
-    appId: "1:488709011710:web:1c8795760584d88b6d8daf",
-    measurementId: "G-NJMNFPGFVJ"
-  };
+// 🔑 Tes clés de configuration (déjà pré-remplies)
+const firebaseConfig = {
+  apiKey: "AIzaSyD-qNMlNQ-vnbGxq-Gwnk73kNzmPiYxBFA",
+  authDomain: "olins-locations-cameroun.firebaseapp.com",
+  projectId: "olins-locations-cameroun",
+  storageBucket: "olins-locations-cameroun.firebasestorage.app",
+  messagingSenderId: "488709011710",
+  appId: "1:488709011710:web:1c8795760584d88b6d8daf",
+  measurementId: "G-NJMNFPGFVJ"
+};
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script
+// 🚀 Initialisation de Firebase
 const app = initializeApp(firebaseConfig);
 
+// 📦 Export des services pour les utiliser dans tout ton site
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const functions = getFunctions(app);
 export const phoneProvider = new PhoneAuthProvider(auth);
 
+// 💳 Configuration paiements & tarifs
 export const PAYMENT_CONFIG = {
   numbers: {
-    mtn: '+237',
+    mtn: 'En attente',
     orange: '+237659592740',
-    camtel: '+237'
+    camtel: 'Pas encore disponible'
   },
   adminWhatsApp: '+237659592740',
   adminEmail: 'admin@olins.cm'
