@@ -3,353 +3,552 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Administration - OLINS</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Tableau de bord – OLINS LOCATION CAMEROUN</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    .admin-container { 
-      max-width: 1000px; 
-      margin: 2rem auto; 
-      padding: 1rem; 
+    :root {
+      --sidebar-width: 260px;
     }
-    .admin-card { 
-      background: white; 
-      padding: 1.5rem; 
-      border-radius: 12px; 
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    body.dashboard-body {
+      background: #f0f2f5;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      margin: 0;
     }
-    .admin-header {
+    .dashboard-wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: var(--sidebar-width);
+      background: linear-gradient(180deg, #0A4D3C 0%, #063A2C 100%);
+      color: white;
+      padding: 1.5rem 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+    }
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .sidebar-header .logo-main {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: white;
+      letter-spacing: -1px;
+    }
+    .sidebar-header .logo-sub {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: #B2BEC3;
+      letter-spacing: 1px;
+    }
+    .sidebar-menu {
+      list-style: none;
+      padding: 0 1rem;
+    }
+    .sidebar-menu li a {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1rem;
+      color: #dfe6e9;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.2s;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+    .sidebar-menu li a:hover,
+    .sidebar-menu li a.active {
+      background: rgba(255,255,255,0.15);
+      color: white;
+    }
+    .sidebar-menu li a i {
+      width: 20px;
+      text-align: center;
+    }
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 1.5rem;
+      min-height: 100vh;
+    }
+    .top-bar {
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 2rem;
     }
-    .btn-approve { 
-      background: #2E7D32; 
-      color: white; 
-      border: none; 
-      padding: 0.5rem 1rem; 
-      border-radius: 8px; 
-      cursor: pointer;
-      font-weight: 600;
-    }
-    .btn-reject { 
-      background: #C62828; 
-      color: white; 
-      border: none; 
-      padding: 0.5rem 1rem; 
-      border-radius: 8px; 
-      cursor: pointer;
-      font-weight: 600;
-    }
-    .btn-logout {
-      background: #636E72;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .verification-item, .payment-item {
+    .user-welcome {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 1rem;
-      border-bottom: 1px solid #eee;
+      gap: 0.8rem;
     }
-    .verification-photos {
+    .user-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: #0A4D3C;
+      color: white;
       display: flex;
-      gap: 0.5rem;
-      margin: 0.5rem 0;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
     }
-    .verification-photos img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .loading {
-      text-align: center;
-      padding: 2rem;
-      color: #636E72;
-    }
-    .badge-admin {
-      background: #D4AF37;
-      color: #1A1A2E;
-      padding: 0.25rem 0.75rem;
+    .badge-status {
+      padding: 0.3rem 0.8rem;
       border-radius: 20px;
-      font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 600;
     }
-    .stats-grid {
+    .badge-status.verified { background: #E8F5E9; color: #2E7D32; }
+    .badge-status.pending { background: #FFF3E0; color: #E65100; }
+    .badge-status.rejected { background: #FFEBEE; color: #C62828; }
+    .stats-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
+      gap: 1.2rem;
       margin-bottom: 2rem;
     }
     .stat-card {
       background: white;
       padding: 1.5rem;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
-    .stat-number {
-      font-size: 2.5rem;
+    .stat-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+    .stat-info h3 {
+      font-size: 1.8rem;
+      margin: 0;
       font-weight: 800;
-      color: #0A4D3C;
     }
-    .stat-label {
+    .stat-info p {
+      margin: 0;
       color: #636E72;
       font-size: 0.9rem;
     }
+    .section-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .listing-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .listing-table th {
+      text-align: left;
+      padding: 0.8rem 0.5rem;
+      color: #636E72;
+      font-weight: 600;
+      border-bottom: 2px solid #eee;
+      font-size: 0.9rem;
+    }
+    .listing-table td {
+      padding: 1rem 0.5rem;
+      border-bottom: 1px solid #f1f2f6;
+      vertical-align: middle;
+    }
+    .listing-thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .actions-btns {
+      display: flex;
+      gap: 0.4rem;
+    }
+    .btn-sm {
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-edit { background: #dfe6e9; color: #2d3436; }
+    .btn-boost { background: #D4AF37; color: white; }
+    .btn-delete { background: #C62828; color: white; }
+    .btn-new-listing { background: #0A4D3C; color: white; padding: 0.7rem 1.5rem; border-radius: 8px; text-decoration: none; }
+    .review-item {
+      border-bottom: 1px solid #f1f2f6;
+      padding: 1rem 0;
+    }
+    .review-stars { color: #f39c12; }
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+      }
+      .mobile-menu-toggle {
+        display: block !important;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 200;
+        background: #0A4D3C;
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+      }
+      .listing-table thead { display: none; }
+      .listing-table, .listing-table tbody, .listing-table tr, .listing-table td {
+        display: block;
+      }
+      .listing-table tr {
+        margin-bottom: 1.5rem;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 1rem;
+        background: white;
+      }
+      .listing-table td {
+        border: none;
+        padding: 0.3rem 0;
+      }
+    }
   </style>
 </head>
-<body>
-  <header class="header">
-    <nav class="nav">
-      <a href="/" class="logo">
-        <span class="logo-main">OLINS</span>
-        <span class="logo-sub">Administration</span>
-      </a>
-      <div class="nav-links">
-        <span class="badge-admin">Admin</span>
-        <button id="logoutBtn" class="btn-logout">Déconnexion</button>
+<body class="dashboard-body">
+  <button class="mobile-menu-toggle" id="mobileToggle" style="display: none;"><i class="fas fa-bars"></i></button>
+
+  <div class="dashboard-wrapper">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-main">OLINS</div>
+        <div class="logo-sub">LOCATION CAMEROUN</div>
       </div>
-    </nav>
-  </header>
+      <ul class="sidebar-menu">
+        <li><a href="#" class="active" id="menuDashboard"><i class="fas fa-th-large"></i> Tableau de bord</a></li>
+        <li><a href="/publish.html" id="menuNewListing"><i class="fas fa-plus-circle"></i> Publier une annonce</a></li>
+        <li><a href="#" id="menuPayments"><i class="fas fa-money-bill-wave"></i> Paiements</a></li>
+        <li><a href="#" id="menuProfile"><i class="fas fa-user-shield"></i> Vérification</a></li>
+        <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+      </ul>
+    </aside>
 
-  <main class="admin-container">
-    <div id="accessDenied" style="display:none; text-align:center; padding:3rem;">
-      <h2>Accès refusé</h2>
-      <p>Vous n'avez pas les droits d'administration.</p>
-      <a href="/">Retour à l'accueil</a>
-    </div>
-
-    <div id="adminContent" style="display:none;">
-      <div class="admin-header">
-        <h1 style="color: #0A4D3C;">Tableau de bord</h1>
-        <span id="adminName"></span>
+    <main class="main-content" id="mainContent">
+      <div class="top-bar">
+        <div class="user-welcome">
+          <div class="user-avatar" id="userInitials">?</div>
+          <div>
+            <strong id="displayName">Chargement...</strong>
+            <span id="verificationBadge" class="badge-status pending">⏳ En attente</span>
+          </div>
+        </div>
+        <div><i class="far fa-bell"></i> <span id="notificationCount">0</span></div>
       </div>
 
-      <div class="stats-grid">
+      <div class="stats-cards">
         <div class="stat-card">
-          <div class="stat-number" id="statPendingVerif">0</div>
-          <div class="stat-label">Vérifications en attente</div>
+          <div class="stat-icon" style="background: #E8F5E9; color: #2E7D32;"><i class="fas fa-home"></i></div>
+          <div class="stat-info"><h3 id="statActiveListings">0</h3><p>Annonces actives</p></div>
         </div>
         <div class="stat-card">
-          <div class="stat-number" id="statPendingPayments">0</div>
-          <div class="stat-label">Paiements à confirmer</div>
+          <div class="stat-icon" style="background: #E3F2FD; color: #1565C0;"><i class="fas fa-eye"></i></div>
+          <div class="stat-info"><h3 id="statTotalViews">0</h3><p>Vues totales</p></div>
         </div>
         <div class="stat-card">
-          <div class="stat-number" id="statActiveListings">0</div>
-          <div class="stat-label">Annonces actives</div>
+          <div class="stat-icon" style="background: #FFF3E0; color: #E65100;"><i class="fas fa-star"></i></div>
+          <div class="stat-info"><h3 id="statAvgRating">-</h3><p>Note moyenne</p></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: #FCE4EC; color: #C62828;"><i class="fas fa-clock"></i></div>
+          <div class="stat-info"><h3 id="statMemberSince">-</h3><p>Membre depuis</p></div>
         </div>
       </div>
 
-      <div class="admin-card">
-        <h2>Vérifications d'identité en attente</h2>
-        <div id="pendingVerifications">
-          <div class="loading">Chargement...</div>
-        </div>
+      <div class="section-card" id="subscriptionCard">
+        <div class="section-header"><h2><i class="fas fa-crown"></i> Abonnement & Services</h2></div>
+        <div id="subscriptionDetails"><p>Chargement...</p></div>
       </div>
 
-      <div class="admin-card">
-        <h2>Paiements en attente de confirmation</h2>
-        <div id="pendingPayments">
-          <div class="loading">Chargement...</div>
+      <div class="section-card" id="listingsSection">
+        <div class="section-header">
+          <h2><i class="fas fa-list"></i> Mes annonces</h2>
+          <a href="/publish.html" class="btn-new-listing" id="btnNewListing"><i class="fas fa-plus"></i> Nouvelle annonce</a>
         </div>
+        <div id="listingsTableContainer"><p>Chargement de vos annonces...</p></div>
       </div>
 
-      <div class="admin-card">
-        <h2>Dernières annonces</h2>
-        <div id="recentListings">
-          <div class="loading">Chargement...</div>
-        </div>
+      <div class="section-card" id="reviewsSection">
+        <div class="section-header"><h2><i class="fas fa-comments"></i> Avis des locataires</h2></div>
+        <div id="reviewsContainer"><p>Aucun avis pour le moment.</p></div>
       </div>
-    </div>
-  </main>
+
+      <div class="section-card" id="paymentHistorySection">
+        <div class="section-header"><h2><i class="fas fa-receipt"></i> Historique des paiements</h2></div>
+        <div id="paymentHistoryContainer"><p>Aucun paiement enregistré.</p></div>
+      </div>
+    </main>
+  </div>
 
   <script type="module">
-    import { auth, db } from './firebase-config.js';
-    import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-    import { 
-      doc, 
-      getDoc, 
-      getDocs, 
-      collection, 
-      query, 
-      where, 
-      orderBy, 
-      limit, 
-      updateDoc,
-      serverTimestamp 
-    } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-    import { approveVerification, rejectVerification, loadPendingVerifications, loadPendingPayments, confirmPayment } from './admin.js';
+    import { auth, db } from './js/firebase-config.js';
+    import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { doc, getDoc, collection, query, where, getDocs, orderBy, limit, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { logout } from './js/modules/auth.js';
+
+    // Mobile menu toggle
+    document.getElementById('mobileToggle')?.addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+
+    function adjustMobileUI() {
+      const btn = document.getElementById('mobileToggle');
+      if (window.innerWidth <= 768) {
+        btn.style.display = 'block';
+      } else {
+        btn.style.display = 'none';
+        document.getElementById('sidebar').classList.remove('open');
+      }
+    }
+    window.addEventListener('resize', adjustMobileUI);
+    adjustMobileUI();
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        alert('Veuillez vous connecter d\'abord.');
         window.location.href = '/';
         return;
       }
-
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-      
-      if (!userDoc.exists() || userDoc.data().role !== 'admin') {
-        document.getElementById('accessDenied').style.display = 'block';
+      const userRef = doc(db, 'users', user.uid);
+      const userDoc = await getDoc(userRef);
+      if (!userDoc.exists()) {
+        alert('Profil utilisateur introuvable.');
         return;
       }
-
-      document.getElementById('adminContent').style.display = 'block';
-      document.getElementById('adminName').textContent = `👤 ${user.phoneNumber}`;
+      const userData = userDoc.data();
+      document.getElementById('userInitials').textContent = (userData.phone || 'U').substring(0,2).toUpperCase();
+      document.getElementById('displayName').textContent = userData.displayName || userData.phone || 'Utilisateur';
       
-      loadDashboardData();
+      const badge = document.getElementById('verificationBadge');
+      switch (userData.verificationStatus) {
+        case 'approved':
+          badge.className = 'badge-status verified';
+          badge.textContent = '🟢 Identité vérifiée';
+          break;
+        case 'pending':
+          badge.className = 'badge-status pending';
+          badge.textContent = '⏳ Vérification en cours';
+          break;
+        case 'rejected':
+          badge.className = 'badge-status rejected';
+          badge.textContent = '❌ Vérification refusée';
+          break;
+        default:
+          badge.className = 'badge-status pending';
+          badge.textContent = '⚠️ Non vérifié';
+      }
+      
+      const createdAt = userData.createdAt?.toDate();
+      if (createdAt) {
+        const months = Math.floor((new Date() - createdAt) / (1000*60*60*24*30));
+        document.getElementById('statMemberSince').textContent = months + ' mois';
+      }
+      
+      const subDiv = document.getElementById('subscriptionDetails');
+      if (userData.role === 'agent' && userData.agentSubscriptionExpiry) {
+        const expiry = new Date(userData.agentSubscriptionExpiry);
+        const remaining = Math.ceil((expiry - new Date()) / (1000*60*60*24));
+        subDiv.innerHTML = `<div style="display:flex; align-items:center; gap:1rem;">
+          <span class="badge-status verified">🏆 Agent PRO</span>
+          <span>Expire le ${expiry.toLocaleDateString('fr-FR')} (${remaining > 0 ? remaining + ' jours restants' : 'Expiré'})</span>
+        </div>`;
+      } else {
+        subDiv.innerHTML = `<p>Abonnement gratuit. <a href="#" id="upgradeLink">Passer à l'offre Agent (25 000 FCFA/mois)</a></p>`;
+        document.getElementById('upgradeLink')?.addEventListener('click', (e) => {
+          e.preventDefault();
+          alert('Paiement via Mobile Money au 6XX XXX XXX. Indiquez "Abonnement Agent".');
+        });
+      }
+      
+      loadUserListings(user.uid);
+      loadStats(user.uid);
+      loadReviews(user.uid);
+      loadPaymentHistory(user.uid);
     });
 
-    async function loadDashboardData() {
-      await Promise.all([
-        loadVerifications(),
-        loadPayments(),
-        loadStats()
-      ]);
-    }
-
-    async function loadVerifications() {
-      const container = document.getElementById('pendingVerifications');
-      
+    async function loadUserListings(userId) {
+      const container = document.getElementById('listingsTableContainer');
       try {
-        const verifications = await loadPendingVerifications();
-        
-        document.getElementById('statPendingVerif').textContent = verifications.length;
-        
-        if (verifications.length === 0) {
-          container.innerHTML = '<p style="text-align:center; padding:2rem;">✅ Aucune vérification en attente</p>';
+        const q = query(collection(db, 'listings'), where('userId', '==', userId), orderBy('createdAt', 'desc'));
+        const snapshot = await getDocs(q);
+        if (snapshot.empty) {
+          container.innerHTML = '<p>Vous n\'avez pas encore publié d\'annonce.</p>';
           return;
         }
+        let html = `<table class="listing-table">
+          <thead><tr><th>Photo</th><th>Titre</th><th>Prix</th><th>Statut</th><th>Badges</th><th>Actions</th></tr></thead>
+          <tbody>`;
+        snapshot.forEach(doc => {
+          const listing = doc.data();
+          const status = listing.status === 'active' ? '🟢 Actif' : '🔴 Inactif';
+          const badges = [];
+          if (listing.featured) badges.push('⭐ En valeur');
+          if (listing.propertyVerified) badges.push('✅ Vérifié');
+          html += `<tr>
+            <td><img src="${listing.images?.[0] || '/images/placeholder-house.jpg'}" class="listing-thumb" alt=""></td>
+            <td><strong>${listing.title || 'Sans titre'}</strong><br><small>${listing.city}, ${listing.region}</small></td>
+            <td>${(listing.price || 0).toLocaleString()} FCFA</td>
+            <td>${status}</td>
+            <td>${badges.join(', ') || '-'}</td>
+            <td class="actions-btns">
+              <button class="btn-sm btn-edit" data-id="${doc.id}"><i class="fas fa-edit"></i></button>
+              <button class="btn-sm btn-boost" data-id="${doc.id}"><i class="fas fa-rocket"></i></button>
+              <button class="btn-sm btn-delete" data-id="${doc.id}"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>`;
+        });
+        html += '</tbody></table>';
+        container.innerHTML = html;
 
-        container.innerHTML = verifications.map(v => `
-          <div class="verification-item">
-            <div>
-              <strong>${v.fullName || 'N/A'}</strong>
-              <p>${v.phone || 'N/A'}</p>
-              <p>Soumis le: ${v.submittedAt ? new Date(v.submittedAt.seconds * 1000).toLocaleDateString('fr-FR') : 'N/A'}</p>
-              <div class="verification-photos">
-                ${v.cniFrontUrl ? `<img src="${v.cniFrontUrl}" alt="CNI Recto" onclick="window.open('${v.cniFrontUrl}')">` : ''}
-                ${v.cniBackUrl ? `<img src="${v.cniBackUrl}" alt="CNI Verso" onclick="window.open('${v.cniBackUrl}')">` : ''}
-                ${v.selfieUrl ? `<img src="${v.selfieUrl}" alt="Selfie" onclick="window.open('${v.selfieUrl}')">` : ''}
-              </div>
-            </div>
-            <div style="display:flex; gap:0.5rem;">
-              <button class="btn-approve" onclick="handleApprove('${v.id}')">✅ Approuver</button>
-              <button class="btn-reject" onclick="handleReject('${v.id}')">❌ Rejeter</button>
-            </div>
-          </div>
-        `).join('');
-
+        container.querySelectorAll('.btn-delete').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            if (confirm('Supprimer cette annonce ?')) {
+              await deleteDoc(doc(db, 'listings', btn.dataset.id));
+              loadUserListings(userId);
+            }
+          });
+        });
+        container.querySelectorAll('.btn-boost').forEach(btn => {
+          btn.addEventListener('click', () => {
+            alert('Paiement 3 000 FCFA pour 1 semaine en tête de liste. Envoyez le paiement Mobile Money et contactez le support.');
+          });
+        });
+        container.querySelectorAll('.btn-edit').forEach(btn => {
+          btn.addEventListener('click', () => {
+            alert('Fonctionnalité de modification à venir.');
+          });
+        });
       } catch (error) {
-        console.error('Erreur chargement vérifications:', error);
-        container.innerHTML = '<p style="color:red;">Erreur de chargement</p>';
+        console.error(error);
+        container.innerHTML = '<p>Erreur de chargement des annonces.</p>';
       }
     }
 
-    async function loadPayments() {
-      const container = document.getElementById('pendingPayments');
-      
+    async function loadStats(userId) {
+      const q = query(collection(db, 'listings'), where('userId', '==', userId), where('status', '==', 'active'));
+      const snap = await getDocs(q);
+      document.getElementById('statActiveListings').textContent = snap.size;
+      let totalViews = 0;
+      snap.forEach(doc => totalViews += (doc.data().views || 0));
+      document.getElementById('statTotalViews').textContent = totalViews;
+    }
+
+    async function loadReviews(userId) {
+      const container = document.getElementById('reviewsContainer');
       try {
-        const payments = await loadPendingPayments();
-        
-        document.getElementById('statPendingPayments').textContent = payments.length;
-        
-        if (payments.length === 0) {
-          container.innerHTML = '<p style="text-align:center; padding:2rem;">✅ Aucun paiement en attente</p>';
+        const q = query(collection(db, 'reviews'), where('ownerId', '==', userId), orderBy('createdAt', 'desc'));
+        const snap = await getDocs(q);
+        if (snap.empty) {
+          container.innerHTML = '<p>🌟 Aucun avis reçu pour le moment.</p>';
           return;
         }
-
-        container.innerHTML = payments.map(p => `
-          <div class="verification-item">
-            <div>
-              <strong>${p.serviceName}</strong>
-              <p>${p.amount?.toLocaleString()} FCFA</p>
-              <p>User ID: ${p.userId?.substring(0, 10)}...</p>
-              <p>${p.createdAt ? new Date(p.createdAt.seconds * 1000).toLocaleString('fr-FR') : 'N/A'}</p>
-            </div>
-            <div>
-              <input type="text" id="ref_${p.id}" placeholder="N° transaction" style="padding:0.5rem; margin-right:0.5rem; border-radius:8px; border:1px solid #ccc;">
-              <button class="btn-approve" onclick="handleConfirmPayment('${p.id}')">✅ Confirmer</button>
-            </div>
-          </div>
-        `).join('');
-
-      } catch (error) {
-        console.error('Erreur chargement paiements:', error);
-        container.innerHTML = '<p style="color:red;">Erreur de chargement</p>';
+        let sum = 0, count = 0;
+        let html = '';
+        snap.forEach(doc => {
+          const review = doc.data();
+          sum += review.rating || 0;
+          count++;
+          const stars = '⭐'.repeat(review.rating || 0);
+          html += `<div class="review-item">
+            <div class="review-stars">${stars}</div>
+            <p>"${review.comment || 'Pas de commentaire'}"</p>
+            <small>Par ${review.reviewerName || 'Anonyme'} – ${review.createdAt?.toDate().toLocaleDateString('fr-FR')}</small>
+          </div>`;
+        });
+        const avg = (sum/count).toFixed(1);
+        document.getElementById('statAvgRating').textContent = avg + ' ⭐';
+        container.innerHTML = html;
+      } catch (e) {
+        console.error(e);
+        container.innerHTML = '<p>Impossible de charger les avis.</p>';
       }
     }
 
-    async function loadStats() {
+    async function loadPaymentHistory(userId) {
+      const container = document.getElementById('paymentHistoryContainer');
       try {
-        const listingsQuery = query(
-          collection(db, 'listings'),
-          where('status', '==', 'active')
-        );
-        const listingsSnapshot = await getDocs(listingsQuery);
-        document.getElementById('statActiveListings').textContent = listingsSnapshot.size;
-      } catch (error) {
-        console.error('Erreur stats:', error);
+        const q = query(collection(db, 'payments'), where('userId', '==', userId), orderBy('createdAt', 'desc'), limit(10));
+        const snap = await getDocs(q);
+        if (snap.empty) {
+          container.innerHTML = '<p>Aucun paiement pour le moment.</p>';
+          return;
+        }
+        let html = '<ul style="list-style:none; padding:0;">';
+        snap.forEach(doc => {
+          const p = doc.data();
+          const status = p.status === 'confirmed' ? '✅ Confirmé' : p.status === 'pending' ? '⏳ En attente' : '❌ Échoué';
+          html += `<li style="padding:0.8rem 0; border-bottom:1px solid #eee; display:flex; justify-content:space-between;">
+            <span>${p.serviceName} – ${p.amount?.toLocaleString()} FCFA</span>
+            <span>${status}</span>
+            <small>${p.createdAt?.toDate().toLocaleDateString('fr-FR')}</small>
+          </li>`;
+        });
+        html += '</ul>';
+        container.innerHTML = html;
+      } catch (e) {
+        console.error(e);
+        container.innerHTML = '<p>Erreur historique paiements.</p>';
       }
     }
 
-    window.handleApprove = async function(userId) {
-      if (!confirm('Confirmer l\'approbation de cette identité ?')) return;
-      
-      const result = await approveVerification(userId, auth.currentUser.uid);
-      alert(result.message);
-      loadVerifications();
-    };
-
-    window.handleReject = async function(userId) {
-      const reason = prompt('Raison du rejet :');
-      if (!reason) return;
-      
-      const result = await rejectVerification(userId, auth.currentUser.uid, reason);
-      alert(result.message);
-      loadVerifications();
-    };
-
-    window.handleConfirmPayment = async function(paymentId) {
-      const refInput = document.getElementById(`ref_${paymentId}`);
-      const transactionRef = refInput?.value?.trim();
-      
-      if (!transactionRef) {
-        alert('Veuillez entrer le numéro de transaction Mobile Money');
-        return;
-      }
-      
-      if (!confirm(`Confirmer le paiement avec la référence : ${transactionRef} ?`)) return;
-      
-      const result = await confirmPayment(paymentId, auth.currentUser.uid, transactionRef);
-      alert(result.message);
-      loadPayments();
-    };
-
-    document.getElementById('logoutBtn').addEventListener('click', async () => {
-      await signOut(auth);
-      window.location.href = '/';
+    // Navigation
+    document.getElementById('menuPayments')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('paymentHistorySection').scrollIntoView({ behavior:'smooth' });
+    });
+    document.getElementById('menuProfile')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = '/verification.html';
+    });
+    document.getElementById('logoutBtn')?.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await logout();
     });
   </script>
-  <!-- Correction du bouton Accueil -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Corriger tous les liens "Accueil"
-    document.querySelectorAll('a[href="/"]').forEach(function(link) {
-      link.setAttribute('href', 'index.html');
-    });
-    document.querySelectorAll('a[href="/index.html"]').forEach(function(link) {
-      link.setAttribute('href', 'index.html');
-    });
-  });
-</script>
 </body>
 </html>
