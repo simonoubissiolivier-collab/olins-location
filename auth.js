@@ -3,7 +3,28 @@
  * OLINS Locations Cameroun
  */
 
-import { auth, db } from './firebase-config.js';
+// D'ABORD importer et initialiser Firebase en premier
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+// TA CONFIG FIREBASE (remplace par tes propres valeurs)
+const firebaseConfig = {
+    apiKey: "AIzaSyD-qNMlNQ-vnbGxq-Gwnk73kNzmPiYxBFA",
+    authDomain: "olins-locations-cameroun.firebaseapp.com",
+    projectId: "olins-locations-cameroun",
+    storageBucket: "olins-locations-cameroun.firebasestorage.app",
+    messagingSenderId: "488709011710",
+    appId: "1:488709011710:web:1c8795760584d88b6d8daf",
+    measurementId: "G-NJMNFPGFVJ"
+  };
+
+// Initialisation OBLIGATOIRE dans l'ordre : App → Auth → Firestore
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app); // ✅ Auth initialisé en PREMIER
+const db = getFirestore(app);
+
+// Puis les fonctions d'Auth
 import { 
   signInWithPhoneNumber, 
   signOut,
@@ -48,11 +69,13 @@ async function startPhoneAuth(mode) {
   }
   
   try {
+    // ✅ Recaptcha utilise l'instance auth déjà initialisée
     if (!recaptchaVerifier) {
-      recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        size: 'invisible',
-        callback: () => {}
-      });
+      recaptchaVerifier = new RecaptchaVerifier(
+        auth, 
+        'recaptcha-container', 
+        { size: 'invisible' }
+      );
     }
     
     confirmationResult = await signInWithPhoneNumber(auth, phone, recaptchaVerifier);
@@ -76,7 +99,8 @@ async function startPhoneAuth(mode) {
     const messages = {
       'auth/invalid-verification-code': 'Code SMS incorrect. Veuillez réessayer.',
       'auth/too-many-requests': 'Trop de tentatives. Veuillez patienter 15 minutes.',
-      'auth/invalid-phone-number': 'Numéro de téléphone invalide.'
+      'auth/invalid-phone-number': 'Numéro de téléphone invalide.',
+      'auth/dependent-sdk-initialized-before-auth': 'Réinitialisez la page, problème de chargement.'
     };
     
     alert('❌ ' + (messages[error.code] || 'Erreur d\'authentification'));
