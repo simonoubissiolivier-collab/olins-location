@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OLINS Locations Cameroun - Logements vérifiés</title>
-  <meta name="description" content="Plateforme nationale de location de maisons, appartements et chambres au Cameroun. Annonces vérifiées, confiance garantie.">
-  <meta name="theme-color" content="#0A4D3C">
+  <meta name="description" content="Plateforme nationale de location de maisons, appartements et chambres au Cameroun. Annonces vérifiées, confiance garantie." />
+  <meta name="theme-color" content="#0A4D3C" />
 
   <!-- Service Worker -->
   <script>
@@ -17,14 +17,14 @@
     }
   </script>
 
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="OLINS">
-  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="OLINS" />
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
     :root {
@@ -44,7 +44,7 @@
 
     body { color: var(--texte); background: var(--gris-doux); }
 
-    /* 🎬 ANIMATIONS STYLE POWERPOINT */
+    /* animations */
     @keyframes fadeInUp { from {opacity:0; transform: translateY(25px);} to {opacity:1; transform: translateY(0);} }
     @keyframes fadeInScale { from {opacity:0; transform: scale(0.92);} to {opacity:1; transform: scale(1);} }
     @keyframes slideInLeft { from {opacity:0; transform: translateX(-30px);} to {opacity:1; transform: translateX(0);} }
@@ -59,7 +59,7 @@
 
     .container { width: 92%; max-width: 1200px; margin: 0 auto; }
 
-    /* 📌 MENU HAMBURGER QUI FONCTIONNE PARFAITEMENT */
+    /* HEADER – MENU EXACT */
     .header {
       background: var(--vert-principal);
       position: sticky; top: 0; z-index: 999;
@@ -73,7 +73,8 @@
     .logo-sub { font-size: 0.45em; color: rgba(255,255,255,0.8); }
 
     .mobile-menu-btn {
-      display: flex; flex-direction: column; gap: 4px;
+      display: none;
+      flex-direction: column; gap: 4px;
       background: transparent; border: none; cursor: pointer; padding: 5px;
     }
     .mobile-menu-btn span {
@@ -82,12 +83,41 @@
     }
 
     .nav-links {
-      display: flex; gap: 1rem; align-items: center;
+      display: flex; gap: 1.5rem; align-items: center;
     }
-    .nav-links a { color: var(--blanc); text-decoration: none; padding: 0.5rem; }
-    .nav-links a:hover { background: rgba(255,255,255,0.15); border-radius: 6px; }
+    .nav-links a {
+      color: var(--blanc);
+      text-decoration: none;
+      padding: 0.4rem 0;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .nav-links a:hover {
+      border-bottom-color: #ffd700;
+    }
+    .nav-links a.btn-outline {
+      border: 1px solid var(--blanc);
+      padding: 0.3rem 1rem;
+      border-radius: 6px;
+      background: transparent;
+    }
+    .nav-links a.btn-outline:hover {
+      background: rgba(255,255,255,0.15);
+      border-bottom-color: transparent;
+    }
+    .nav-links a.btn-primary {
+      background: var(--blanc);
+      color: var(--vert-principal);
+      padding: 0.3rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .nav-links a.btn-primary:hover {
+      background: #e2e8f0;
+      border-bottom-color: transparent;
+    }
 
-    /* Affichage mobile du menu */
     @media (max-width: 900px) {
       .mobile-menu-btn { display: flex; }
       .nav-links {
@@ -96,9 +126,15 @@
         padding: 1rem; gap: 0.8rem;
         transform: translateY(-150%); opacity: 0; transition: all 0.4s ease;
         pointer-events: none;
+        align-items: stretch;
       }
       .nav-links.ouvert {
         transform: translateY(0); opacity: 1; pointer-events: all;
+      }
+      .nav-links a {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        text-align: center;
       }
     }
 
@@ -112,7 +148,7 @@
     .btn-premium { background: #f59e0b; color: #fff; }
     button:hover { transform: translateY(-2px); }
 
-    /* 🎯 SECTION HERO COMPACTE */
+    /* HERO */
     .hero {
       background: linear-gradient(160deg, var(--vert-principal), var(--vert-clair));
       color: var(--blanc); padding: 2.2rem 0; text-align: center;
@@ -132,7 +168,7 @@
     .hero-stats { display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; }
     .stat strong { font-size: 1.3rem; display: block; }
 
-    /* 🤝 SECTION CONFIANCE TAILLE CORRIGÉE */
+    /* TRUST */
     .trust-section { padding: 1.8rem 0; background: var(--blanc); }
     .trust-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;
@@ -144,7 +180,7 @@
     .trust-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(10,77,60,0.15); }
     .trust-icon { width: 50px; height: 50px; background: var(--vert-principal); margin: 0 auto 0.7rem; border-radius: 50%; }
 
-    /* 🏠 ANNONCES AVEC PHOTOS + VIDÉOS VISIBLES */
+    /* LISTINGS */
     .listings-section { padding: 1.8rem 0; }
     .listings-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem;
@@ -180,6 +216,47 @@
       background: var(--vert-principal); color: white; font-weight: bold; margin: 0 auto 0.5rem;
     }
 
+    /* COMPTE ENTREPRISE – CARTE DÉDIÉE */
+    .entreprise-section {
+      background: #f0f7f4;
+      padding: 2rem 0;
+      text-align: center;
+    }
+    .entreprise-card {
+      background: var(--blanc);
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 1.8rem 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid #e2e8f0;
+    }
+    .entreprise-card h2 {
+      color: var(--vert-principal);
+      font-size: 1.6rem;
+      margin-bottom: 0.3rem;
+    }
+    .entreprise-card .prix {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--vert-principal);
+      margin: 0.5rem 0;
+    }
+    .entreprise-card .btn-souscrire {
+      background: var(--vert-principal);
+      color: var(--blanc);
+      padding: 0.7rem 2.5rem;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .entreprise-card .btn-souscrire:hover {
+      background: var(--vert-clair);
+    }
+
     .alert-box {
       background: #fffbeb; border-left: 4px solid #f59e0b; padding: 1rem;
       border-radius: 8px; margin: 1.5rem 0; color: #92400e;
@@ -194,35 +271,37 @@
 </head>
 <body>
   <div id="recaptcha-container"></div>
-  
+
   <header class="header">
     <nav class="container nav">
       <a href="index.html" class="logo">
         <span class="logo-main">OLINS</span>
         <span class="logo-sub">Locations Cameroun</span>
       </a>
-      
+
       <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
-      
+
       <div class="nav-links" id="navLinks">
         <a href="index.html">Accueil</a>
-        <a href="comment-ca-marche.html">Comment ça marche</a>
-        <a href="aide-contact.html">Aide & Contact</a>
-        <a href="#" id="loginBtn" class="btn-outline">Connexion</a>
-        <a href="#" id="registerBtn" class="btn-primary">S'inscrire</a>
-        <a href="#" class="btn-premium">💼 Compte Entreprise <small>2 500 FCFA/mois</small></a>
+        <a href="mon-compte.html">Mon Compte</a>
+        <a href="mes-annonces.html">Mes Annonces</a>
+        <a href="aide-contact.html">Aide &amp; Contact</a>
+        <!-- les boutons Connexion / Inscription peuvent être ajoutés ici si besoin -->
+        <!-- <a href="#" class="btn-outline">Connexion</a> -->
+        <!-- <a href="#" class="btn-primary">S'inscrire</a> -->
       </div>
     </nav>
   </header>
 
   <main>
+    <!-- HERO -->
     <section class="hero anime-saut">
       <div class="container hero-content">
         <h1>Trouvez votre logement en toute <span>confiance</span></h1>
         <p class="hero-subtitle">Des milliers de maisons, appartements et chambres vérifiés partout au Cameroun</p>
-        
+
         <div class="search-card anime-etire">
           <form id="searchForm" class="search-form" autocomplete="off">
             <div class="form-group">
@@ -306,7 +385,7 @@
             </div>
           </form>
         </div>
-        
+
         <div class="hero-stats">
           <div class="stat anime-gauche" style="animation-delay:0.1s"><strong>2 500+</strong> Annonces</div>
           <div class="stat anime-gauche" style="animation-delay:0.2s"><strong>10</strong> Régions</div>
@@ -315,6 +394,7 @@
       </div>
     </section>
 
+    <!-- POURQUOI CHOISIR OLINS -->
     <section class="trust-section">
       <div class="container">
         <h2>Pourquoi choisir OLINS ?</h2>
@@ -343,6 +423,7 @@
       </div>
     </section>
 
+    <!-- ANNONCES RÉCENTES -->
     <section class="listings-section">
       <div class="container">
         <div class="section-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
@@ -350,7 +431,7 @@
           <a href="#" class="view-all" style="color:var(--vert-principal);font-weight:500">Voir tout →</a>
         </div>
         <div class="listings-grid" id="listingsContainer">
-          <!-- 📌 Annonce avec PHOTOS + VIDÉOS -->
+          <!-- Annonce 1 -->
           <div class="listing-card anime-etire" style="animation-delay:0.1s">
             <div class="listing-photo">
               📸 Photos du bien<br>🎥 Vidéo de visite autorisée
@@ -366,6 +447,7 @@
               </div>
             </div>
           </div>
+          <!-- Annonce 2 -->
           <div class="listing-card anime-etire" style="animation-delay:0.2s">
             <div class="listing-photo">
               📸 Photos du bien<br>🎥 Vidéo de visite autorisée
@@ -381,6 +463,7 @@
               </div>
             </div>
           </div>
+          <!-- Annonce 3 -->
           <div class="listing-card anime-etire" style="animation-delay:0.3s">
             <div class="listing-photo">
               📸 Photos du bien<br>🎥 Vidéo de visite autorisée
@@ -400,6 +483,21 @@
       </div>
     </section>
 
+    <!-- COMPTE ENTREPRISE – CARTE COMME SUR LA MAQUETTE -->
+    <section class="entreprise-section">
+      <div class="container">
+        <div class="entreprise-card anime-saut">
+          <h2>Compte Entreprise</h2>
+          <p style="font-size:1rem; color:#4a5568; margin-bottom:0.5rem;">
+            Publier annonces illimitées,<br> badge certifié, visibilité prioritaire
+          </p>
+          <div class="prix">15 000 FCFA / an</div>
+          <button class="btn-souscrire">Souscrire maintenant</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÉTAPES -->
     <section class="how-it-works">
       <div class="container">
         <h2>Louer en 3 étapes simples</h2>
@@ -420,29 +518,32 @@
             <p>Validez sur place et emménagez en toute confiance</p>
           </div>
         </div>
-        <a href="comment-ca-marche.html" class="btn-outline" style="color:var(--vert-principal);border:1px solid var(--vert-principal)">En savoir plus</a>
+        <a href="comment-ca-marche.html" class="btn-outline" style="color:var(--vert-principal);border:1px solid var(--vert-principal);display:inline-block;padding:0.5rem 1.5rem;border-radius:6px;text-decoration:none;">En savoir plus</a>
       </div>
     </section>
 
+    <!-- ALERTE SÉCURITÉ -->
     <section class="alert-section">
       <div class="container alert-box">
-        ⚠️ CONSEIL DE SÉCURITÉ : Ne payez JAMAIS d'avance sans avoir vu le logement en personne et rencontré le propriétaire. Ne communiquez JAMAIS votre code secret Mobile Money.
+        CONSEIL DE SÉCURITÉ : Ne payez JAMAIS d'avance sans avoir vu le logement en personne et rencontré le propriétaire. Ne communiquez JAMAIS votre code secret Mobile Money.
       </div>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
           <div class="logo-footer" style="font-size:1.3rem;color:white">OLINS <span>Locations Cameroun</span></div>
           <p>La confiance avant tout.</p>
-          <p class="footer-warning">⚠️ Ne partagez JAMAIS votre code secret Mobile Money</p>
+          <p class="footer-warning">Ne partagez JAMAIS votre code secret Mobile Money</p>
         </div>
         <div class="footer-links">
           <h4 style="color:white;margin-bottom:0.5rem">Navigation</h4>
           <a href="index.html">Accueil</a>
-          <a href="comment-ca-marche.html">Comment ça marche</a>
+          <a href="mon-compte.html">Mon Compte</a>
+          <a href="mes-annonces.html">Mes Annonces</a>
           <a href="aide-contact.html">Aide & Contact</a>
         </div>
         <div class="footer-links">
@@ -466,16 +567,15 @@
   <script type="module" src="app.js"></script>
   <script src="safari-fix.js" defer></script>
 
-  <!-- 📌 MENU HAMBURGER FONCTIONNEL -->
+  <!-- MENU HAMBURGER -->
   <script>
     const menuBtn = document.getElementById('mobileMenuBtn');
     const navLinks = document.getElementById('navLinks');
     menuBtn.addEventListener('click', () => {
       navLinks.classList.toggle('ouvert');
     });
-    // Fermer le menu si on clique ailleurs
     document.addEventListener('click', (e) => {
-      if(!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
+      if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
         navLinks.classList.remove('ouvert');
       }
     });
