@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paramètres - OLINS Locations</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --vert-principal: #0A4D3C;
+      --vert-clair: #147a5f;
+      --blanc: #ffffff;
+      --gris-doux: #f8f9fa;
+      --texte: #2d3748;
+      --gris-bordure: #e2e8f0;
+    }
+
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--gris-doux);
+      color: var(--texte);
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Header minimal (réutilisé) */
+    .header {
+      background: var(--vert-principal);
+      padding: 0.7rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .back-btn {
+      color: white;
+      font-size: 1.4rem;
+      text-decoration: none;
+    }
+    .back-btn:hover {
+      opacity: 0.8;
+    }
+    .logo-main {
+      font-size: 1.3rem;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .logo-sub {
+      font-size: 0.45em;
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* Page Paramètres */
+    .settings-page {
+      padding: 2rem 0;
+    }
+    .settings-page h1 {
+      font-size: 1.8rem;
+      color: var(--vert-principal);
+      margin-bottom: 0.5rem;
+    }
+    .settings-page .subtitle {
+      color: #64748b;
+      margin-bottom: 2rem;
+    }
+
+    .settings-section {
+      background: var(--blanc);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border: 1px solid var(--gris-bordure);
+    }
+    .settings-section h2 {
+      font-size: 1.2rem;
+      color: var(--vert-principal);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .settings-section h2 i {
+      width: 28px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+      color: #334155;
+    }
+    .form-group .helper {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 0.2rem;
+    }
+    .form-control {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      border: 1px solid var(--gris-bordure);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--vert-principal);
+      box-shadow: 0 0 0 3px rgba(10,77,60,0.1);
+    }
+
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .toggle-group:last-child {
+      border-bottom: none;
+    }
+    .toggle-group .label-text {
+      font-weight: 500;
+    }
+    .toggle-group .label-desc {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      display: block;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #cbd5e1;
+      transition: 0.3s;
+      border-radius: 34px;
+    }
+    .toggle-slider:before {
+      content: "";
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    .toggle-switch input:checked + .toggle-slider {
+      background: var(--vert-principal);
+    }
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(22px);
+    }
+
+    .btn-save {
+      background: var(--vert-principal);
+      color: white;
+      padding: 0.7rem 2.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn-save:hover {
+      background: var(--vert-clair);
+    }
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .footer-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 1.5rem;
+      border-top: 1px solid var(--gris-bordure);
+      padding-top: 1.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .toggle-group {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .toggle-switch {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <nav class="container nav">
+      <div class="nav-left">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+        <a href="index.html" class="logo-main">
+          OLINS <span class="logo-sub">Paramètres</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container settings-page">
+    <h1><i class="fas fa-sliders-h" style="color:var(--vert-principal);"></i> Paramètres</h1>
+    <p class="subtitle">Gérez vos préférences, votre sécurité et votre confidentialité.</p>
+
+    <!-- 1. Profil -->
+    <section class="settings-section">
+      <h2><i class="fas fa-user-circle"></i> Informations personnelles</h2>
+      <div class="form-group">
+        <label for="fullname">Nom & Prénom</label>
+        <input type="text" id="fullname" class="form-control" value="Jean Dupont" />
+      </div>
+      <div class="form-group">
+        <label for="phone">Numéro de téléphone</label>
+        <input type="tel" id="phone" class="form-control" value="+237 6XX XXX XXX" />
+        <div class="helper">Un code de vérification sera envoyé par SMS pour confirmer le changement.</div>
+      </div>
+      <div class="form-group">
+        <label for="email">Adresse email (optionnel)</label>
+        <input type="email" id="email" class="form-control" placeholder="ex: jean@exemple.com" />
+        <div class="helper">Utilisé uniquement pour les newsletters et alertes si vous le souhaitez.</div>
+      </div>
+      <div class="form-group">
+        <label>Rôle</label>
+        <select class="form-control">
+          <option>Locataire</option>
+          <option selected>Propriétaire</option>
+          <option>Les deux</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- 2. Sécurité -->
+    <section class="settings-section">
+      <h2><i class="fas fa-lock"></i> Sécurité & Mot de passe</h2>
+      <div class="form-group">
+        <label for="oldpwd">Mot de passe actuel</label>
+        <input type="password" id="oldpwd" class="form-control" placeholder="••••••••" />
+      </div>
+      <div class="form-group">
+        <label for="newpwd">Nouveau mot de passe</label>
+        <input type="password" id="newpwd" class="form-control" placeholder="•••••••• (6 caractères min)" />
+      </div>
+      <div class="form-group">
+        <label for="confirmpwd">Confirmer le nouveau mot de passe</label>
+        <input type="password" id="confirmpwd" class="form-control" placeholder="••••••••" />
+      </div>
+      <div class="toggle-group">
+        <div>
+          <span class="label-text">Double authentification (2FA)</span>
+          <span class="label-desc">Recevoir un code par SMS à chaque connexion</span>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="form-group" style="margin-top:1rem;">
+        <label>Appareils connectés</label>
+        <div style="background:#f8fafc;padding:0.8rem;border-radius:8px;font-size:0.9rem;">
+          <p><i class="fas fa-check-circle" style="color:#22c55e;"></i> Ce navigateur (Chrome, Douala) – Actif</p>
+          <p><i class="fas fa-clock" style="color:#eab308;"></i> Samsung Galaxy – Dernière connexion il y a 2 jours</p>
+          <p><i class="fas fa-times-circle" style="color:#94a3b8;"></i> iPhone 12 – Déconnecté</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Notifications -->
+    <section class="settings-section">
+      <h2><i class="fas fa-bell"></i> Notifications & Alertes</h2>
+      <div class="toggle-group">
+        <div>
+          <span class="label-text">Nouvelles annonces dans ma région</span>
+          <span class="label-desc">Recevoir une alerte quand un bien correspond à mes critères</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+      </div>
+      <div class="toggle-group">
+        <div>
+          <span class="label-text">Baisse de prix sur mes favoris</span>
+          <span class="label-desc">Notifié quand un bien sauvegardé baisse de prix</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label>
+      </div>
+      <div class="toggle-group">
+        <div>
+          <span class="label-text">Messages des propriétaires / locataires</span>
+          <span class="label-desc">Recevoir les messages par SMS ou WhatsApp</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+      </div>
+      <div class="toggle-group">
+        <div>
+          <span class="label-text">Rappel de visite</span>
+          <span class="label-desc">Recevoir un SMS le jour de la visite prévue</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+      </div>
+      <div class="toggle-group">
+        <div>
+          <span class="label-text">Newsletter OLINS</span>
+          <span class="label-desc">Offres exclusives, nouveaux services, conseils</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label>
+      </div>
+    </section>
+
+    <!-- 4. Confidentialité -->
+    <section class="settings-section">
+      <h2><i class="fas fa-shield-alt"></i> Confidentialité & Visibilité</h2>
+      <div class="toggle-group">
+        <div>
+          <span class="label-text">Afficher mon numéro sur les annonces</span>
+          <span class="label-desc">Si désactivé, les contacts passent par le chat interne</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+      </div>
+      <div class="toggle-group">
+        <div>
+          <span class="label-text">Cacher mon profil des recherches anonymes</span>
+          <span class="label-desc">Uniquement visible par les personnes authentifiées</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label>
+      </div>
+      <div class="toggle-group">
+        <div>
+          <span class="label-text">Autoriser les locataires à m’écrire directement</span>
+          <span class="label-desc">Si désactivé, ils doivent d’abord faire une demande de contact</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+      </div>
+    </section>
+
+    <!-- 5. Recherche par défaut -->
+    <section class="settings-section">
+      <h2><i class="fas fa-search"></i> Préférences de recherche</h2>
+      <div class="form-group">
+        <label for="defaultRegion">Région préférée</label>
+        <select id="defaultRegion" class="form-control">
+          <option value="Centre" selected>Centre (Yaoundé)</option>
+          <option value="Littoral">Littoral (Douala)</option>
+          <option value="Ouest">Ouest (Bafoussam)</option>
+          <option value="Nord">Nord (Garoua)</option>
+          <option value="Extrême-Nord">Extrême-Nord (Maroua)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="defaultType">Type de bien préféré</label>
+        <select id="defaultType" class="form-control">
+          <option value="Maison" selected>Maison</option>
+          <option value="Appartement">Appartement</option>
+          <option value="Chambre">Chambre</option>
+          <option value="Studio">Studio</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Budget par défaut</label>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <input type="number" class="form-control" placeholder="Min" value="50000" style="flex:1;" />
+          <span>—</span>
+          <input type="number" class="form-control" placeholder="Max" value="200000" style="flex:1;" />
+          <span>FCFA</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="defaultEau">Type d'eau préféré</label>
+        <select id="defaultEau" class="form-control">
+          <option value="CDE" selected>Eau CDE</option>
+          <option value="Puits">Eau de puits</option>
+          <option value="Les deux">Les deux</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- 6. Paiements -->
+    <section class="settings-section">
+      <h2><i class="fas fa-credit-card"></i> Paiements & Facturation</h2>
+      <div class="form-group">
+        <label>Moyens de paiement enregistrés</label>
+        <div style="background:#f8fafc;padding:0.8rem;border-radius:8px;">
+          <p>💳 MTN MoMo – 6X XXX XXX (Par défaut)</p>
+          <p>💳 Orange Money – 6X XXX XXX</p>
+          <button class="btn-save" style="padding:0.3rem 1rem;font-size:0.8rem;margin-top:0.5rem;">➕ Ajouter un moyen</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Historique des paiements</label>
+        <p style="color:#94a3b8;font-size:0.9rem;">Aucun paiement récent.</p>
+        <a href="#" style="color:var(--vert-principal);font-weight:500;">Voir tout l’historique →</a>
+      </div>
+    </section>
+
+    <!-- 7. Gestion annonces (propriétaires) -->
+    <section class="settings-section">
+      <h2><i class="fas fa-home"></i> Gestion des annonces</h2>
+      <div class="form-group">
+        <label for="autoReply">Réponse automatique aux messages</label>
+        <textarea id="autoReply" class="form-control" rows="2" placeholder="Bonjour, merci de votre intérêt. Je suis disponible pour une visite...">Bonjour, merci de votre intérêt. Je suis disponible pour une visite ce week-end. Veuillez me contacter au 6XX XXX XXX.</textarea>
+        <div class="helper">Ce message sera envoyé automatiquement lorsqu’un locataire vous écrit pour la première fois.</div>
+      </div>
+      <div class="form-group">
+        <label>Temps maximum avant réponse</label>
+        <select class="form-control">
+          <option value="1h">1 heure</option>
+          <option value="6h" selected>6 heures</option>
+          <option value="24h">24 heures</option>
+        </select>
+      </div>
+      <div class="toggle-group">
+        <div>
+          <span class="label-text">Visibilité prioritaire par défaut</span>
+          <span class="label-desc">Vos annonces apparaissent en haut des recherches</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label>
+      </div>
+    </section>
+
+    <!-- 8. Avancé -->
+    <section class="settings-section">
+      <h2><i class="fas fa-cog"></i> Avancé</h2>
+      <div class="form-group">
+        <button class="btn-save" style="background:#64748b;">📥 Exporter mes données (JSON)</button>
+        <div class="helper">Téléchargez toutes vos informations personnelles et l’historique de vos annonces.</div>
+      </div>
+      <div class="form-group" style="margin-top:1rem;">
+        <button class="btn-danger">🗑️ Supprimer définitivement mon compte</button>
+        <div class="helper">Cette action est irréversible. Un email de confirmation vous sera envoyé et un délai de 30 jours vous sera accordé pour annuler.</div>
+      </div>
+    </section>
+
+    <!-- Boutons d'action -->
+    <div class="footer-actions">
+      <button class="btn-save" style="background:#e2e8f0;color:#333;" onclick="alert('Modifications annulées.')">Annuler</button>
+      <button class="btn-save" onclick="alert('✅ Paramètres enregistrés avec succès !')">💾 Enregistrer les modifications</button>
+    </div>
+  </main>
+
+  <!-- Footer min -->
+  <footer style="background:#1e293b;color:#94a3b8;padding:1rem 0;margin-top:2rem;text-align:center;font-size:0.9rem;">
+    <div class="container">
+      &copy; 2026 OLINS Locations Cameroun | Tous droits réservés.
+    </div>
+  </footer>
+
+</body>
+</html>
