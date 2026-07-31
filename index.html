@@ -6,19 +6,17 @@
   <title>OLINS Locations Cameroun - Logements vérifiés</title>
   <meta name="description" content="Plateforme nationale de location de maisons, appartements et chambres au Cameroun. Annonces vérifiées, confiance garantie.">
   <meta name="theme-color" content="#0A4D3C">
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-</head>
-<!-- Enregistrement du Service Worker -->
+
+  <!-- Enregistrement du Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('sw.js')
           .then(function(registration) {
-            console.log('Service Worker enregistre avec succes');
+            console.log('✅ Service Worker enregistré avec succès');
           })
           .catch(function(error) {
-            console.error('Erreur service worker:', error);
+            console.error('❌ Erreur Service Worker :', error);
           });
       });
     }
@@ -29,12 +27,45 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OLINS">
   <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-  <body>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <!-- Icônes pour Like et Partager -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- 🎨 RÉDUCTION GLOBALE DE L'APPARENCE + ANIMATIONS DEMANDÉES -->
+  <style>
+    :root {
+      --taille-base: 14px;
+      --espace-reduit: 0.8rem;
+      --couleur-principale: #0A4D3C;
+      --couleur-claire: #ffffff;
+    }
+    * { font-size: var(--taille-base); }
+    h1 { font-size: 1.9rem !important; }
+    h2 { font-size: 1.5rem !important; }
+    h3 { font-size: 1.15rem !important; }
+    p, a, button { font-size: 0.9rem !important; }
+    .logo-main { font-size: 1.4rem !important; }
+    .logo-sub { font-size: 0.42em !important; }
+    .search-input, .btn-search { padding: 0.65rem 0.8rem !important; font-size: 0.85rem !important; }
+    .hero, .trust-section, .listings-section, .how-it-works { padding: 2rem 0 !important; }
+    .listing-card { transform: scale(0.96); transition: all 0.3s ease; }
+    .listing-card:hover { transform: scale(1); }
+
+    <!-- 🎬 ANIMATION BARRE DE NAVIGATION -->
+    .header { transition: all 0.35s ease; position: sticky; top: 0; z-index: 999; background: var(--couleur-principale); }
+    .logo { transition: all 0.3s ease; }
+    .logo-main { color: var(--couleur-claire); }
+    .logo-sub { color: rgba(255,255,255,0.8); }
+  </style>
+</head>
+<body>
   <div id="recaptcha-container"></div>
   
   <header class="header">
     <nav class="nav">
-      <a href="/" class="logo">
+      <a href="index.html" class="logo">
         <span class="logo-main">OLINS</span>
         <span class="logo-sub">Locations Cameroun</span>
       </a>
@@ -44,11 +75,13 @@
       </button>
       
       <div class="nav-links" id="navLinks">
-        <a href="/">Accueil</a>
+        <a href="index.html">Accueil</a>
         <a href="comment-ca-marche.html">Comment ça marche</a>
         <a href="aide-contact.html">Aide & Contact</a>
         <a href="#" id="loginBtn" class="btn-outline">Connexion</a>
         <a href="#" id="registerBtn" class="btn-primary">S'inscrire</a>
+        <!-- 📋 MENU COMPTE ENTREPRISE -->
+        <a href="#" class="btn-premium">💼 Compte Entreprise <small>(2 500 FCFA/mois)</small></a>
       </div>
     </nav>
   </header>
@@ -59,63 +92,106 @@
         <h1>Trouvez votre logement en toute <span>confiance</span></h1>
         <p class="hero-subtitle">Des milliers de maisons, appartements et chambres vérifiés partout au Cameroun</p>
         
-  <div class="search-card">
-  <form id="searchForm" class="search-form" autocomplete="off">
-    <div class="search-row">
-      <!-- Région -->
-      <div class="form-group">
-        <select id="searchRegion" class="search-input" required>
-          <option value="">Région</option>
-          <option value="Adamaoua">Adamaoua</option>
-          <option value="Centre">Centre</option>
-          <option value="Est">Est</option>
-          <option value="Extrême-Nord">Extrême-Nord</option>
-          <option value="Littoral">Littoral</option>
-          <option value="Nord">Nord</option>
-          <option value="Nord-Ouest">Nord-Ouest</option>
-          <option value="Ouest">Ouest</option>
-          <option value="Sud">Sud</option>
-          <option value="Sud-Ouest">Sud-Ouest</option>
-        </select>
-      </div>
-      
-      <!-- Ville -->
-      <div class="form-group">
-        <input type="text" id="searchCity" class="search-input" placeholder="Ville (ex: Douala, Yaoundé...)" required>
-      </div>
-      
-      <!-- Type de bien -->
-      <div class="form-group">
-        <select id="searchType" class="search-input">
-          <option value="">Type de bien</option>
-          <option value="Maison">Maison</option>
-          <option value="Appartement">Appartement</option>
-          <option value="Chambre">Chambre</option>
-          <option value="Studio">Studio</option>
-          <option value="Mini-cité">Mini-cité</option>
-        </select>
-      </div>
-      
-      <!-- Budget -->
-      <div class="form-group">
-        <select id="searchMaxPrice" class="search-input">
-          <option value="">Budget max (FCFA)</option>
-          <option value="25000">25 000 FCFA</option>
-          <option value="50000">50 000 FCFA</option>
-          <option value="100000">100 000 FCFA</option>
-          <option value="200000">200 000 FCFA</option>
-          <option value="500000">500 000 FCFA</option>
-          <option value="1000000">+ 1 000 000 FCFA</option>
-        </select>
-      </div>
-      
-      <!-- Bouton Rechercher -->
-      <div class="form-group">
-        <button type="submit" class="btn-search">Rechercher</button>
-      </div>
-    </div>
-  </form>
-</div>
+        <div class="search-card">
+          <form id="searchForm" class="search-form" autocomplete="off">
+            <div class="search-row">
+              <!-- Région -->
+              <div class="form-group">
+                <select id="searchRegion" class="search-input" required>
+                  <option value="">Région</option>
+                  <option value="Adamaoua">Adamaoua</option>
+                  <option value="Centre">Centre</option>
+                  <option value="Est">Est</option>
+                  <option value="Extrême-Nord">Extrême-Nord</option>
+                  <option value="Littoral">Littoral</option>
+                  <option value="Nord">Nord</option>
+                  <option value="Nord-Ouest">Nord-Ouest</option>
+                  <option value="Ouest">Ouest</option>
+                  <option value="Sud">Sud</option>
+                  <option value="Sud-Ouest">Sud-Ouest</option>
+                </select>
+              </div>
+
+              <!-- Ville + Arrondissements détaillés -->
+              <div class="form-group">
+                <select id="searchCity" class="search-input" required>
+                  <option value="">Ville / Arrondissement</option>
+                  <optgroup label="🔴 YAOUNDÉ">
+                    <option value="Yaoundé I">Yaoundé I</option>
+                    <option value="Yaoundé II">Yaoundé II</option>
+                    <option value="Yaoundé III">Yaoundé III</option>
+                    <option value="Yaoundé IV">Yaoundé IV</option>
+                    <option value="Yaoundé V">Yaoundé V</option>
+                    <option value="Yaoundé VI">Yaoundé VI</option>
+                  </optgroup>
+                  <optgroup label="🔵 DOUALA">
+                    <option value="Douala I">Douala I</option>
+                    <option value="Douala II">Douala II</option>
+                    <option value="Douala III">Douala III</option>
+                    <option value="Douala IV">Douala IV</option>
+                    <option value="Douala V">Douala V</option>
+                    <option value="Douala VI">Douala VI</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <!-- Quartier -->
+              <div class="form-group">
+                <input type="text" id="searchQuartier" class="search-input" placeholder="Quartier précis">
+              </div>
+              
+              <!-- Type de bien -->
+              <div class="form-group">
+                <select id="searchType" class="search-input">
+                  <option value="">Type de bien</option>
+                  <option value="Maison">Maison</option>
+                  <option value="Appartement">Appartement</option>
+                  <option value="Chambre">Chambre</option>
+                  <option value="Studio">Studio</option>
+                  <option value="Mini-cité">Mini-cité</option>
+                </select>
+              </div>
+
+              <!-- 💧 EAU : type précis -->
+              <div class="form-group">
+                <select id="searchEau" class="search-input">
+                  <option value="">Type d'eau</option>
+                  <option value="CDE">Eau CDE (Société État)</option>
+                  <option value="Puits">Eau de puits</option>
+                  <option value="Les deux">Les deux</option>
+                </select>
+              </div>
+
+              <!-- ⚡ ÉLECTRICITÉ : type compteur -->
+              <div class="form-group">
+                <select id="searchElectricite" class="search-input">
+                  <option value="">Type électricité</option>
+                  <option value="Prépayé">Compteur prépayé</option>
+                  <option value="Normal">Compteur normal</option>
+                  <option value="Les deux">Les deux</option>
+                </select>
+              </div>
+              
+              <!-- Budget -->
+              <div class="form-group">
+                <select id="searchMaxPrice" class="search-input">
+                  <option value="">Budget max (FCFA/mois)</option>
+                  <option value="25000">25 000 FCFA</option>
+                  <option value="50000">50 000 FCFA</option>
+                  <option value="100000">100 000 FCFA</option>
+                  <option value="200000">200 000 FCFA</option>
+                  <option value="500000">500 000 FCFA</option>
+                  <option value="1000000">+ 1 000 000 FCFA</option>
+                </select>
+              </div>
+              
+              <!-- Bouton Rechercher (identique version départ) -->
+              <div class="form-group">
+                <button type="submit" class="btn-search">Rechercher</button>
+              </div>
+            </div>
+          </form>
+        </div>
         
         <div class="hero-stats">
           <div class="stat"><strong>2 500+</strong> Annonces</div>
@@ -160,6 +236,22 @@
           <a href="#" class="view-all">Voir tout →</a>
         </div>
         <div class="listings-grid" id="listingsContainer">
+          <!-- 📌 Annonce avec PHOTOS + VIDÉOS + Like + Partager -->
+          <div class="listing-card">
+            <div class="listing-photo">
+              📸 Photos du bien <br> 🎥 Vidéo de visite autorisée
+            </div>
+            <div class="listing-badge verified">✅ Vérifié</div>
+            <div class="listing-info">
+              <h3>Maison à Douala III, Akwa</h3>
+              <p class="listing-details">💧 Eau CDE • ⚡ Compteur prépayé • 🏡 Meublé</p>
+              <p class="listing-price">75 000 FCFA / mois</p>
+              <div class="listing-actions">
+                <button class="like-btn"><i class="fa-solid fa-heart"></i> J'aime</button>
+                <button class="share-btn"><i class="fa-solid fa-share-nodes"></i> Partager</button>
+              </div>
+            </div>
+          </div>
           <div class="loading-spinner">Chargement des annonces...</div>
         </div>
       </div>
@@ -169,11 +261,18 @@
       <div class="container">
         <h2>Louer en 3 étapes</h2>
         <div class="steps">
-          <div class="step"><div class="step-number">1</div><h3>Recherchez</h3><p>Filtrez par région, prix et type de bien</p></div>
-          <div class="step"><div class="step-number">2</div><h3>Contactez</h3><p>Échangez avec un propriétaire vérifié</p></div>
+          <div class="step"><div class="step-number">1</div><h3>Recherchez</h3><p>Filtrez par région, arrondissement, quartier, eau, électricité et prix</p></div>
+          <div class="step"><div class="step-number">2</div><h3>Contactez</h3><p>Appelez ou WhatsApp directement un propriétaire vérifié</p></div>
           <div class="step"><div class="step-number">3</div><h3>Visitez</h3><p>Validez sur place et emménagez</p></div>
         </div>
         <a href="comment-ca-marche.html" class="btn-outline">En savoir plus</a>
+      </div>
+    </section>
+
+    <!-- 🚨 Avertissement sécurité -->
+    <section class="alert-section">
+      <div class="container alert-box">
+        ⚠️ CONSEIL DE SÉCURITÉ : Ne payez JAMAIS d'avance sans avoir vu le logement en personne et rencontré le propriétaire. Ne communiquez JAMAIS votre code secret Mobile Money.
       </div>
     </section>
   </main>
@@ -184,11 +283,11 @@
         <div class="footer-brand">
           <div class="logo-footer">OLINS <span>Locations Cameroun</span></div>
           <p>La confiance avant tout.</p>
-          <p class="footer-warning">Ne partagez jamais votre code secret Mobile Money</p>
+          <p class="footer-warning">⚠️ Ne partagez JAMAIS votre code secret Mobile Money</p>
         </div>
         <div class="footer-links">
           <h4>Navigation</h4>
-          <a href="/">Accueil</a>
+          <a href="index.html">Accueil</a>
           <a href="comment-ca-marche.html">Comment ça marche</a>
           <a href="aide-contact.html">Aide & Contact</a>
         </div>
@@ -213,6 +312,20 @@
 
   <script type="module" src="app.js"></script>
   <script src="safari-fix.js" defer></script>
-<script>document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('a[href="/"]').forEach(function(l){l.setAttribute('href','index.html')});document.querySelectorAll('a[href="/index.html"]').forEach(function(l){l.setAttribute('href','index.html')})});</script>
+
+  <!-- 🎬 SCRIPT ANIMATION SCROLL BARRE -->
+  <script>
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('.header');
+      const logoMain = document.querySelector('.logo-main');
+      if(window.scrollY > 60) {
+        header.style.background = '#0A4D3C';
+        logoMain.style.color = '#ffffff';
+      } else {
+        header.style.background = '#0A4D3C';
+        logoMain.style.color = '#ffffff';
+      }
+    });
+  </script>
 </body>
 </html>
