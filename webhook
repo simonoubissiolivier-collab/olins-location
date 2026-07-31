@@ -1,0 +1,62 @@
+<?php
+/**
+ * Webhook CinetPay
+ * CinetPay envoie une notification POST après chaque paiement
+ * Ici, on met à jour le statut de l'abonnement
+ */
+
+// ===== CONFIGURATION BASE DE DONNÉES =====
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'olins_db');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+
+// ===== RÉCUPÉRATION DES DONNÉES =====
+$input = file_get_contents('php://input');
+$data = json_decode($input, true);
+
+// Journalisation pour déboguer (optionnel)
+file_put_contents('webhook.log', date('Y-m-d H:i:s') . " - " . $input . "\n", FILE_APPEND);
+
+// Vérifier les données
+if (!$data || !isset($data['transaction_id']) || !isset($data['status'])) {
+    http_response_code(400);
+    die('Données invalides');
+}
+
+$transaction_id = $data['transaction_id'];
+$status = $data['status']; // 'success' ou 'cancel'
+$amount = isset($data['amount']) ? $data['amount'] : 0;
+
+// Vérification de signature (optionnelle, mais recommandée)
+// TODO: Vérifier la signature avec votre clé API
+
+try {
+    $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    if ($status === 'success') {
+        // Mettre à jour l'abonnement : statut actif et date de fin
+        $stmt = $pdo->prepare("UPDATE abonnements SET statut = 'actif', date_activation = NOW() WHERE transaction_id = ?");
+        $stmt->execute([$transaction_id]);
+
+        // Envoyer un email ou SMS de confirmation (optionnel)
+        // ...
+
+        http_response_code(200);
+        echo 'OK';
+
+    } else {
+        // Statut annulé ou échoué
+        $stmt = $pdo->prepare("UPDATE abonnements SET statut = 'annule' WHERE transaction_id = ?");
+        $stmt->execute([$transaction_id]);
+        http_response_code(200);
+        echo 'OK';
+    }
+
+} catch (PDOException $e) {
+    // Log de l'erreur
+    file_put_contents('webhook_errors.log', date('Y-m-d H:i:s') . " - " . $e->getMessage() . "\n", FILE_APPEND);
+    http_response_code(500);
+    die('Erreur base de données');
+}
