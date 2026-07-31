@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon Abonnement - OLINS Locations</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --vert-principal: #0A4D3C;
+      --vert-clair: #147a5f;
+      --blanc: #ffffff;
+      --gris-doux: #f8f9fa;
+      --texte: #2d3748;
+      --or: #f59e0b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+    body { background: var(--gris-doux); color: var(--texte); }
+    .container { width: 92%; max-width: 1100px; margin: 0 auto; }
+
+    /* Header */
+    .header { background: var(--vert-principal); padding: 0.7rem 0; position: sticky; top: 0; z-index: 100; }
+    .nav { display: flex; justify-content: space-between; align-items: center; }
+    .nav-left { display: flex; align-items: center; gap: 0.5rem; }
+    .back-btn { color: white; font-size: 1.4rem; text-decoration: none; }
+    .back-btn:hover { opacity: 0.8; }
+    .logo-main { font-size: 1.3rem; color: white; font-weight: bold; text-decoration: none; }
+    .logo-sub { font-size: 0.45em; color: rgba(255,255,255,0.8); }
+
+    /* Page */
+    .subscription-page { padding: 2rem 0; }
+    .subscription-page h1 { font-size: 1.8rem; color: var(--vert-principal); margin-bottom: 0.5rem; }
+    .subtitle { color: #64748b; margin-bottom: 2rem; }
+
+    .current-plan {
+      background: var(--blanc);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border-left: 4px solid var(--vert-principal);
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .current-plan .plan-label { font-weight: 600; color: var(--vert-principal); font-size: 1.1rem; }
+    .current-plan .plan-status { background: #22c55e; color: white; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .plan-card {
+      background: var(--blanc);
+      border-radius: 16px;
+      padding: 1.8rem 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+    .plan-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .plan-card.popular { border: 2px solid var(--or); position: relative; }
+    .plan-card.popular::before {
+      content: "⭐ Populaire";
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: var(--or);
+      color: white;
+      padding: 0.2rem 1rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .plan-card .plan-icon { font-size: 2.5rem; color: var(--vert-principal); margin-bottom: 0.5rem; }
+    .plan-card .plan-name { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .plan-card .plan-price { font-size: 1.8rem; font-weight: 800; color: var(--vert-principal); margin: 0.5rem 0; }
+    .plan-card .plan-price small { font-size: 0.7rem; font-weight: 400; color: #94a3b8; }
+    .plan-card .plan-features { list-style: none; margin: 1rem 0; flex: 1; text-align: left; font-size: 0.9rem; }
+    .plan-card .plan-features li { padding: 0.4rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; }
+    .plan-card .plan-features li i { color: #22c55e; width: 18px; text-align: center; }
+    .plan-card .plan-features li .fa-times { color: #94a3b8; }
+
+    .btn-subscribe {
+      background: var(--vert-principal);
+      color: white;
+      border: none;
+      padding: 0.7rem 0;
+      border-radius: 8px;
+      font-weight: 600;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 0.5rem;
+    }
+    .btn-subscribe:hover { background: var(--vert-clair); }
+    .btn-subscribe.outline {
+      background: transparent;
+      border: 1px solid var(--vert-principal);
+      color: var(--vert-principal);
+    }
+    .btn-subscribe.outline:hover { background: #f0f7f4; }
+
+    .btn-current {
+      background: #e2e8f0;
+      color: #64748b;
+      border: none;
+      padding: 0.7rem 0;
+      border-radius: 8px;
+      font-weight: 600;
+      width: 100%;
+      cursor: not-allowed;
+      margin-top: 0.5rem;
+    }
+
+    .faq-section {
+      margin-top: 3rem;
+      background: var(--blanc);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid #e2e8f0;
+    }
+    .faq-section h2 { font-size: 1.2rem; color: var(--vert-principal); margin-bottom: 1rem; }
+    .faq-item { padding: 0.8rem 0; border-bottom: 1px solid #f1f5f9; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item strong { display: block; cursor: pointer; }
+    .faq-item p { color: #64748b; font-size: 0.9rem; margin-top: 0.3rem; }
+
+    @media (max-width: 600px) {
+      .current-plan { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <nav class="container nav">
+      <div class="nav-left">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+        <a href="index.html" class="logo-main">
+          OLINS <span class="logo-sub">Abonnement</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container subscription-page">
+    <h1><i class="fas fa-crown" style="color:var(--or);"></i> Mon Abonnement</h1>
+    <p class="subtitle">Choisissez la formule qui correspond à vos besoins. Paiement sécurisé par Mobile Money.</p>
+
+    <!-- Plan actuel -->
+    <div class="current-plan">
+      <div>
+        <span class="plan-label">🔹 Plan actuel : Gratuit</span>
+        <span style="display:block;font-size:0.9rem;color:#64748b;">Renouvellement automatique le 01/01/2027</span>
+      </div>
+      <span class="plan-status">Actif</span>
+    </div>
+
+    <!-- Grille des offres -->
+    <div class="plans-grid">
+
+      <!-- Gratuit -->
+      <div class="plan-card">
+        <div class="plan-icon"><i class="fas fa-user"></i></div>
+        <div class="plan-name">Gratuit</div>
+        <div class="plan-price">0 FCFA <small>/ à vie</small></div>
+        <ul class="plan-features">
+          <li><i class="fas fa-check"></i> 1 annonce active</li>
+          <li><i class="fas fa-check"></i> Contact direct</li>
+          <li><i class="fas fa-times"></i> Badge vérifié</li>
+          <li><i class="fas fa-times"></i> Visibilité prioritaire</li>
+          <li><i class="fas fa-times"></i> Statistiques</li>
+        </ul>
+        <button class="btn-current">✔ Actuel</button>
+      </div>
+
+      <!-- Premium Mensuel -->
+      <div class="plan-card popular">
+        <div class="plan-icon"><i class="fas fa-star" style="color:var(--or);"></i></div>
+        <div class="plan-name">Premium</div>
+        <div class="plan-price">5 000 FCFA <small>/ mois</small></div>
+        <ul class="plan-features">
+          <li><i class="fas fa-check"></i> 5 annonces actives</li>
+          <li><i class="fas fa-check"></i> Badge « Vérifié »</li>
+          <li><i class="fas fa-check"></i> Visibilité prioritaire</li>
+          <li><i class="fas fa-check"></i> Statistiques de vues</li>
+          <li><i class="fas fa-times"></i> Annonces illimitées</li>
+        </ul>
+        <button class="btn-subscribe" onclick="alert('Redirection vers paiement Mobile Money...')">Souscrire</button>
+      </div>
+
+      <!-- Pro Annuel -->
+      <div class="plan-card">
+        <div class="plan-icon"><i class="fas fa-briefcase"></i></div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">15 000 FCFA <small>/ an</small></div>
+        <ul class="plan-features">
+          <li><i class="fas fa-check"></i> Annonces illimitées</li>
+          <li><i class="fas fa-check"></i> Badge « Pro »</li>
+          <li><i class="fas fa-check"></i> Visibilité prioritaire max</li>
+          <li><i class="fas fa-check"></i> Statistiques avancées</li>
+          <li><i class="fas fa-check"></i> Support prioritaire</li>
+        </ul>
+        <button class="btn-subscribe" onclick="alert('Redirection vers paiement Mobile Money...')">Souscrire</button>
+      </div>
+
+      <!-- Business (Entreprise) -->
+      <div class="plan-card">
+        <div class="plan-icon"><i class="fas fa-building"></i></div>
+        <div class="plan-name">Business</div>
+        <div class="plan-price">25 000 FCFA <small>/ an</small></div>
+        <ul class="plan-features">
+          <li><i class="fas fa-check"></i> Annonces illimitées</li>
+          <li><i class="fas fa-check"></i> Badge « Entreprise »</li>
+          <li><i class="fas fa-check"></i> Visibilité prioritaire +</li>
+          <li><i class="fas fa-check"></i> Statistiques détaillées</li>
+          <li><i class="fas fa-check"></i> Gestion multi-comptes</li>
+        </ul>
+        <button class="btn-subscribe" onclick="alert('Redirection vers paiement Mobile Money...')">Souscrire</button>
+      </div>
+
+    </div>
+
+    <!-- FAQ Abonnement -->
+    <div class="faq-section">
+      <h2><i class="fas fa-question-circle"></i> Questions fréquentes</h2>
+      <div class="faq-item">
+        <strong>Comment puis-je payer ?</strong>
+        <p>Nous acceptons MTN MoMo, Orange Money et les cartes bancaires (Visa/Mastercard). Le paiement est 100% sécurisé.</p>
+      </div>
+      <div class="faq-item">
+        <strong>Puis-je résilier à tout moment ?</strong>
+        <p>Oui, vous pouvez résilier votre abonnement à tout moment depuis cet espace. Vous gardez les avantages jusqu’à la fin de la période payée.</p>
+      </div>
+      <div class="faq-item">
+        <strong>Qu’est-ce que le badge « Vérifié » ?</strong>
+        <p>Il s’affiche sur vos annonces et votre profil. Il indique à vos locataires que vous avez bien été authentifié par notre équipe, ce qui augmente la confiance.</p>
+      </div>
+      <div class="faq-item">
+        <strong>Les annonces illimitées, c’est vraiment sans limite ?</strong>
+        <p>Oui, vous pouvez publier autant de biens que vous le souhaitez, dans toutes les régions du Cameroun, sans frais supplémentaires.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer style="background:#1e293b;color:#94a3b8;padding:1rem 0;margin-top:2rem;text-align:center;font-size:0.9rem;">
+    <div class="container">
+      &copy; 2026 OLINS Locations Cameroun | Tous droits réservés.
+    </div>
+  </footer>
+
+</body>
+</html>
