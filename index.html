@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
-    /* ===== STYLES EXISTANTS (gardés) ===== */
+    /* ===== VOS STYLES EXISTANTS (à garder) ===== */
     :root {
       --vert-principal: #0A4D3C;
       --vert-clair: #147a5f;
@@ -60,7 +60,7 @@
 
     .container { width: 92%; max-width: 1200px; margin: 0 auto; }
 
-    /* ===== HEADER MODIFIÉ ===== */
+    /* ===== NOUVEAU HEADER (hamburger collé au logo) ===== */
     .header {
       background: var(--vert-principal);
       position: sticky; top: 0; z-index: 999;
@@ -73,11 +73,11 @@
       padding: 0.7rem 0;
       position: relative;
     }
-    /* Groupe hamburger + logo + sous-titre (en colonne) */
+    /* Groupe hamburger + logo (comme Amazon) */
     .nav-left {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0; /* pas d'espace */
     }
     .menu-toggle {
       background: transparent;
@@ -90,147 +90,210 @@
     }
     .menu-toggle:hover { opacity: 0.8; }
 
-    .logo-wrapper {
-      display: flex;
-      flex-direction: column;  /* <-- sous-titre en dessous */
-      align-items: flex-start;
-      text-decoration: none;
-    }
     .logo-main {
       font-size: 1.5rem;
       color: var(--blanc);
       font-weight: bold;
-      line-height: 1.2;
+      text-decoration: none;
     }
     .logo-sub {
-      font-size: 0.6rem;      /* légèrement plus petit */
+      font-size: 0.45em;
       color: rgba(255,255,255,0.8);
-      letter-spacing: 0.5px;
-      margin-top: -2px;
     }
 
-    /* Actions à droite : icône de connexion */
+    /* Actions à droite (Connexion / Inscription) */
     .nav-actions {
       display: flex;
-      align-items: center;
       gap: 0.8rem;
+      align-items: center;
     }
     .nav-actions a {
       color: var(--blanc);
       text-decoration: none;
       font-weight: 500;
-      padding: 0.3rem 0.6rem;
+      padding: 0.3rem 1rem;
       border-radius: 6px;
       transition: background 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 1rem;
     }
-    .nav-actions a:hover {
+    .nav-actions a.btn-outline {
+      border: 1px solid var(--blanc);
+      background: transparent;
+    }
+    .nav-actions a.btn-outline:hover {
       background: rgba(255,255,255,0.15);
     }
-    .nav-actions a .icon-text {
-      font-size: 0.9rem;
-    }
-    @media (max-width: 500px) {
-      .nav-actions a .icon-text { display: none; }
-    }
-
-    /* ===== HERO & RECHERCHE ===== */
-    .hero {
-      background: linear-gradient(160deg, var(--vert-principal), var(--vert-clair));
-      color: var(--blanc); padding: 2.2rem 0; text-align: center;
-    }
-    .hero h1 span { color: #ffd700; }
-    .hero-subtitle { margin: 0.7rem 0 1.2rem; opacity: 0.9; }
-
-    .search-card {
+    .nav-actions a.btn-primary {
       background: var(--blanc);
+      color: var(--vert-principal);
+      font-weight: 600;
+    }
+    .nav-actions a.btn-primary:hover {
+      background: #e2e8f0;
+    }
+
+    @media (max-width: 500px) {
+      .nav-actions a span { display: none; }
+      .nav-actions a { padding: 0.3rem 0.6rem; }
+    }
+
+    /* ===== LE RESTE DE VOS STYLES (hero, trust, listings, etc.) ===== */
+    /* ... (copiez ici tous vos styles existants) ... */
+
+    /* ===== NOUVEAUX STYLES POUR MODALES & SIDE-MENU ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: #fff;
+      padding: 2rem;
       border-radius: 12px;
-      padding: 1.2rem;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      margin-bottom: 1rem;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      position: relative;
+      animation: fadeIn 0.3s ease;
     }
-    /* Grille de recherche réduite */
-    .search-form {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* colonnes plus petites */
-      gap: 0.6rem;
+    .close-modal {
+      position: absolute;
+      top: 12px; right: 18px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #888;
     }
-    .search-input {
+    .close-modal:hover { color: #000; }
+    .modal-input {
       width: 100%;
-      padding: 0.4rem 0.6rem;  /* padding réduit */
+      padding: 12px;
+      margin: 8px 0;
       border: 1px solid #ddd;
       border-radius: 6px;
-      font-size: 0.8rem;      /* police plus petite */
+      box-sizing: border-box;
     }
-    /* Bouton Rechercher : centré, ligne séparée */
-    .search-btn-wrapper {
-      grid-column: 1 / -1;      /* prend toute la largeur */
-      display: flex;
-      justify-content: center;
-      margin-top: 0.3rem;
-    }
-    .btn-search {
+    .modal-btn {
+      width: 100%;
+      padding: 12px;
       background: var(--vert-principal);
-      color: var(--blanc);
-      font-weight: bold;
-      padding: 0.5rem 2.5rem;
+      color: white;
       border: none;
       border-radius: 6px;
+      font-size: 16px;
       cursor: pointer;
-      font-size: 0.9rem;
-      transition: transform 0.2s ease;
-      width: auto;
-      min-width: 180px;
+      margin-top: 10px;
+      transition: background 0.2s;
     }
-    .btn-search:hover {
-      transform: translateY(-2px);
+    .modal-btn:hover { background: var(--vert-clair); }
+    .modal-toggle {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 14px;
+    }
+    .modal-toggle span {
+      color: var(--vert-principal);
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .modal-toggle span:hover { text-decoration: underline; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to   { opacity: 1; transform: scale(1); }
     }
 
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 1rem;
+    /* SIDE-MENU */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -280px;
+      width: 280px;
+      height: 100%;
+      background: #fff;
+      box-shadow: 2px 0 12px rgba(0,0,0,0.2);
+      transition: left 0.3s ease;
+      z-index: 1100;
+      padding: 20px 0;
+      overflow-y: auto;
     }
-    .stat strong { font-size: 1.3rem; display: block; }
+    .side-menu.open { left: 0; }
+    .menu-close {
+      font-size: 32px;
+      position: absolute;
+      top: 10px; right: 18px;
+      cursor: pointer;
+      color: #888;
+    }
+    .menu-close:hover { color: #000; }
+    .menu-title {
+      text-align: center;
+      margin: 10px 0 30px;
+      font-size: 22px;
+      color: #333;
+    }
+    .menu-link {
+      display: block;
+      padding: 14px 24px;
+      color: #333;
+      text-decoration: none;
+      font-size: 18px;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.2s;
+    }
+    .menu-link i {
+      margin-right: 12px;
+      width: 24px;
+      text-align: center;
+    }
+    .menu-link:hover { background: #f5f5f5; }
+    .menu-link.auth-link {
+      color: var(--vert-principal);
+      font-weight: 600;
+    }
+    .menu-link.auth-link i { color: var(--vert-principal); }
 
-    /* ===== LE RESTE DES STYLES (inchangés) ===== */
-    /* ... (copie de tous tes styles existants pour trust, listings, etc.) ... */
-
-    /* Pour simplifier, je garde les styles déjà présents dans la version précédente */
-    /* Je ne répète pas tout ici pour alléger, mais dans le code final je les inclurai */
+    /* Overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.3);
+      z-index: 1050;
+    }
+    .overlay.active { display: block; }
   </style>
 </head>
 <body>
 
-  <!-- ========== HEADER MODIFIÉ ========== -->
+  <!-- ========== HEADER ========== -->
   <header class="header">
     <nav class="container nav">
-      <!-- Groupe hamburger + logo en colonne -->
+      <!-- Groupe hamburger + logo (collés) -->
       <div class="nav-left">
         <button class="menu-toggle" id="menuToggle" aria-label="Menu">
           <i class="fas fa-bars"></i>
         </button>
-        <a href="index.html" class="logo-wrapper">
-          <span class="logo-main">OLINS</span>
+        <a href="index.html" class="logo-main">
+          OLINS
           <span class="logo-sub">Locations Cameroun</span>
         </a>
       </div>
 
-      <!-- Actions à droite : icône de connexion -->
+      <!-- Actions à droite : Connexion / Inscription (pas de déconnexion) -->
       <div class="nav-actions">
-        <a href="#" id="loginOpen">
-          <i class="fas fa-user-circle fa-lg"></i>
-          <span class="icon-text">Connexion</span>
-        </a>
+        <a href="#" class="btn-outline" id="loginOpen"><i class="fas fa-sign-in-alt"></i> <span>Connexion</span></a>
+        <a href="#" class="btn-primary" id="registerOpen"><i class="fas fa-user-plus"></i> <span>S'inscrire</span></a>
       </div>
     </nav>
   </header>
 
-  <!-- ========== CONTENU PRINCIPAL ========== -->
+  <!-- ========== CONTENU PRINCIPAL (inchangé) ========== -->
   <main>
     <!-- HERO -->
     <section class="hero anime-saut">
@@ -256,22 +319,11 @@
               </select>
             </div>
             <div class="form-group">
-              <!-- Sélecteur des villes simplifié : uniquement les villes -->
               <select id="searchCity" class="search-input" required>
                 <option value="">Ville</option>
-                <option value="Yaoundé">Yaoundé</option>
-                <option value="Douala">Douala</option>
-                <option value="Bafoussam">Bafoussam</option>
-                <option value="Garoua">Garoua</option>
-                <option value="Maroua">Maroua</option>
-                <option value="Bamenda">Bamenda</option>
-                <option value="Ngaoundéré">Ngaoundéré</option>
-                <option value="Kribi">Kribi</option>
-                <option value="Limbe">Limbe</option>
-                <option value="Buea">Buea</option>
-                <option value="Ebolowa">Ebolowa</option>
-                <option value="Bertoua">Bertoua</option>
-              </select>
+                <optgroup label="YAOUNDÉ">     
+                <optgroup label="DOUALA">
+            </select>
             </div>
             <div class="form-group">
               <input type="text" id="searchQuartier" class="search-input" placeholder="Quartier précis">
@@ -313,9 +365,8 @@
                 <option value="1000000">+ 1 000 000 FCFA</option>
               </select>
             </div>
-            <!-- Bouton Rechercher : centré sur une ligne séparée -->
-            <div class="search-btn-wrapper">
-              <button type="submit" class="btn-search"><i class="fas fa-search"></i> Rechercher</button>
+            <div class="form-group">
+              <button type="submit" class="btn-search">Rechercher</button>
             </div>
           </form>
         </div>
@@ -328,23 +379,290 @@
       </div>
     </section>
 
-    <!-- ===== LE RESTE DU CONTENU (inchangé) ===== -->
-    <!-- Je garde tout le contenu existant : trust, listings, entreprise, étapes, footer, modales, side-menu -->
-    <!-- ... -->
+    <!-- POURQUOI CHOISIR OLINS -->
+    <section class="trust-section">
+      <div class="container">
+        <h2>Pourquoi choisir OLINS ?</h2>
+        <div class="trust-grid">
+          <div class="trust-card anime-saut" style="animation-delay:0.1s">
+            <div class="trust-icon"></div>
+            <h3>Identités Vérifiées</h3>
+            <p>Chaque propriétaire vérifie son identité avec pièce officielle et selfie.</p>
+          </div>
+          <div class="trust-card anime-saut" style="animation-delay:0.2s">
+            <div class="trust-icon"></div>
+            <h3>Biens Contrôlés</h3>
+            <p>Vérification possible du logement par notre équipe.</p>
+          </div>
+          <div class="trust-card anime-saut" style="animation-delay:0.3s">
+            <div class="trust-icon"></div>
+            <h3>Paiements Sécurisés</h3>
+            <p>Mobile Money uniquement. Jamais votre code secret ne sera demandé.</p>
+          </div>
+          <div class="trust-card anime-saut" style="animation-delay:0.4s">
+            <div class="trust-icon"></div>
+            <h3>100% Adapté</h3>
+            <p>Fonctionne parfaitement sur tous les téléphones du Cameroun.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- ANNONCES RÉCENTES -->
+    <section class="listings-section">
+      <div class="container">
+        <div class="section-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+          <h2>Annonces récentes</h2>
+          <a href="#" class="view-all" style="color:var(--vert-principal);font-weight:500">Voir tout →</a>
+        </div>
+        <div class="listings-grid" id="listingsContainer">
+          <!-- Annonce 1 -->
+          <div class="listing-card anime-etire" style="animation-delay:0.1s">
+            <div class="listing-photo">
+              📸 Photos du bien<br>🎥 Vidéo de visite autorisée
+            </div>
+            <div class="listing-badge verified">✅ Vérifié</div>
+            <div class="listing-info">
+              <h3>Maison à Douala III, Akwa</h3>
+              <p class="listing-details">💧 Eau CDE • ⚡ Compteur prépayé • 🏡 Meublé</p>
+              <p class="listing-price">75 000 FCFA / mois</p>
+              <div class="listing-actions">
+                <button class="like-btn"><i class="fa-solid fa-heart"></i> J'aime</button>
+                <button class="share-btn"><i class="fa-solid fa-share-nodes"></i> Partager</button>
+              </div>
+            </div>
+          </div>
+          <!-- Annonce 2 -->
+          <div class="listing-card anime-etire" style="animation-delay:0.2s">
+            <div class="listing-photo">
+              📸 Photos du bien<br>🎥 Vidéo de visite autorisée
+            </div>
+            <div class="listing-badge verified">✅ Vérifié</div>
+            <div class="listing-info">
+              <h3>Appartement à Yaoundé V, Nkol-Eton</h3>
+              <p class="listing-details">💧 Puits + CDE • ⚡ Compteur prépayé</p>
+              <p class="listing-price">120 000 FCFA / mois</p>
+              <div class="listing-actions">
+                <button class="like-btn"><i class="fa-solid fa-heart"></i> J'aime</button>
+                <button class="share-btn"><i class="fa-solid fa-share-nodes"></i> Partager</button>
+              </div>
+            </div>
+          </div>
+          <!-- Annonce 3 -->
+          <div class="listing-card anime-etire" style="animation-delay:0.3s">
+            <div class="listing-photo">
+              📸 Photos du bien<br>🎥 Vidéo de visite autorisée
+            </div>
+            <div class="listing-badge verified">✅ Vérifié</div>
+            <div class="listing-info">
+              <h3>Chambre à Douala IV, Bonanjo</h3>
+              <p class="listing-details">💧 Eau CDE • ⚡ Compteur normal</p>
+              <p class="listing-price">35 000 FCFA / mois</p>
+              <div class="listing-actions">
+                <button class="like-btn"><i class="fa-solid fa-heart"></i> J'aime</button>
+                <button class="share-btn"><i class="fa-solid fa-share-nodes"></i> Partager</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPTE ENTREPRISE -->
+    <section class="entreprise-section">
+      <div class="container">
+        <div class="entreprise-card anime-saut">
+          <h2>💼 Compte Entreprise</h2>
+          <p style="font-size:1rem; color:#4a5568; margin-bottom:0.5rem;">
+            Publier annonces illimitées,<br> badge certifié, visibilité prioritaire
+          </p>
+          <div class="prix">15 000 FCFA / an</div>
+          <button class="btn-souscrire">Souscrire maintenant</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÉTAPES -->
+    <section class="how-it-works">
+      <div class="container">
+        <h2>Louer en 3 étapes simples</h2>
+        <div class="steps">
+          <div class="step anime-saut" style="animation-delay:0.1s">
+            <div class="step-number">1</div>
+            <h3>Recherchez</h3>
+            <p>Filtrez par région, quartier, eau, électricité et prix</p>
+          </div>
+          <div class="step anime-saut" style="animation-delay:0.2s">
+            <div class="step-number">2</div>
+            <h3>Contactez</h3>
+            <p>Appelez ou WhatsApp directement le propriétaire vérifié</p>
+          </div>
+          <div class="step anime-saut" style="animation-delay:0.3s">
+            <div class="step-number">3</div>
+            <h3>Visitez</h3>
+            <p>Validez sur place et emménagez en toute confiance</p>
+          </div>
+        </div>
+        <a href="comment-ca-marche.html" class="btn-outline" style="color:var(--vert-principal);border:1px solid var(--vert-principal);display:inline-block;padding:0.5rem 1.5rem;border-radius:6px;text-decoration:none;">En savoir plus</a>
+      </div>
+    </section>
+
+    <!-- ALERTE SÉCURITÉ -->
+    <section class="alert-section">
+      <div class="container alert-box">
+        ⚠️ CONSEIL DE SÉCURITÉ : Ne payez JAMAIS d'avance sans avoir vu le logement en personne et rencontré le propriétaire. Ne communiquez JAMAIS votre code secret Mobile Money.
+      </div>
+    </section>
   </main>
 
-  <!-- ========== FOOTER, MODALES, SIDE-MENU (inchangés) ========== -->
-  <!-- Je les recopie à l'identique de la version précédente pour ne pas alourdir, -->
-  <!-- mais dans le fichier final ils seront présents. -->
+  <!-- ========== FOOTER (inchangé) ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo-footer" style="font-size:1.3rem;color:white">OLINS <span>Locations Cameroun</span></div>
+          <p>La confiance avant tout.</p>
+          <p class="footer-warning">⚠️ Ne partagez JAMAIS votre code secret Mobile Money</p>
+        </div>
+        <div class="footer-links">
+          <h4 style="color:white;margin-bottom:0.5rem">Navigation</h4>
+          <a href="index.html">Accueil</a>
+          <a href="mon-compte.html">Mon Compte</a>
+          <a href="mes-annonces.html">Mes Annonces</a>
+          <a href="aide-contact.html">Aide & Contact</a>
+        </div>
+        <div class="footer-links">
+          <h4 style="color:white;margin-bottom:0.5rem">Légal</h4>
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a>
+        </div>
+        <div class="footer-contact">
+          <h4 style="color:white;margin-bottom:0.5rem">Contact</h4>
+          <p>+237 659 592 740</p>
+          <p>contact@olins.cm</p>
+          <p>Douala / Yaoundé, Cameroun</p>
+        </div>
+      </div>
+      <div class="footer-bottom" style="text-align:center;margin-top:1.5rem;padding-top:1rem;border-top:1px solid #374151">
+        <p>&copy; 2026 OLINS Locations Cameroun | Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== MODALES ========== -->
+  <div class="overlay" id="overlay"></div>
+
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeLogin">&times;</span>
+      <h2>Connexion</h2>
+      <input type="tel" class="modal-input" placeholder="Numéro de téléphone" required>
+      <input type="password" class="modal-input" placeholder="Mot de passe" required>
+      <button class="modal-btn">Se connecter</button>
+      <div class="modal-toggle">
+        Pas encore de compte ? <span id="goToRegister">S'inscrire</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="registerModal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeRegister">&times;</span>
+      <h2>Créer un compte</h2>
+      <input type="text" class="modal-input" placeholder="Nom & Prénom" required>
+      <input type="tel" class="modal-input" placeholder="Numéro de téléphone (ex: 6XX XXX XXX)" required>
+      <input type="password" class="modal-input" placeholder="Mot de passe (6 caractères min)" required>
+      <button class="modal-btn">S'inscrire</button>
+      <div class="modal-toggle">
+        Déjà un compte ? <span id="goToLogin">Se connecter</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SIDE-MENU (avec Paramètres & Mon Abonnement) ========== -->
+  <div class="side-menu" id="sideMenu">
+    <span class="menu-close" id="closeMenu">&times;</span>
+    <h3 class="menu-title">Menu</h3>
+    <a href="index.html" class="menu-link"><i class="fa-solid fa-home"></i> Accueil</a>
+    <a href="mon-compte.html" class="menu-link"><i class="fa-solid fa-user"></i> Mon Compte</a>
+    <a href="mes-annonces.html" class="menu-link"><i class="fa-solid fa-building"></i> Mes Annonces</a>
+
+    <!-- NOUVEAUX LIENS -->
+    <a href="parametres.html" class="menu-link"><i class="fa-solid fa-sliders-h"></i> Paramètres</a>
+    <a href="mon-abonnement.html" class="menu-link"><i class="fa-solid fa-crown"></i> Mon Abonnement</a>
+
+    <a href="aide-contact.html" class="menu-link"><i class="fa-solid fa-circle-info"></i> Aide & Contact</a>
+
+    <!-- Liens d'authentification (Connexion / Inscription) -->
+    <a href="#" class="menu-link auth-link" id="menuLogin"><i class="fa-solid fa-sign-in-alt"></i> Connexion</a>
+    <a href="#" class="menu-link auth-link" id="menuRegister"><i class="fa-solid fa-user-plus"></i> S'inscrire</a>
+  </div>
 
   <!-- ========== SCRIPTS ========== -->
   <script type="module" src="app.js"></script>
   <script src="safari-fix.js" defer></script>
 
   <script>
-    // Gestion du side-menu et des modales (inchangé)
-    // ...
+    // Gestion du side-menu et des modales
+    const menuToggle = document.getElementById('menuToggle');
+    const sideMenu = document.getElementById('sideMenu');
+    const closeMenu = document.getElementById('closeMenu');
+    const overlay = document.getElementById('overlay');
+
+    const loginModal = document.getElementById('loginModal');
+    const registerModal = document.getElementById('registerModal');
+    const loginOpen = document.getElementById('loginOpen');
+    const registerOpen = document.getElementById('registerOpen');
+    const closeLogin = document.getElementById('closeLogin');
+    const closeRegister = document.getElementById('closeRegister');
+    const goToRegister = document.getElementById('goToRegister');
+    const goToLogin = document.getElementById('goToLogin');
+    const menuLogin = document.getElementById('menuLogin');
+    const menuRegister = document.getElementById('menuRegister');
+
+    function closeAll() {
+      sideMenu.classList.remove('open');
+      loginModal.classList.remove('active');
+      registerModal.classList.remove('active');
+      overlay.classList.remove('active');
+    }
+
+    function openSideMenu() {
+      closeAll();
+      sideMenu.classList.add('open');
+      overlay.classList.add('active');
+    }
+
+    function openModal(modal) {
+      closeAll();
+      modal.classList.add('active');
+      overlay.classList.add('active');
+    }
+
+    // Side-menu
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (sideMenu.classList.contains('open')) closeAll();
+      else openSideMenu();
+    });
+    closeMenu.addEventListener('click', closeAll);
+    overlay.addEventListener('click', closeAll);
+
+    // Modales
+    loginOpen.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+    registerOpen.addEventListener('click', (e) => { e.preventDefault(); openModal(registerModal); });
+    closeLogin.addEventListener('click', closeAll);
+    closeRegister.addEventListener('click', closeAll);
+    goToRegister.addEventListener('click', (e) => { e.preventDefault(); openModal(registerModal); });
+    goToLogin.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+    menuLogin.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+    menuRegister.addEventListener('click', (e) => { e.preventDefault(); openModal(registerModal); });
+
+    // Empêcher la fermeture en cliquant à l'intérieur
+    document.querySelectorAll('.modal-content, .side-menu').forEach(el => {
+      el.addEventListener('click', (e) => e.stopPropagation());
+    });
   </script>
+
 </body>
 </html>
