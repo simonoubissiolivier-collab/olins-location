@@ -25,9 +25,11 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Fichier de configuration localisation -->
+  <script src="config-localisation.js" defer></script>
 
   <style>
-    /* ===== VOS STYLES EXISTANTS (à garder) ===== */
+    /* ===== VOS STYLES EXISTANTS ===== */
     :root {
       --vert-principal: #0A4D3C;
       --vert-clair: #147a5f;
@@ -45,7 +47,7 @@
 
     body { color: var(--texte); background: var(--gris-doux); }
 
-    /* animations */
+    /* Animations */
     @keyframes fadeInUp { from {opacity:0; transform: translateY(25px);} to {opacity:1; transform: translateY(0);} }
     @keyframes fadeInScale { from {opacity:0; transform: scale(0.92);} to {opacity:1; transform: scale(1);} }
     @keyframes slideInLeft { from {opacity:0; transform: translateX(-30px);} to {opacity:1; transform: translateX(0);} }
@@ -56,11 +58,12 @@
     h1 { font-size: 1.8rem; }
     h2 { font-size: 1.4rem; color: var(--vert-principal); margin-bottom: 1rem; }
     h3 { font-size: 1.1rem; }
-    p, a, button, select, input { font-size: 0.88rem; }
+    /* Même taille pour "confiance" que le reste du texte */
+    p, a, button, select, input, h1 span { font-size: 0.88rem; }
 
     .container { width: 92%; max-width: 1200px; margin: 0 auto; }
 
-    /* ===== NOUVEAU HEADER (hamburger collé au logo) ===== */
+    /* ===== HEADER AMÉLIORÉ ===== */
     .header {
       background: var(--vert-principal);
       position: sticky; top: 0; z-index: 999;
@@ -70,14 +73,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.7rem 0;
+      padding: 0.5rem 0;
       position: relative;
     }
-    /* Groupe hamburger + logo (comme Amazon) */
     .nav-left {
       display: flex;
       align-items: center;
-      gap: 0; /* pas d'espace */
+      gap: 0.5rem;
     }
     .menu-toggle {
       background: transparent;
@@ -85,61 +87,110 @@
       color: var(--blanc);
       font-size: 1.6rem;
       cursor: pointer;
-      padding: 0.2rem 0.5rem 0.2rem 0;
+      padding: 0.2rem 0.5rem;
       line-height: 1;
     }
     .menu-toggle:hover { opacity: 0.8; }
 
+    /* Logo & Sous-logo : sous-logo en dessous, même largeur max */
+    .logo-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      max-width: 120px;
+    }
     .logo-main {
       font-size: 1.5rem;
       color: var(--blanc);
       font-weight: bold;
       text-decoration: none;
+      line-height: 1.2;
+      transition: color 0.3s ease;
     }
     .logo-sub {
       font-size: 0.45em;
       color: rgba(255,255,255,0.8);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
     }
 
-    /* Actions à droite (Connexion / Inscription) */
+    /* Actions à droite : bouton Déconnexion corrigé */
     .nav-actions {
       display: flex;
       gap: 0.8rem;
       align-items: center;
     }
-    .nav-actions a {
+    .nav-actions a, .nav-actions button {
       color: var(--blanc);
       text-decoration: none;
       font-weight: 500;
       padding: 0.3rem 1rem;
       border-radius: 6px;
       transition: background 0.2s;
+      border: none;
+      cursor: pointer;
     }
-    .nav-actions a.btn-outline {
+    .nav-actions .btn-outline {
       border: 1px solid var(--blanc);
       background: transparent;
     }
-    .nav-actions a.btn-outline:hover {
+    .nav-actions .btn-outline:hover {
       background: rgba(255,255,255,0.15);
     }
-    .nav-actions a.btn-primary {
+    .nav-actions .btn-primary {
       background: var(--blanc);
       color: var(--vert-principal);
       font-weight: 600;
     }
-    .nav-actions a.btn-primary:hover {
+    .nav-actions .btn-primary:hover {
       background: #e2e8f0;
     }
 
     @media (max-width: 500px) {
       .nav-actions a span { display: none; }
-      .nav-actions a { padding: 0.3rem 0.6rem; }
+      .nav-actions a, .nav-actions button { padding: 0.3rem 0.6rem; }
     }
 
-    /* ===== LE RESTE DE VOS STYLES (hero, trust, listings, etc.) ===== */
-    /* ... (copiez ici tous vos styles existants) ... */
+    /* Barre de recherche réduite + bouton centré */
+    .search-card {
+      background: white;
+      padding: 1.2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .search-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.7rem;
+      align-items: end;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .search-input {
+      padding: 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.88rem;
+    }
+    .btn-search {
+      width: 100%;
+      padding: 0.5rem;
+      background: var(--vert-principal);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-search:hover { background: var(--vert-clair); }
 
-    /* ===== NOUVEAUX STYLES POUR MODALES & SIDE-MENU ===== */
+    /* ===== MODALES & SIDE-MENU ===== */
     .modal {
       display: none;
       position: fixed;
@@ -207,7 +258,6 @@
       to   { opacity: 1; transform: scale(1); }
     }
 
-    /* SIDE-MENU */
     .side-menu {
       position: fixed;
       top: 0;
@@ -257,7 +307,6 @@
     }
     .menu-link.auth-link i { color: var(--vert-principal); }
 
-    /* Overlay */
     .overlay {
       display: none;
       position: fixed;
@@ -267,35 +316,38 @@
       z-index: 1050;
     }
     .overlay.active { display: block; }
+
+    /* Animation logo au défilement */
+    .header.scrolled .logo-main { color: var(--vert-principal); }
+    .header.scrolled { background: var(--blanc); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
   </style>
 </head>
 <body>
 
   <!-- ========== HEADER ========== -->
-  <header class="header">
+  <header class="header" id="mainHeader">
     <nav class="container nav">
-      <!-- Groupe hamburger + logo (collés) -->
       <div class="nav-left">
         <button class="menu-toggle" id="menuToggle" aria-label="Menu">
           <i class="fas fa-bars"></i>
         </button>
-        <a href="index.html" class="logo-main">
-          OLINS
+        <a href="index.html" class="logo-wrapper">
+          <span class="logo-main">OLINS</span>
           <span class="logo-sub">Locations Cameroun</span>
         </a>
       </div>
 
-      <!-- Actions à droite : Connexion / Inscription (pas de déconnexion) -->
       <div class="nav-actions">
         <a href="#" class="btn-outline" id="loginOpen"><i class="fas fa-sign-in-alt"></i> <span>Connexion</span></a>
         <a href="#" class="btn-primary" id="registerOpen"><i class="fas fa-user-plus"></i> <span>S'inscrire</span></a>
+        <!-- Bouton Déconnexion corrigé -->
+        <button class="btn-outline" id="logoutBtn" style="display:none;"><i class="fas fa-sign-out-alt"></i> <span>Déconnexion</span></button>
       </div>
     </nav>
   </header>
 
-  <!-- ========== CONTENU PRINCIPAL (inchangé) ========== -->
+  <!-- ========== CONTENU PRINCIPAL ========== -->
   <main>
-    <!-- HERO -->
     <section class="hero anime-saut">
       <div class="container hero-content">
         <h1>Trouvez votre logement en toute <span>confiance</span></h1>
@@ -319,14 +371,24 @@
               </select>
             </div>
             <div class="form-group">
+              <!-- Villes sans arrondissement -->
               <select id="searchCity" class="search-input" required>
                 <option value="">Ville</option>
-                <optgroup label="YAOUNDÉ">     
-                <optgroup label="DOUALA">
-            </select>
+                <option value="Yaoundé">Yaoundé</option>
+                <option value="Douala">Douala</option>
+                <option value="Bafoussam">Bafoussam</option>
+                <option value="Bamenda">Bamenda</option>
+                <option value="Garoua">Garoua</option>
+                <option value="Maroua">Maroua</option>
+                <option value="Ngaoundéré">Ngaoundéré</option>
+                <option value="Bertoua">Bertoua</option>
+                <option value="Ebolowa">Ebolowa</option>
+                <option value="Kumba">Kumba</option>
+              </select>
             </div>
             <div class="form-group">
-              <input type="text" id="searchQuartier" class="search-input" placeholder="Quartier précis">
+              <input type="text" id="searchQuartier" class="search-input" placeholder="Quartier précis" list="quartiersList">
+              <datalist id="quartiersList"></datalist>
             </div>
             <div class="form-group">
               <select id="searchType" class="search-input">
@@ -379,7 +441,7 @@
       </div>
     </section>
 
-    <!-- POURQUOI CHOISIR OLINS -->
+    <!-- ... (reste du contenu inchangé : confiance, annonces, etc.) ... -->
     <section class="trust-section">
       <div class="container">
         <h2>Pourquoi choisir OLINS ?</h2>
@@ -408,7 +470,6 @@
       </div>
     </section>
 
-    <!-- ANNONCES RÉCENTES -->
     <section class="listings-section">
       <div class="container">
         <div class="section-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
@@ -416,14 +477,11 @@
           <a href="#" class="view-all" style="color:var(--vert-principal);font-weight:500">Voir tout →</a>
         </div>
         <div class="listings-grid" id="listingsContainer">
-          <!-- Annonce 1 -->
           <div class="listing-card anime-etire" style="animation-delay:0.1s">
-            <div class="listing-photo">
-              📸 Photos du bien<br>🎥 Vidéo de visite autorisée
-            </div>
+            <div class="listing-photo">📸 Photos du bien<br>🎥 Vidéo de visite autorisée</div>
             <div class="listing-badge verified">✅ Vérifié</div>
             <div class="listing-info">
-              <h3>Maison à Douala III, Akwa</h3>
+              <h3>Maison à Douala, Akwa</h3>
               <p class="listing-details">💧 Eau CDE • ⚡ Compteur prépayé • 🏡 Meublé</p>
               <p class="listing-price">75 000 FCFA / mois</p>
               <div class="listing-actions">
@@ -432,14 +490,11 @@
               </div>
             </div>
           </div>
-          <!-- Annonce 2 -->
           <div class="listing-card anime-etire" style="animation-delay:0.2s">
-            <div class="listing-photo">
-              📸 Photos du bien<br>🎥 Vidéo de visite autorisée
-            </div>
+            <div class="listing-photo">📸 Photos du bien<br>🎥 Vidéo de visite autorisée</div>
             <div class="listing-badge verified">✅ Vérifié</div>
             <div class="listing-info">
-              <h3>Appartement à Yaoundé V, Nkol-Eton</h3>
+              <h3>Appartement à Yaoundé, Nkol-Eton</h3>
               <p class="listing-details">💧 Puits + CDE • ⚡ Compteur prépayé</p>
               <p class="listing-price">120 000 FCFA / mois</p>
               <div class="listing-actions">
@@ -448,14 +503,11 @@
               </div>
             </div>
           </div>
-          <!-- Annonce 3 -->
           <div class="listing-card anime-etire" style="animation-delay:0.3s">
-            <div class="listing-photo">
-              📸 Photos du bien<br>🎥 Vidéo de visite autorisée
-            </div>
+            <div class="listing-photo">📸 Photos du bien<br>🎥 Vidéo de visite autorisée</div>
             <div class="listing-badge verified">✅ Vérifié</div>
             <div class="listing-info">
-              <h3>Chambre à Douala IV, Bonanjo</h3>
+              <h3>Chambre à Douala, Bonanjo</h3>
               <p class="listing-details">💧 Eau CDE • ⚡ Compteur normal</p>
               <p class="listing-price">35 000 FCFA / mois</p>
               <div class="listing-actions">
@@ -468,7 +520,6 @@
       </div>
     </section>
 
-    <!-- COMPTE ENTREPRISE -->
     <section class="entreprise-section">
       <div class="container">
         <div class="entreprise-card anime-saut">
@@ -482,7 +533,6 @@
       </div>
     </section>
 
-    <!-- ÉTAPES -->
     <section class="how-it-works">
       <div class="container">
         <h2>Louer en 3 étapes simples</h2>
@@ -507,7 +557,6 @@
       </div>
     </section>
 
-    <!-- ALERTE SÉCURITÉ -->
     <section class="alert-section">
       <div class="container alert-box">
         ⚠️ CONSEIL DE SÉCURITÉ : Ne payez JAMAIS d'avance sans avoir vu le logement en personne et rencontré le propriétaire. Ne communiquez JAMAIS votre code secret Mobile Money.
@@ -515,7 +564,7 @@
     </section>
   </main>
 
-  <!-- ========== FOOTER (inchangé) ========== -->
+  <!-- ========== FOOTER ========== -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
@@ -549,7 +598,7 @@
     </div>
   </footer>
 
-  <!-- ========== MODALES ========== -->
+  <!-- ========== MODALES & MENU ========== -->
   <div class="overlay" id="overlay"></div>
 
   <div class="modal" id="loginModal">
@@ -559,9 +608,7 @@
       <input type="tel" class="modal-input" placeholder="Numéro de téléphone" required>
       <input type="password" class="modal-input" placeholder="Mot de passe" required>
       <button class="modal-btn">Se connecter</button>
-      <div class="modal-toggle">
-        Pas encore de compte ? <span id="goToRegister">S'inscrire</span>
-      </div>
+      <div class="modal-toggle">Pas encore de compte ? <span id="goToRegister">S'inscrire</span></div>
     </div>
   </div>
 
@@ -573,27 +620,19 @@
       <input type="tel" class="modal-input" placeholder="Numéro de téléphone (ex: 6XX XXX XXX)" required>
       <input type="password" class="modal-input" placeholder="Mot de passe (6 caractères min)" required>
       <button class="modal-btn">S'inscrire</button>
-      <div class="modal-toggle">
-        Déjà un compte ? <span id="goToLogin">Se connecter</span>
-      </div>
+      <div class="modal-toggle">Déjà un compte ? <span id="goToLogin">Se connecter</span></div>
     </div>
   </div>
 
-  <!-- ========== SIDE-MENU (avec Paramètres & Mon Abonnement) ========== -->
   <div class="side-menu" id="sideMenu">
     <span class="menu-close" id="closeMenu">&times;</span>
     <h3 class="menu-title">Menu</h3>
     <a href="index.html" class="menu-link"><i class="fa-solid fa-home"></i> Accueil</a>
     <a href="mon-compte.html" class="menu-link"><i class="fa-solid fa-user"></i> Mon Compte</a>
     <a href="mes-annonces.html" class="menu-link"><i class="fa-solid fa-building"></i> Mes Annonces</a>
-
-    <!-- NOUVEAUX LIENS -->
     <a href="parametres.html" class="menu-link"><i class="fa-solid fa-sliders-h"></i> Paramètres</a>
     <a href="mon-abonnement.html" class="menu-link"><i class="fa-solid fa-crown"></i> Mon Abonnement</a>
-
     <a href="aide-contact.html" class="menu-link"><i class="fa-solid fa-circle-info"></i> Aide & Contact</a>
-
-    <!-- Liens d'authentification (Connexion / Inscription) -->
     <a href="#" class="menu-link auth-link" id="menuLogin"><i class="fa-solid fa-sign-in-alt"></i> Connexion</a>
     <a href="#" class="menu-link auth-link" id="menuRegister"><i class="fa-solid fa-user-plus"></i> S'inscrire</a>
   </div>
@@ -603,12 +642,18 @@
   <script src="safari-fix.js" defer></script>
 
   <script>
-    // Gestion du side-menu et des modales
+    // Animation header au défilement
+    const header = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 30) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    });
+
+    // Gestion menu & modales
     const menuToggle = document.getElementById('menuToggle');
     const sideMenu = document.getElementById('sideMenu');
     const closeMenu = document.getElementById('closeMenu');
     const overlay = document.getElementById('overlay');
-
     const loginModal = document.getElementById('loginModal');
     const registerModal = document.getElementById('registerModal');
     const loginOpen = document.getElementById('loginOpen');
@@ -639,16 +684,9 @@
       overlay.classList.add('active');
     }
 
-    // Side-menu
-    menuToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (sideMenu.classList.contains('open')) closeAll();
-      else openSideMenu();
-    });
+    menuToggle.addEventListener('click', (e) => { e.stopPropagation(); openSideMenu(); });
     closeMenu.addEventListener('click', closeAll);
     overlay.addEventListener('click', closeAll);
-
-    // Modales
     loginOpen.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
     registerOpen.addEventListener('click', (e) => { e.preventDefault(); openModal(registerModal); });
     closeLogin.addEventListener('click', closeAll);
@@ -658,7 +696,6 @@
     menuLogin.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
     menuRegister.addEventListener('click', (e) => { e.preventDefault(); openModal(registerModal); });
 
-    // Empêcher la fermeture en cliquant à l'intérieur
     document.querySelectorAll('.modal-content, .side-menu').forEach(el => {
       el.addEventListener('click', (e) => e.stopPropagation());
     });
